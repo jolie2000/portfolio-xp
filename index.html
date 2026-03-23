@@ -298,6 +298,15 @@
         font-size: 4rem;
       }
 
+      .preloader-avatar img {
+        width: calc(100% - 14px);
+        height: calc(100% - 14px);
+        object-fit: cover;
+        object-position: center top;
+        border-radius: 7px;
+        display: block;
+      }
+
       .profile-avatar-art {
         position: relative;
         width: 100%;
@@ -1296,36 +1305,84 @@
       }
 
       .projects-topbar {
+        display: grid;
+        gap: 10px;
+        padding: 14px 16px 10px;
+        border-bottom: 1px solid #232323;
+        background: linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(14, 14, 14, 0.98));
+      }
+
+      .projects-topline {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 24px 32px 18px;
-        border-bottom: 1px solid #222222;
+        gap: 16px;
       }
 
       .projects-brand {
         display: flex;
         align-items: center;
-        gap: 14px;
-        font-size: 2rem;
+        gap: 10px;
+        font-size: 1.45rem;
         font-weight: 700;
       }
 
       .brand-mark {
-        width: 54px;
-        height: 54px;
+        width: 40px;
+        height: 40px;
         object-fit: contain;
+      }
+
+      .projects-searchbar {
+        flex: 1;
+        max-width: 300px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        border-radius: 16px;
+        background: #1f1f1f;
+        border: 1px solid #2c2c2c;
+        min-height: 38px;
+      }
+
+      .projects-searchbar input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #f3f3f3;
+        font: 400 0.88rem/1.2 Tahoma, sans-serif;
+      }
+
+      .projects-searchbar span {
+        color: #d7d7d7;
+        font-size: 1.05rem;
+      }
+
+      .projects-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .projects-toolbar-copy {
+        color: #b0b0b0;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
 
       .projects-socials {
         display: flex;
-        gap: 14px;
-        font-size: 1.5rem;
+        gap: 10px;
+        font-size: 1.2rem;
       }
 
       .projects-socials a {
-        width: 42px;
-        height: 42px;
+        width: 34px;
+        height: 34px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -1341,51 +1398,89 @@
       }
 
       .projects-socials img {
-        width: 24px;
-        height: 24px;
+        width: 18px;
+        height: 18px;
         object-fit: contain;
         display: block;
       }
 
       .projects-main {
         display: grid;
-        grid-template-columns: 210px 1fr;
-        min-height: 520px;
+        grid-template-columns: 136px 1fr;
+        min-height: 330px;
       }
 
       .projects-nav {
-        padding: 18px 18px 24px;
+        padding: 12px 10px 16px;
         border-right: 1px solid #262626;
+        background:
+          linear-gradient(180deg, rgba(19, 19, 19, 0.98), rgba(12, 12, 12, 0.98)),
+          #111111;
+      }
+
+      .projects-nav-heading {
+        margin: 0 0 10px;
+        color: #8c8c8c;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
       }
 
       .projects-nav a {
-        display: block;
-        padding: 14px 18px;
-        margin-bottom: 10px;
-        border-radius: 18px;
-        background: #202020;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 10px;
+        margin-bottom: 6px;
+        border-radius: 12px;
+        background: transparent;
         color: #ffffff;
         cursor: pointer;
+        text-decoration: none;
+        transition: background 140ms ease, transform 140ms ease;
+        font-size: 0.84rem;
+      }
+
+      .projects-nav a:hover {
+        background: #1a1a1a;
       }
 
       .projects-nav a.is-active {
-        background: #343434;
+        background: #252525;
         box-shadow: inset 4px 0 0 #ff2f1f;
       }
 
-      .projects-gallery {
-        padding: 26px 28px 32px;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 28px 34px;
+      .projects-nav-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #181818;
+        border: 1px solid #2d2d2d;
+        color: #f1f1f1;
+        font-size: 0.72rem;
       }
 
-      .project-shot img {
+      .projects-gallery {
+        padding: 10px 10px 12px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+        background:
+          linear-gradient(180deg, rgba(18, 18, 18, 0.98), rgba(9, 9, 9, 0.98)),
+          #0e0e0e;
+      }
+
+      .project-shot img,
+      .project-shot video {
         width: 100%;
         height: 220px;
         object-fit: cover;
         border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.65);
+        display: block;
       }
 
       .project-shot {
@@ -1393,13 +1488,74 @@
         gap: 10px;
       }
 
+      .project-shot.featured-project {
+        gap: 8px;
+        padding: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        background:
+          radial-gradient(circle at top right, rgba(255, 89, 35, 0.12), transparent 26%),
+          linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .project-shot-frame {
+        position: relative;
+        overflow: hidden;
+        border-radius: 14px;
+      }
+
+      .project-shot-frame::after {
+        content: "Featured";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(6, 6, 6, 0.72);
+        color: #ffffff;
+        font-size: 0.64rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+      }
+
+      .project-shot-frame video {
+        height: 140px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: #050505;
+      }
+
+      .project-shot-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 110px;
+        gap: 8px;
+        align-items: start;
+      }
+
+      .project-shot-copy {
+        display: grid;
+        gap: 8px;
+      }
+
+      .project-shot-copy h3 {
+        font-size: 1rem;
+      }
+
+      .project-shot-lead {
+        font-size: 0.74rem;
+        color: #e8e8e8;
+        line-height: 1.35;
+      }
+
       .project-shot-meta {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
+        gap: 8px;
         color: #d9d9d9;
-        font-size: 0.82rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
       }
@@ -1418,10 +1574,32 @@
       .project-shot-details {
         display: grid;
         gap: 8px;
-        padding: 12px 14px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 14px;
+      }
+
+      .project-shot-sidepanel {
+        display: grid;
+        gap: 6px;
+      }
+
+      .project-sidebox {
+        padding: 7px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         background: rgba(255, 255, 255, 0.04);
+      }
+
+      .project-sidebox-label {
+        color: #8d8d8d;
+        font-size: 0.64rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .project-sidebox-value {
+        margin-top: 3px;
+        color: #ffffff;
+        font-size: 0.68rem;
+        line-height: 1.3;
       }
 
       .project-shot-label {
@@ -1445,11 +1623,11 @@
       .project-shot-tags span {
         display: inline-flex;
         align-items: center;
-        padding: 6px 10px;
+        padding: 5px 8px;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.08);
         color: #ffffff;
-        font-size: 0.8rem;
+        font-size: 0.72rem;
       }
 
       .project-shot.is-hidden {
@@ -1908,6 +2086,10 @@
       }
 
       @media (max-width: 640px) {
+        body {
+          font-size: 14px;
+        }
+
         .boot-note {
           left: 28px;
           bottom: 38px;
@@ -1921,33 +2103,72 @@
         }
 
         .desktop-icons {
-          top: 10px;
+          top: 14px;
           left: 8px;
-          grid-template-rows: repeat(auto-fit, minmax(104px, 104px));
-          gap: 14px 16px;
+          right: 8px;
+          bottom: auto;
+          width: calc(100vw - 16px);
+          grid-auto-flow: row;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-rows: none;
+          gap: 12px 10px;
+          justify-items: center;
         }
 
         .desktop-icon {
-          width: 92px;
-          gap: 8px;
-          padding: 6px;
+          width: min(100%, 84px);
+          gap: 6px;
+          padding: 4px 2px;
         }
 
         .icon-label {
-          font-size: 12px;
+          font-size: 11px;
         }
 
         .window {
           min-width: 0;
           width: calc(100vw - 12px) !important;
           max-width: calc(100vw - 12px);
-          height: min(calc(100dvh - 58px), 520px) !important;
+          height: min(calc(100dvh - 126px), 440px) !important;
           left: 6px !important;
+          top: 108px !important;
           border-radius: 7px 7px 0 0;
         }
 
         .window-body {
           padding: 0;
+        }
+
+        .title-bar {
+          cursor: default;
+        }
+
+        .menu-strip {
+          display: none;
+        }
+
+        .toolbar-strip {
+          gap: 8px;
+          padding: 8px 10px;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          white-space: nowrap;
+          font-size: 11px;
+        }
+
+        .toolbar-button {
+          gap: 6px;
+          flex: 0 0 auto;
+        }
+
+        .toolbar-button img {
+          width: 18px;
+          height: 18px;
+        }
+
+        .address-strip {
+          padding: 8px 12px;
+          flex-wrap: wrap;
         }
 
         .taskbar {
@@ -1979,9 +2200,18 @@
         }
 
         .projects-topbar {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 12px;
+          gap: 8px;
+          padding: 10px;
+        }
+
+        .projects-brand {
+          gap: 8px;
+          font-size: 1.15rem;
+        }
+
+        .brand-mark {
+          width: 30px;
+          height: 30px;
         }
 
         .resume-page {
@@ -1996,15 +2226,172 @@
           padding: 18px;
         }
 
+        .sidebar-pane {
+          padding: 10px;
+        }
+
+        .sidebar-card {
+          margin-bottom: 10px;
+        }
+
         .about-paragraph {
           grid-template-columns: 1fr;
           gap: 10px;
+          margin-top: 18px;
         }
 
         .start-menu {
-          left: 0;
-          width: min(100vw, 320px);
-          height: min(74dvh, 480px);
+          left: 6px;
+          width: calc(100vw - 12px);
+          height: min(78dvh, 560px);
+          grid-template-rows: 68px 1fr 60px;
+        }
+
+        .start-menu-header {
+          gap: 10px;
+          padding: 10px 12px;
+          font-size: 1rem;
+        }
+
+        .start-menu-main {
+          grid-template-columns: 1fr;
+          overflow: auto;
+        }
+
+        .start-primary,
+        .start-secondary {
+          padding: 12px 10px;
+        }
+
+        .start-secondary {
+          border-left: none;
+          border-top: 1px solid #abc7e5;
+        }
+
+        .start-item {
+          padding: 9px 8px;
+        }
+
+        .start-menu-footer {
+          justify-content: space-between;
+          gap: 8px;
+          padding: 0 10px;
+        }
+
+        .footer-pill {
+          flex: 1;
+          justify-content: center;
+          padding: 8px 10px;
+          font-size: 0.8rem;
+        }
+
+        .projects-nav {
+          display: flex;
+          gap: 8px;
+          padding: 10px;
+          border-right: none;
+          border-bottom: 1px solid #262626;
+          overflow-x: auto;
+          flex-wrap: nowrap;
+        }
+
+        .projects-nav-heading {
+          display: none;
+        }
+
+        .projects-nav a {
+          margin-bottom: 0;
+          padding: 9px 10px;
+          border-radius: 12px;
+          justify-content: flex-start;
+          flex: 0 0 auto;
+          min-width: max-content;
+        }
+
+        .projects-topline,
+        .projects-toolbar,
+        .project-shot-body {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .projects-searchbar {
+          max-width: none;
+          width: 100%;
+        }
+
+        .projects-socials {
+          justify-content: flex-start;
+        }
+
+        .projects-toolbar-copy {
+          display: none;
+        }
+
+        .project-shot-frame video {
+          height: 150px;
+        }
+
+        .projects-gallery {
+          padding: 10px;
+          gap: 10px;
+        }
+
+        .project-shot.featured-project {
+          padding: 8px;
+          gap: 8px;
+        }
+
+        .project-shot-meta {
+          flex-wrap: wrap;
+          gap: 4px 10px;
+          font-size: 0.66rem;
+        }
+
+        .project-shot-copy {
+          gap: 6px;
+        }
+
+        .project-shot-copy h3 {
+          font-size: 0.96rem;
+        }
+
+        .project-shot-lead {
+          font-size: 0.74rem;
+          line-height: 1.35;
+        }
+
+        .project-shot-sidepanel {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          display: grid;
+          gap: 6px;
+        }
+
+        .project-sidebox {
+          min-width: 0;
+        }
+
+        .project-shot img,
+        .project-shot video {
+          height: 150px;
+        }
+
+        .contact-compose {
+          padding: 14px;
+        }
+
+        .compose-toolbar {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .compose-line {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+
+        .compose-body {
+          min-height: 140px;
         }
 
         .preloader-copy {
@@ -2082,7 +2469,7 @@
           <div class="preloader-divider" aria-hidden="true"></div>
           <div class="preloader-user is-active" id="preloaderUser" role="button" tabindex="0" aria-label="Enter portfolio">
             <div class="preloader-avatar" aria-hidden="true">
-              <div class="profile-avatar-art" aria-hidden="true"></div>
+              <img src="images/jolie.jpeg" alt="Portrait of Uwase Jolie" />
             </div>
             <div>
               <div class="preloader-user-name">Uwase Jolie</div>
@@ -2429,39 +2816,67 @@
         </div>
         <div class="projects-shell">
           <div class="projects-topbar">
-            <div class="projects-brand"><img class="brand-mark" src="assets/icons/projects.webp" alt="" aria-hidden="true" /><span>MyProjects</span></div>
-            <div class="projects-socials">
-              <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noreferrer" aria-label="Open LinkedIn"><img src="assets/icons/linkedin.webp" alt="" aria-hidden="true" /></a>
-              <a href="https://www.instagram.com/_.jolie_1?igsh=MWlxZnhxM2NsZDBobA%3D%3D&utm_source=qr" target="_blank" rel="noreferrer" aria-label="Open Instagram"><img src="assets/icons/instagram.webp" alt="" aria-hidden="true" /></a>
-              <a href="https://github.com/jolie2000" target="_blank" rel="noreferrer" aria-label="Open GitHub"><img src="assets/icons/github.webp" alt="" aria-hidden="true" /></a>
+            <div class="projects-topline">
+              <div class="projects-brand"><img class="brand-mark" src="assets/icons/projects.webp" alt="" aria-hidden="true" /><span>MyProjects</span></div>
+              <div class="projects-searchbar" aria-hidden="true">
+                <input value="Search" readonly />
+                <span>⌕</span>
+              </div>
+            </div>
+            <div class="projects-toolbar">
+              <div class="projects-toolbar-copy">Creative work archive</div>
+              <div class="projects-socials">
+                <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noreferrer" aria-label="Open LinkedIn"><img src="assets/icons/linkedin.webp" alt="" aria-hidden="true" /></a>
+                <a href="https://www.instagram.com/_.jolie_1?igsh=MWlxZnhxM2NsZDBobA%3D%3D&utm_source=qr" target="_blank" rel="noreferrer" aria-label="Open Instagram"><img src="assets/icons/instagram.webp" alt="" aria-hidden="true" /></a>
+                <a href="https://github.com/jolie2000" target="_blank" rel="noreferrer" aria-label="Open GitHub"><img src="assets/icons/github.webp" alt="" aria-hidden="true" /></a>
+              </div>
             </div>
           </div>
           <div class="projects-main">
             <aside class="projects-nav">
-            <a href="#" class="is-active" data-filter="all">All</a>
-            <a href="#" data-filter="design">Image</a>
-            <a href="#" data-filter="web">Web</a>
-            <a href="#" data-filter="video">Video</a>
-            <a href="#" data-filter="concept">Personal</a>
-          </aside>
-          <div class="projects-gallery">
-              <article class="project-shot" data-category="design">
-                <img src="images/project2.jpg" alt="Preview of a restored project image" />
-                <div class="project-shot-meta">
-                  <span>Design</span>
-                  <span>Brand Kit</span>
+              <div class="projects-nav-heading">Browse</div>
+              <a href="#" class="is-active" data-filter="all"><span class="projects-nav-icon">⌂</span><span>All</span></a>
+              <a href="#" data-filter="video"><span class="projects-nav-icon">▶</span><span>Video</span></a>
+              <a href="#" data-filter="planning"><span class="projects-nav-icon">✦</span><span>Planning</span></a>
+              <a href="#" data-filter="styling"><span class="projects-nav-icon">◆</span><span>Styling</span></a>
+              <a href="#" data-filter="editing"><span class="projects-nav-icon">✎</span><span>Editing</span></a>
+            </aside>
+            <div class="projects-gallery">
+              <article class="project-shot featured-project" data-category="video planning styling editing">
+                <div class="project-shot-frame">
+                  <video controls playsinline preload="metadata" poster="images/project2.jpg">
+                    <source src="event planning.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
-                <h3>Social Media Brand Kit</h3>
-                <p>Design system for promotional posts, story layouts, and branded graphics built for a consistent online presence.</p>
-                <div class="project-shot-details">
-                  <div>
-                    <div class="project-shot-label">Project Work</div>
-                    <div class="project-shot-value">Feed posts, story slides, promotional covers, typography system, and reusable branded layouts.</div>
+                <div class="project-shot-meta">
+                  <span>Video Production</span>
+                  <span>Event Planning</span>
+                </div>
+                <div class="project-shot-body">
+                  <div class="project-shot-copy">
+                    <h3>Event Planning</h3>
+                    <p class="project-shot-lead">
+                      A short event planning project presented in a cleaner portfolio layout, focused on mood,
+                      styling, and polished visual editing.
+                    </p>
+                    <div class="project-shot-details">
+                      <div class="project-shot-tags">
+                        <span>Planning</span>
+                        <span>Styling</span>
+                        <span>Editing</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="project-shot-tags">
-                    <span>Photoshop</span>
-                    <span>Illustrator</span>
-                    <span>Branding</span>
+                  <div class="project-shot-sidepanel">
+                    <div class="project-sidebox">
+                      <div class="project-sidebox-label">Type</div>
+                      <div class="project-sidebox-value">Featured video project</div>
+                    </div>
+                    <div class="project-sidebox">
+                      <div class="project-sidebox-label">Focus</div>
+                      <div class="project-sidebox-value">Mood, layout, and event presentation</div>
+                    </div>
                   </div>
                 </div>
               </article>
@@ -2542,8 +2957,8 @@
           title: "My Projects",
           templateId: "projectsTemplate",
           icon: "assets/icons/projects.webp",
-          width: 1220,
-          height: 760
+          width: 980,
+          height: 620
         },
         contact: {
           title: "Contact Me",
@@ -2677,7 +3092,7 @@
       function getResponsiveMetrics(config) {
         const isCompactScreen = window.innerWidth <= 640;
         const maxWidth = Math.min(config.width, window.innerWidth - (isCompactScreen ? 12 : 16));
-        const maxHeight = Math.min(config.height, window.innerHeight - (isCompactScreen ? 58 : 64));
+        const maxHeight = Math.min(config.height, window.innerHeight - (isCompactScreen ? 132 : 64));
         return {
           width: Math.max(maxWidth, isCompactScreen ? 220 : 280),
           height: Math.max(maxHeight, isCompactScreen ? 160 : 180)
@@ -2689,7 +3104,7 @@
         const maxLeft = Math.max(8, window.innerWidth - width - 8);
         const maxTop = Math.max(8, window.innerHeight - height - 52);
         const baseLeft = window.innerWidth <= 640 ? 6 : 110 + offset;
-        const baseTop = window.innerWidth <= 640 ? 38 + Math.min(offset, 36) : 70 + offset;
+        const baseTop = window.innerWidth <= 640 ? 116 : 70 + offset;
 
         return {
           left: clamp(baseLeft, 8, maxLeft),
@@ -2858,6 +3273,10 @@
 
       function attachDragBehavior(win, titleBar, windowId) {
         titleBar.addEventListener("mousedown", (event) => {
+          if (window.innerWidth <= 640) {
+            return;
+          }
+
           if (event.button !== 0 || event.target.closest(".xp-button")) {
             return;
           }
@@ -2993,7 +3412,8 @@
               link.classList.toggle("is-active", link === filterButton);
             });
             body.querySelectorAll(".project-shot").forEach((card) => {
-              const matches = filter === "all" || card.dataset.category === filter;
+              const categories = (card.dataset.category || "").split(/\s+/).filter(Boolean);
+              const matches = filter === "all" || categories.includes(filter);
               card.classList.toggle("is-hidden", !matches);
             });
           }
