@@ -213,6 +213,8 @@
         text-align: center;
         margin-bottom: 0;
         transform: translateY(-16px);
+        writing-mode: vertical-rl;
+        transform-origin: center;
       }
 
       .xp-mark {
@@ -306,21 +308,6 @@
         font-size: 4rem;
       }
 
-      .preloader-avatar::after {
-        content: "Tap to enter";
-        position: absolute;
-        bottom: -28px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 6px 10px;
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.65);
-        color: #fff;
-        font: 700 0.75rem/1 "Trebuchet MS", Tahoma, sans-serif;
-        letter-spacing: 0.03em;
-        white-space: nowrap;
-        pointer-events: none;
-      }
 
       .preloader-avatar img {
         width: calc(100% - 14px);
@@ -452,6 +439,41 @@
         background: rgba(255, 255, 255, 0.24);
         outline: none;
         transform: translateY(-2px) scale(1.01);
+      }
+
+      /* Mobile viewport fit for preloader */
+      @media (max-width: 768px) {
+        html,
+        body {
+          overflow-y: auto;
+        }
+
+        .preloader {
+          overflow-y: auto;
+        }
+
+        .boot-screen,
+        .login-screen,
+        .welcome-screen {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          padding-top: 32px;
+          padding-bottom: 32px;
+        }
+
+        .preloader-copy {
+          padding: 0 18px 36px;
+        }
+
+        .preloader-brand {
+          margin-top: 0;
+        }
+
+        .preloader-user {
+          margin-top: 18px;
+        }
       }
 
       .desktop {
