@@ -2151,7 +2151,7 @@
         }
       }
 
-      @keyframes boot-progress {
+@keyframes boot-progress {
         from {
           left: -22%;
         }
@@ -2160,9 +2160,117 @@
         }
       }
 
+      /* Mobile splash overlay */
+      .mobile-splash {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        html,
+        body {
+          min-height: 100vh;
+          overflow: hidden;
+        }
+
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background:
+            linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.38)),
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 28%),
+            linear-gradient(180deg, #0a4fb9, #062f73);
+        }
+
+        .preloader,
+        .desktop,
+        .window-layer,
+        .start-menu {
+          display: none !important;
+        }
+
+        .mobile-splash {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          width: min(400px, 92vw);
+          text-align: center;
+          color: #ffffff;
+          font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        }
+
+        .mobile-splash .logo {
+          width: clamp(80px, 20vw, 110px);
+          height: clamp(80px, 20vw, 110px);
+          border-radius: 16%;
+          background: linear-gradient(135deg, #ff9d3a, #f05c17 30%, #4b8cff 55%, #47a236 78%, #b0e755);
+          box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+        }
+
+        .mobile-splash .title {
+          font: 700 clamp(28px, 6vw, 34px)/1.05 "Segoe UI", sans-serif;
+          letter-spacing: -0.02em;
+        }
+
+        .mobile-splash .title .accent {
+          color: #ff6a00;
+        }
+
+        .mobile-splash .subtitle {
+          font: 600 clamp(14px, 3.5vw, 17px)/1.3 "Segoe UI", sans-serif;
+          opacity: 0.9;
+        }
+
+        .mobile-splash .progress {
+          width: 220px;
+          max-width: 70vw;
+          height: 12px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          overflow: hidden;
+          margin-top: 6px;
+          margin-bottom: 6px;
+        }
+
+        .mobile-splash .progress::before {
+          content: "";
+          display: block;
+          height: 100%;
+          width: 45%;
+          background: linear-gradient(90deg, #6aa8ff, #4a8dff);
+          animation: pulse 1.4s ease-in-out infinite alternate;
+        }
+
+        .mobile-splash .note {
+          font: 500 12px/1.35 "Segoe UI", sans-serif;
+          opacity: 0.85;
+        }
+      }
+
+      @keyframes pulse {
+        from {
+          width: 28%;
+          opacity: 0.8;
+        }
+        to {
+          width: 78%;
+          opacity: 1;
+        }
+      }
+
     </style>
   </head>
   <body>
+    <div class="mobile-splash">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="title">Jolie<span class="accent">XP</span></div>
+      <div class="subtitle">Visual Designer</div>
+      <div class="progress" role="progressbar" aria-label="Loading"></div>
+      <div class="note">For the best experience<br />Enter Full Screen (F11)</div>
+    </div>
     <div class="preloader" id="preloader" aria-live="polite">
       <div class="preloader-stage boot-screen" id="bootScreen">
         <div class="boot-brand">
