@@ -90,8 +90,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 20px;
         color: #ffffff;
-        padding: 40px 32px 56px;
+        padding: 32px 24px 56px;
       }
 
       .boot-brand {
@@ -202,11 +203,14 @@
       }
 
       .preloader-copy {
-        display: contents;
+        display: block;
+        width: min(520px, 90vw);
+        margin: 0 auto;
         color: #ffffff;
         opacity: 0;
         transform: scale(0.98);
         animation: preloader-enter 850ms ease-in-out forwards;
+        text-align: center;
       }
 
       .preloader-brand {
@@ -215,8 +219,8 @@
         align-items: center;
         gap: 8px;
         text-align: center;
-        margin-bottom: 0;
-        transform: translateY(-8px);
+        margin: 0 auto 16px;
+        transform: none;
       }
 
       .xp-mark {
@@ -287,6 +291,7 @@
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         border: 2px solid rgba(255, 255, 255, 0.65);
         background: rgba(255, 255, 255, 0.12);
+        margin: 0 auto;
       }
 
       .preloader-user.is-active {
@@ -456,6 +461,7 @@
           align-items: center;
           justify-content: flex-start;
           padding: 24px 0 32px;
+          min-height: 100vh;
         }
 
         .boot-screen,
@@ -472,6 +478,7 @@
 
         .preloader-copy {
           padding: 0 18px 36px;
+          width: min(440px, 92vw);
         }
 
         .preloader-brand {
