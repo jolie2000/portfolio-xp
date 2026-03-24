@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
     />
     <title>Uwase Jolie XP Portfolio</title>
     <style>
@@ -34,14 +34,12 @@
         margin: 0;
         height: 100%;
         min-height: 100dvh;
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden;
         font-family: Tahoma, "MS Sans Serif", sans-serif;
         color: #111;
       }
 
       body {
-        min-height: 100dvh;
         background:
           linear-gradient(180deg, #86d1ff 0%, #79caef 34%, #6fc1e7 40%, #78b4dc 55%, #5f95cc 100%);
         user-select: none;
@@ -439,10 +437,11 @@
         min-height: 100dvh;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
-        overflow: visible;
-        padding: 32px 18px 72px;
+        overflow: hidden;
+        padding: 32px 18px 0;
+        padding-bottom: var(--taskbar-height);
         opacity: 0;
         transform: scale(1);
         transition: opacity 700ms ease-in-out;
@@ -475,10 +474,10 @@
       }
 
       .desktop-wallpaper-video {
-        position: fixed;
-        inset: 0;
+        position: absolute;
+        inset: 0 0 var(--taskbar-height) 0;
         width: 100%;
-        height: 100%;
+        height: calc(100% - var(--taskbar-height));
         object-fit: cover;
         object-position: center;
         pointer-events: none;
@@ -492,11 +491,11 @@
         max-width: 320px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         flex-wrap: nowrap;
         gap: 18px;
         z-index: 2;
-        margin: 0 auto;
+        margin: 0;
       }
 
       .desktop-icon {
@@ -661,16 +660,20 @@
       }
 
       .window-layer {
-        position: relative;
+        position: absolute;
+        inset: 0 0 var(--taskbar-height) 0;
         width: 100%;
         z-index: 6;
         pointer-events: none;
       }
 
       .window {
-        position: relative;
+        position: fixed;
         min-width: 260px;
         min-height: 168px;
+        max-width: min(960px, calc(100vw - 16px));
+        max-height: calc(100vh - var(--taskbar-height) - 16px);
+        z-index: 7;
         border: 1px solid var(--window-border);
         border-radius: 12px;
         background: var(--window-surface);
@@ -680,6 +683,23 @@
         animation: window-open 180ms ease-out;
         transition: box-shadow 140ms ease, border-color 140ms ease;
         pointer-events: auto;
+        transform: none;
+      }
+
+      .window-body {
+        text-align: center;
+        max-height: calc(100vh - var(--taskbar-height) - 80px);
+        overflow: auto;
+      }
+
+      .window-body * {
+        text-align: inherit;
+      }
+
+      .window input,
+      .window textarea,
+      .window button {
+        font-size: 16px;
       }
 
       .window.closing {
@@ -1959,7 +1979,7 @@
       .selection-clear {
         position: absolute;
         inset: 0;
-        z-index: 1;
+        z-index: 0;
         pointer-events: none;
       }
 
@@ -2536,29 +2556,29 @@
           title: "About Me",
           templateId: "aboutTemplate",
           icon: "assets/icons/about.webp",
-          width: 980,
-          height: 720
+          width: 640,
+          height: 480
         },
         resume: {
           title: "My Resume",
           templateId: "resumeTemplate",
           icon: "assets/icons/resume.webp",
-          width: 860,
-          height: 760
+          width: 620,
+          height: 480
         },
         projects: {
           title: "My Projects",
           templateId: "projectsTemplate",
           icon: "assets/icons/projects.webp",
-          width: 980,
-          height: 620
+          width: 640,
+          height: 480
         },
         contact: {
           title: "Contact Me",
           templateId: "contactTemplate",
           icon: "assets/icons/contact.webp",
-          width: 760,
-          height: 560
+          width: 560,
+          height: 420
         }
       };
 
@@ -2683,17 +2703,26 @@
       }
 
       function getResponsiveMetrics(config) {
+        const taskbar =
+          parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--taskbar-height")) || 38;
+        const availableWidth = Math.max(window.innerWidth - 16, 260);
+        const availableHeight = Math.max(window.innerHeight - taskbar - 16, 168);
         return {
-          width: config.width,
-          height: config.height
+          width: Math.min(config.width, availableWidth),
+          height: Math.min(config.height, availableHeight)
         };
       }
 
       function getWindowPosition(index, width, height) {
         const offset = 24 * index;
+        const maxLeft = Math.max(8, window.innerWidth - width - 8);
+        const taskbar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--taskbar-height")) || 38;
+        const maxTop = Math.max(8, window.innerHeight - taskbar - height - 8);
+        const centeredLeft = (window.innerWidth - width) / 2;
+        const baseTop = 70 + offset;
         return {
-          left: 0,
-          top: 140 + offset
+          left: clamp(centeredLeft, 8, maxLeft),
+          top: clamp(baseTop, 8, maxTop)
         };
       }
 
@@ -2840,10 +2869,12 @@
             width: win.style.width,
             height: win.style.height
           };
+          const taskbar =
+            parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--taskbar-height")) || 38;
           win.style.left = "0px";
           win.style.top = "0px";
-          win.style.width = `${windowLayer.clientWidth}px`;
-          win.style.height = `${windowLayer.clientHeight}px`;
+          win.style.width = `${window.innerWidth}px`;
+          win.style.height = `${Math.max(window.innerHeight - taskbar, 200)}px`;
           entry.maximized = true;
         } else {
           win.style.left = entry.previousRect.left;
@@ -2911,7 +2942,8 @@
         const maximizeButton = win.querySelector('.xp-button[aria-label="Maximize"]');
 
         body.appendChild(createWindowContent(config.templateId));
-        windowLayer.appendChild(win);
+        // Attach windows to body so they are independent of desktop flow
+        document.body.appendChild(win);
 
         const entry = {
           id: windowId,
@@ -3112,8 +3144,13 @@
 
         event.preventDefault();
         const win = dragState.win;
-        const nextLeft = event.clientX - dragState.offsetX;
-        const nextTop = event.clientY - dragState.offsetY;
+        const width = win.offsetWidth;
+        const height = win.offsetHeight;
+        const taskbar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--taskbar-height")) || 38;
+        const maxLeft = Math.max(8, window.innerWidth - width - 8);
+        const maxTop = Math.max(8, window.innerHeight - taskbar - height - 8);
+        const nextLeft = clamp(event.clientX - dragState.offsetX, 8, maxLeft);
+        const nextTop = clamp(event.clientY - dragState.offsetY, 8, maxTop);
 
         win.style.left = `${nextLeft}px`;
         win.style.top = `${nextTop}px`;
@@ -3137,6 +3174,13 @@
 
           entry.element.style.width = `${metrics.width}px`;
           entry.element.style.height = `${metrics.height}px`;
+          const taskbar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--taskbar-height")) || 38;
+          const maxLeft = Math.max(8, window.innerWidth - metrics.width - 8);
+          const maxTop = Math.max(8, window.innerHeight - taskbar - metrics.height - 8);
+          const currentLeft = parseFloat(entry.element.style.left) || 8;
+          const currentTop = parseFloat(entry.element.style.top) || 8;
+          entry.element.style.left = `${clamp(currentLeft, 8, maxLeft)}px`;
+          entry.element.style.top = `${clamp(currentTop, 8, maxTop)}px`;
         });
       });
 
