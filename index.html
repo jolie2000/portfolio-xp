@@ -458,10 +458,12 @@
         .preloader {
           overflow-y: auto;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: flex-start;
           padding: 24px 0 32px;
           min-height: 100vh;
+          background: #000000;
         }
 
         .boot-screen,
@@ -473,21 +475,45 @@
           align-items: center;
           padding-top: 16px;
           padding-bottom: 24px;
-          gap: 18px;
+          gap: 24px;
         }
 
         .preloader-copy {
           padding: 0 18px 36px;
           width: min(440px, 92vw);
+          text-align: center;
         }
 
         .preloader-brand {
           margin-top: 0;
           transform: none;
+          width: auto;
+          align-items: center;
+          justify-content: center;
         }
 
         .preloader-user {
-          margin-top: 12px;
+          margin-top: 6px;
+          width: min(360px, 88vw);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          transform: none;
+        }
+
+        .preloader-avatar {
+          margin-bottom: 6px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .preloader-user-name {
+          font-size: 1.3rem;
+        }
+
+        .preloader-user-role {
+          font-size: 1.05rem;
         }
       }
 
