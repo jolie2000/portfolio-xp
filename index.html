@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=1280, height=720, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
     <title>Uwase Jolie XP Portfolio</title>
     <style>
       :root {
@@ -504,8 +507,7 @@
         bottom: calc(var(--taskbar-height) + 12px);
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
-        max-height: calc(100% - var(--taskbar-height) - 24px);
+        flex-wrap: nowrap;
         gap: 12px 16px;
         align-content: flex-start;
         z-index: 2;
@@ -2038,464 +2040,6 @@
         }
       }
 
-      @media (max-width: 820px) {
-        :root {
-          --icon-size: 54px;
-        }
-
-        body {
-          font-size: 15px;
-        }
-
-        .desktop-icons {
-          top: 12px;
-          left: 10px;
-          grid-template-rows: repeat(auto-fit, minmax(96px, 96px));
-          gap: 12px 14px;
-        }
-
-        .desktop-icon {
-          width: 90px;
-          gap: 6px;
-          padding: 6px 4px;
-        }
-
-        .icon-label {
-          font-size: 11px;
-        }
-
-        .window {
-          width: min(94vw, 440px) !important;
-          max-width: calc(100vw - 12px);
-          left: 6px !important;
-        }
-
-        .about-layout,
-        .projects-main,
-        .resume-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .projects-gallery {
-          grid-template-columns: 1fr;
-        }
-
-        .start-menu {
-          width: min(94vw, 420px);
-          height: min(72dvh, 520px);
-        }
-      }
-
-      @media (max-width: 640px) {
-        body {
-          font-size: 14px;
-        }
-
-        .boot-note {
-          left: 28px;
-          bottom: 38px;
-          font-size: 0.95rem;
-        }
-
-        .boot-footer {
-          right: 28px;
-          bottom: 28px;
-          font-size: 2.3rem;
-        }
-
-        .desktop-icons {
-          top: 14px;
-          left: 8px;
-          right: 8px;
-          bottom: auto;
-          width: calc(100vw - 16px);
-          grid-auto-flow: row;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          grid-template-rows: none;
-          gap: 12px 10px;
-          justify-items: center;
-        }
-
-        .desktop-icon {
-          width: min(100%, 84px);
-          gap: 6px;
-          padding: 4px 2px;
-        }
-
-        .icon-label {
-          font-size: 11px;
-        }
-
-        .window {
-          min-width: 0;
-          width: calc(100vw - 12px) !important;
-          max-width: calc(100vw - 12px);
-          height: min(calc(100dvh - 126px), 440px) !important;
-          left: 6px !important;
-          top: 108px !important;
-          border-radius: 7px 7px 0 0;
-        }
-
-        .window-body {
-          padding: 0;
-        }
-
-        .title-bar {
-          cursor: default;
-        }
-
-        .menu-strip {
-          display: none;
-        }
-
-        .toolbar-strip {
-          gap: 8px;
-          padding: 8px 10px;
-          flex-wrap: nowrap;
-          overflow-x: auto;
-          white-space: nowrap;
-          font-size: 11px;
-        }
-
-        .toolbar-button {
-          gap: 6px;
-          flex: 0 0 auto;
-        }
-
-        .toolbar-button img {
-          width: 18px;
-          height: 18px;
-        }
-
-        .address-strip {
-          padding: 8px 12px;
-          flex-wrap: wrap;
-        }
-
-        .taskbar {
-          gap: 0;
-          padding-right: 0;
-        }
-
-        .start-button {
-          width: 86px;
-        }
-
-        .taskbar-item {
-          min-width: 88px;
-          max-width: 118px;
-          padding: 0 8px;
-        }
-
-        .start-button img {
-          width: 86px;
-        }
-
-        .system-tray {
-          width: 112px;
-        }
-
-        .clock {
-          min-width: 62px;
-          font-size: 11px;
-        }
-
-        .projects-topbar {
-          gap: 8px;
-          padding: 10px;
-        }
-
-        .projects-brand {
-          gap: 8px;
-          font-size: 1.15rem;
-        }
-
-        .brand-mark {
-          width: 30px;
-          height: 30px;
-        }
-
-        .resume-page {
-          padding: 18px;
-        }
-
-        .resume-page h2 {
-          font-size: 2.6rem;
-        }
-
-        .about-content {
-          padding: 18px;
-        }
-
-        .sidebar-pane {
-          padding: 10px;
-        }
-
-        .sidebar-card {
-          margin-bottom: 10px;
-        }
-
-        .about-paragraph {
-          grid-template-columns: 1fr;
-          gap: 10px;
-          margin-top: 18px;
-        }
-
-        .start-menu {
-          left: 6px;
-          width: calc(100vw - 12px);
-          height: min(78dvh, 560px);
-          grid-template-rows: 68px 1fr 60px;
-        }
-
-        .start-menu-header {
-          gap: 10px;
-          padding: 10px 12px;
-          font-size: 1rem;
-        }
-
-        .start-menu-main {
-          grid-template-columns: 1fr;
-          overflow: auto;
-        }
-
-        .start-primary,
-        .start-secondary {
-          padding: 12px 10px;
-        }
-
-        .start-secondary {
-          border-left: none;
-          border-top: 1px solid #abc7e5;
-        }
-
-        .start-item {
-          padding: 9px 8px;
-        }
-
-        .start-menu-footer {
-          justify-content: space-between;
-          gap: 8px;
-          padding: 0 10px;
-        }
-
-        .footer-pill {
-          flex: 1;
-          justify-content: center;
-          padding: 8px 10px;
-          font-size: 0.8rem;
-        }
-
-        .projects-nav {
-          display: flex;
-          gap: 8px;
-          padding: 10px;
-          border-right: none;
-          border-bottom: 1px solid #262626;
-          overflow-x: auto;
-          flex-wrap: nowrap;
-        }
-
-        .projects-nav-heading {
-          display: none;
-        }
-
-        .projects-nav a {
-          margin-bottom: 0;
-          padding: 9px 10px;
-          border-radius: 12px;
-          justify-content: flex-start;
-          flex: 0 0 auto;
-          min-width: max-content;
-        }
-
-        .projects-topline,
-        .projects-toolbar,
-        .project-shot-body {
-          grid-template-columns: 1fr;
-          display: grid;
-        }
-
-        .projects-searchbar {
-          max-width: none;
-          width: 100%;
-        }
-
-        .projects-socials {
-          justify-content: flex-start;
-        }
-
-        .projects-toolbar-copy {
-          display: none;
-        }
-
-        .project-shot-frame video {
-          height: 150px;
-        }
-
-        .projects-gallery {
-          padding: 10px;
-          gap: 10px;
-        }
-
-        .project-shot.featured-project {
-          padding: 8px;
-          gap: 8px;
-        }
-
-        .project-shot-meta {
-          flex-wrap: wrap;
-          gap: 4px 10px;
-          font-size: 0.66rem;
-        }
-
-        .project-shot-copy {
-          gap: 6px;
-        }
-
-        .project-shot-copy h3 {
-          font-size: 0.96rem;
-        }
-
-        .project-shot-lead {
-          font-size: 0.74rem;
-          line-height: 1.35;
-        }
-
-        .project-shot-sidepanel {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          display: grid;
-          gap: 6px;
-        }
-
-        .project-sidebox {
-          min-width: 0;
-        }
-
-        .project-shot img,
-        .project-shot video {
-          height: 150px;
-        }
-
-        .contact-compose {
-          padding: 14px;
-        }
-
-        .compose-toolbar {
-          flex-wrap: wrap;
-          gap: 10px;
-        }
-
-        .compose-line {
-          grid-template-columns: 1fr;
-          gap: 6px;
-        }
-
-        .compose-body {
-          min-height: 140px;
-        }
-
-        .preloader-copy {
-          display: block;
-        }
-
-        .login-main {
-          grid-template-columns: 1fr;
-          gap: 24px;
-          padding: 16px 20px;
-        }
-
-        .preloader-divider {
-          display: none;
-        }
-
-        .preloader-avatar {
-          width: 92px;
-          height: 92px;
-          font-size: 3.2rem;
-        }
-
-        .preloader-user {
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .preloader-user-name,
-        .preloader-user-role {
-          text-align: center;
-        }
-
-        .preloader-footer {
-          flex-direction: column;
-          justify-content: center;
-          gap: 14px;
-          padding: 14px 20px 18px;
-          text-align: center;
-        }
-      }
-
-      /* Mobile layout and stacking */
-      @media (max-width: 768px) {
-        html,
-        body {
-          overflow: auto;
-          min-height: 100dvh;
-        }
-
-        body {
-          padding-bottom: var(--taskbar-height);
-        }
-
-        .desktop {
-          overflow-y: auto;
-          padding: 10px 0 18px;
-        }
-
-        .desktop::before,
-        .desktop::after,
-        .desktop-wallpaper-video {
-          display: none;
-        }
-
-        .desktop-icons {
-          position: static;
-          flex-direction: row;
-          flex-wrap: wrap;
-          max-height: none;
-          padding: 12px;
-        }
-
-        .window-layer {
-          position: relative;
-          inset: 0;
-          min-height: auto;
-        }
-
-        .window {
-          position: relative;
-          width: calc(100% - 24px);
-          height: auto;
-          left: 0 !important;
-          top: 0 !important;
-          margin: 0 12px 18px;
-        }
-
-        .window-body {
-          max-height: none;
-        }
-
-        .title-bar {
-          border-radius: 6px 6px 0 0;
-        }
-
-        .taskbar {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          right: 0;
-        }
-      }
     </style>
   </head>
   <body>
@@ -3154,25 +2698,17 @@
       }
 
       function getResponsiveMetrics(config) {
-        const isCompactScreen = window.innerWidth <= 640;
-        const maxWidth = Math.min(config.width, window.innerWidth - (isCompactScreen ? 12 : 16));
-        const maxHeight = Math.min(config.height, window.innerHeight - (isCompactScreen ? 132 : 64));
         return {
-          width: Math.max(maxWidth, isCompactScreen ? 220 : 280),
-          height: Math.max(maxHeight, isCompactScreen ? 160 : 180)
+          width: config.width,
+          height: config.height
         };
       }
 
       function getWindowPosition(index, width, height) {
         const offset = 34 * index;
-        const maxLeft = Math.max(8, window.innerWidth - width - 8);
-        const maxTop = Math.max(8, window.innerHeight - height - 52);
-        const baseLeft = window.innerWidth <= 640 ? 6 : 110 + offset;
-        const baseTop = window.innerWidth <= 640 ? 116 : 70 + offset;
-
         return {
-          left: clamp(baseLeft, 8, maxLeft),
-          top: clamp(baseTop, 8, maxTop)
+          left: 110 + offset,
+          top: 70 + offset
         };
       }
 
@@ -3337,10 +2873,6 @@
 
       function attachDragBehavior(win, titleBar, windowId) {
         titleBar.addEventListener("mousedown", (event) => {
-          if (window.innerWidth <= 640) {
-            return;
-          }
-
           if (event.button !== 0 || event.target.closest(".xp-button")) {
             return;
           }
@@ -3595,10 +3127,8 @@
 
         event.preventDefault();
         const win = dragState.win;
-        const maxLeft = window.innerWidth - win.offsetWidth - 8;
-        const maxTop = window.innerHeight - win.offsetHeight - 52;
-        const nextLeft = clamp(event.clientX - dragState.offsetX, 0, maxLeft);
-        const nextTop = clamp(event.clientY - dragState.offsetY, 0, maxTop);
+        const nextLeft = event.clientX - dragState.offsetX;
+        const nextTop = event.clientY - dragState.offsetY;
 
         win.style.left = `${nextLeft}px`;
         win.style.top = `${nextTop}px`;
@@ -3619,22 +3149,10 @@
         windows.forEach((entry) => {
           const config = windowConfig[entry.id];
           const metrics = getResponsiveMetrics(config);
-          const currentLeft = parseFloat(entry.element.style.left) || 0;
-          const currentTop = parseFloat(entry.element.style.top) || 0;
-          const maxLeft = Math.max(8, window.innerWidth - metrics.width - 8);
-          const maxTop = Math.max(8, window.innerHeight - metrics.height - 52);
 
           entry.element.style.width = `${metrics.width}px`;
           entry.element.style.height = `${metrics.height}px`;
-          entry.element.style.left = `${clamp(currentLeft, 8, maxLeft)}px`;
-          entry.element.style.top = `${clamp(currentTop, 8, maxTop)}px`;
-
-          if (entry.maximized) {
-            entry.element.style.left = "0px";
-            entry.element.style.top = "0px";
-            entry.element.style.width = `${windowLayer.clientWidth}px`;
-            entry.element.style.height = `${windowLayer.clientHeight}px`;
-          }
+          // Keep existing left/top to preserve fixed desktop positioning.
         });
       });
 
