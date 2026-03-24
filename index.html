@@ -461,7 +461,7 @@
           flex-direction: column;
           align-items: center;
           justify-content: flex-start;
-          padding: 24px 0 32px;
+          padding: 8px 0 14px;
           min-height: 100vh;
           background: #000000;
         }
@@ -473,14 +473,14 @@
           flex-direction: column;
           justify-content: flex-start;
           align-items: center;
-          padding-top: 16px;
-          padding-bottom: 24px;
-          gap: 24px;
+          padding-top: 8px;
+          padding-bottom: 12px;
+          gap: 10px;
         }
 
         .preloader-copy {
-          padding: 0 18px 36px;
-          width: min(440px, 92vw);
+          padding: 0 8px 14px;
+          width: min(260px, 92vw);
           text-align: center;
         }
 
@@ -490,30 +490,40 @@
           width: auto;
           align-items: center;
           justify-content: center;
+          transform: scale(0.72);
         }
 
         .preloader-user {
-          margin-top: 6px;
-          width: min(360px, 88vw);
+          margin-top: 0;
+          width: min(240px, 90vw);
           flex-direction: column;
           justify-content: center;
           align-items: center;
           text-align: center;
           transform: none;
+          padding: 6px 8px;
+          gap: 6px;
         }
 
         .preloader-avatar {
           margin-bottom: 6px;
           margin-left: auto;
           margin-right: auto;
+          width: 68px;
+          height: 68px;
         }
 
         .preloader-user-name {
-          font-size: 1.3rem;
+          font-size: 0.95rem;
         }
 
         .preloader-user-role {
-          font-size: 1.05rem;
+          font-size: 0.82rem;
+        }
+
+        .boot-loader {
+          width: min(64vw, 200px);
+          margin-top: 10px;
         }
       }
 
