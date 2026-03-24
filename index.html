@@ -277,14 +277,20 @@
         gap: 18px;
         padding: 14px 16px;
         border-radius: 12px;
-        transition: background-color 180ms ease;
+        transition: background-color 180ms ease, transform 160ms ease;
         cursor: pointer;
-        transform: translateY(-10px);
+        transform: translateY(-6px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.65);
+        background: rgba(255, 255, 255, 0.12);
       }
 
       .preloader-user.is-active {
-        background: rgba(255, 255, 255, 0.08);
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14) inset;
+        background: rgba(255, 255, 255, 0.16);
+        box-shadow:
+          0 0 0 2px rgba(255, 255, 255, 0.28) inset,
+          0 12px 24px rgba(0, 0, 0, 0.18);
+        transform: translateY(-2px);
       }
 
       .preloader-avatar {
@@ -298,6 +304,22 @@
         background: linear-gradient(180deg, #cfe7ff, #8ec0ee);
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
         font-size: 4rem;
+      }
+
+      .preloader-avatar::after {
+        content: "Tap to enter";
+        position: absolute;
+        bottom: -28px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 10px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.65);
+        color: #fff;
+        font: 700 0.75rem/1 "Trebuchet MS", Tahoma, sans-serif;
+        letter-spacing: 0.03em;
+        white-space: nowrap;
+        pointer-events: none;
       }
 
       .preloader-avatar img {
@@ -427,8 +449,9 @@
 
       .preloader-user:hover,
       .preloader-user:focus-visible {
-        background: rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.24);
         outline: none;
+        transform: translateY(-2px) scale(1.01);
       }
 
       .desktop {
@@ -483,6 +506,10 @@
         pointer-events: none;
         z-index: 0;
         filter: saturate(1.06) contrast(1.02);
+      }
+
+      .desktop-wallpaper-video::-webkit-media-controls {
+        display: none !important;
       }
 
       .desktop-icons {
@@ -2543,6 +2570,7 @@
       const windowLayer = document.getElementById("windowLayer");
       const taskbarWindows = document.getElementById("taskbarWindows");
       const selectionClear = document.getElementById("selectionClear");
+      const wallpaperVideo = document.querySelector(".desktop-wallpaper-video");
       const clock = document.getElementById("clock");
       const icons = Array.from(document.querySelectorAll(".desktop-icon"));
       const startMenuLinks = Array.from(document.querySelectorAll("[data-window-open]"));
@@ -2550,6 +2578,17 @@
       const welcomeVoice = new Audio("ElevenLabs_2026-03-22T23_53_12_Sabrina - Charismatic, Dramatic and Open_pvc_sp100_s50_sb75_se20_b_m2.mp3");
       let preloaderFinished = false;
       let welcomeVoicePlayed = false;
+
+      function ensureWallpaperPlays() {
+        if (!wallpaperVideo) return;
+        wallpaperVideo.muted = true;
+        wallpaperVideo.setAttribute("muted", "");
+        wallpaperVideo.setAttribute("playsinline", "");
+        wallpaperVideo.setAttribute("webkit-playsinline", "");
+        wallpaperVideo.removeAttribute("controls");
+        wallpaperVideo.controls = false;
+        wallpaperVideo.play().catch(() => {});
+      }
 
       const windowConfig = {
         about: {
@@ -3082,12 +3121,14 @@
 
       preloaderUser.addEventListener("click", () => {
         finishPreloader();
+        ensureWallpaperPlays();
       });
 
       preloaderUser.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           finishPreloader();
+          ensureWallpaperPlays();
         }
       });
 
@@ -3119,6 +3160,7 @@
 
       loginRestartButton?.addEventListener("click", () => {
         restartSystem();
+        ensureWallpaperPlays();
       });
 
       trayRestartButton?.addEventListener("click", () => {
@@ -3135,6 +3177,7 @@
           clearIconSelection();
           closeStartMenu();
         }
+        ensureWallpaperPlays();
       });
 
       window.addEventListener("mousemove", (event) => {
@@ -3182,7 +3225,16 @@
           entry.element.style.left = `${clamp(currentLeft, 8, maxLeft)}px`;
           entry.element.style.top = `${clamp(currentTop, 8, maxTop)}px`;
         });
+        ensureWallpaperPlays();
       });
+
+      document.addEventListener(
+        "pointerdown",
+        () => {
+          ensureWallpaperPlays();
+        },
+        { once: true }
+      );
 
       Object.entries(windowConfig).forEach(([windowId, config], index) => {
         createWindow(windowId, config, index);
