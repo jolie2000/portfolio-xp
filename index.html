@@ -2160,9 +2160,14 @@
         }
       }
 
-      /* Mobile splash overlay */
-      .mobile-splash {
+      /* Mobile MitchIvin-style overlay */
+      .mobile-overlay {
         display: none;
+      }
+
+      @keyframes mobPulse {
+        from { width: 28%; opacity: 0.8; }
+        to   { width: 78%; opacity: 1; }
       }
 
       @media (max-width: 768px) {
@@ -2172,74 +2177,158 @@
           overflow: hidden;
         }
 
+        /* hide desktop stack on mobile */
+        #preloader,
+        #desktop,
+        #windowLayer,
+        #startMenu {
+          display: none !important;
+        }
+
         body {
           display: flex;
           justify-content: center;
           align-items: center;
-          background:
-            linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.38)),
-            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 28%),
-            linear-gradient(180deg, #0a4fb9, #062f73);
+          background: #000000;
         }
 
-        .mobile-splash {
+        .mobile-overlay {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 14px;
-          width: min(400px, 92vw);
-          text-align: center;
+          width: 100%;
+          min-height: 100vh;
           color: #ffffff;
           font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
         }
 
-        .mobile-splash .logo {
-          width: clamp(80px, 20vw, 110px);
-          height: clamp(80px, 20vw, 110px);
+        .mob-stage {
+          width: 100%;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        /* Boot stage */
+        .mob-boot {
+          justify-content: center;
+          gap: 18px;
+          background: #000000;
+          padding: 32px 16px;
+        }
+
+        .mob-logo-big {
+          width: clamp(110px, 32vw, 140px);
+          height: clamp(110px, 32vw, 140px);
           border-radius: 16%;
           background: linear-gradient(135deg, #ff9d3a, #f05c17 30%, #4b8cff 55%, #47a236 78%, #b0e755);
           box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
         }
 
-        .mobile-splash .title {
-          font: 700 clamp(28px, 6vw, 34px)/1.05 "Segoe UI", sans-serif;
+        .mob-title {
+          font: 700 clamp(30px, 7vw, 38px)/1.05 "Segoe UI", sans-serif;
           letter-spacing: -0.02em;
         }
 
-        .mobile-splash .title .accent {
+        .mob-title .accent {
           color: #ff6a00;
         }
 
-        .mobile-splash .subtitle {
-          font: 600 clamp(14px, 3.5vw, 17px)/1.3 "Segoe UI", sans-serif;
+        .mob-sub {
+          font: 600 clamp(15px, 3.8vw, 18px)/1.3 "Segoe UI", sans-serif;
           opacity: 0.9;
         }
 
-        .mobile-splash .progress {
-          width: 220px;
+        .mob-progress {
+          width: 230px;
           max-width: 70vw;
-          height: 12px;
+          height: 14px;
           border-radius: 999px;
           background: rgba(255, 255, 255, 0.3);
           border: 1px solid rgba(255, 255, 255, 0.4);
           overflow: hidden;
-          margin-top: 6px;
-          margin-bottom: 6px;
+          margin-top: 10px;
         }
 
-        .mobile-splash .progress::before {
+        .mob-progress::before {
           content: "";
           display: block;
           height: 100%;
           width: 45%;
           background: linear-gradient(90deg, #6aa8ff, #4a8dff);
-          animation: pulse 1.4s ease-in-out infinite alternate;
+          animation: mobPulse 1.4s ease-in-out infinite alternate;
         }
 
-        .mobile-splash .note {
-          font: 500 12px/1.35 "Segoe UI", sans-serif;
-          opacity: 0.85;
+        .mob-note {
+          font: 700 20px/1 "Segoe UI", sans-serif;
+          letter-spacing: -0.02em;
+          opacity: 0.9;
+        }
+
+        /* Login stage */
+        .mob-login {
+          justify-content: center;
+          gap: 18px;
+          background:
+            radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0) 0 0/6px 6px,
+            linear-gradient(180deg, #0b4fd0 0%, #4e8bf2 70%, #0b4fd0 100%);
+          padding: 28px 16px 38px;
+        }
+
+        .mob-logo-small {
+          width: clamp(90px, 24vw, 120px);
+          height: clamp(90px, 24vw, 120px);
+          border-radius: 16%;
+          background: linear-gradient(135deg, #ff9d3a, #f05c17 30%, #4b8cff 55%, #47a236 78%, #b0e755);
+          box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+        }
+
+        .mob-divider {
+          width: 62%;
+          max-width: 300px;
+          height: 1px;
+          background: rgba(255, 255, 255, 0.35);
+          margin: 10px 0 8px;
+        }
+
+        .mob-user-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          margin-top: 8px;
+        }
+
+        .mob-avatar {
+          width: 96px;
+          height: 96px;
+          border-radius: 18px;
+          overflow: hidden;
+          box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+          border: 3px solid rgba(255, 255, 255, 0.85);
+        }
+
+        .mob-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .mob-user-name {
+          font: 700 22px/1.1 "Segoe UI", sans-serif;
+          letter-spacing: -0.01em;
+        }
+
+        .mob-user-role {
+          font: 600 15px/1.25 "Segoe UI", sans-serif;
+          opacity: 0.9;
+        }
+
+        .mob-instruction {
+          font: 600 13px/1.4 "Segoe UI", sans-serif;
+          opacity: 0.95;
+          margin-top: 12px;
         }
       }
 
@@ -2350,12 +2439,26 @@
     </style>
   </head>
   <body>
-    <div class="mobile-splash" role="presentation" tabindex="0">
-      <div class="logo" aria-hidden="true"></div>
-      <div class="title">Jolie<span class="accent">XP</span></div>
-      <div class="subtitle">Visual Designer</div>
-      <div class="progress" role="progressbar" aria-label="Loading"></div>
-      <div class="note">For the best experience<br />Enter Full Screen (F11)</div>
+    <div class="mobile-overlay">
+      <div class="mob-stage mob-boot">
+        <div class="mob-logo-big" aria-hidden="true"></div>
+        <div class="mob-title">Jolie<span class="accent">XP</span></div>
+        <div class="mob-sub">Visual Designer</div>
+        <div class="mob-progress" role="progressbar" aria-label="Loading"></div>
+        <div class="mob-note">Portfolio</div>
+      </div>
+      <div class="mob-stage mob-login" hidden>
+        <div class="mob-logo-small" aria-hidden="true"></div>
+        <div class="mob-title">Jolie<span class="accent">XP</span></div>
+        <div class="mob-sub">Visual Designer</div>
+        <div class="mob-divider" aria-hidden="true"></div>
+        <div class="mob-user-card" role="button" tabindex="0" aria-label="Enter as Uwase Jolie">
+          <div class="mob-avatar"><img src="images/jolie.jpeg" alt="Uwase Jolie" /></div>
+          <div class="mob-user-name">Uwase Jolie</div>
+          <div class="mob-user-role">Visual Designer</div>
+        </div>
+        <div class="mob-instruction">Tap on the user icon to begin</div>
+      </div>
     </div>
     <div class="preloader" id="preloader" aria-live="polite">
       <div class="preloader-stage boot-screen" id="bootScreen">
