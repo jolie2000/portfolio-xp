@@ -2305,7 +2305,7 @@
         <div class="menu-strip"><span>File</span><span>View</span><span>Help</span></div>
         <div class="toolbar-strip">
           <span class="toolbar-button"><img src="assets/icons/projects.webp" alt="" aria-hidden="true" />Zoom</span>
-          <span class="toolbar-button"><img src="assets/icons/resume.webp" alt="" aria-hidden="true" />Save</span>
+          <span class="toolbar-button"><img src="assets/icons/resume.webp" alt="" aria-hidden="true" />Download</span>
           <span class="toolbar-button"><img src="assets/icons/go.webp" alt="" aria-hidden="true" />Print</span>
           <span class="toolbar-button"><img src="assets/icons/contact.webp" alt="" aria-hidden="true" />Contact Me</span>
         </div>
@@ -2322,10 +2322,10 @@
                 <br />
                 <h3>Languages</h3>
                 <div class="resume-meta">English</div>
-                <div class="resume-meta">Swahili</div>
+                <div class="resume-meta">Italian</div>
+                <div class="resume-meta">French</div>
+                <div class="resume-meta">Kiswahili</div>
                 <div class="resume-meta">Kinyarwanda</div>
-                <div class="resume-meta">Luganda</div>
-                <div class="resume-meta">Rutooro</div>
                 <br />
                 <h3>Software</h3>
                 <div class="resume-meta">Adobe Creative Cloud</div>
@@ -2421,8 +2421,7 @@
                     <li>Playing guitar and composing music</li>
                     <li>Reading novels</li>
                     <li>Exploring vintage and old-fashioned aesthetics</li>
-                    <li>Creative digital design</li>
-                    <li>Pet: Dog named Haven, number +256 786 708331</li>
+                    <li>Creative digital design</li 
                   </ul>
                 </section>
               </div>
@@ -2755,6 +2754,200 @@
         renderTaskbar();
       }
 
+      function escapePdfText(text) {
+        return text
+          .replace(/[^\x09\x0a\x0d\x20-\x7e]/g, " ")
+          .replace(/\\/g, "\\\\")
+          .replace(/\(/g, "\\(")
+          .replace(/\)/g, "\\)");
+      }
+
+      function wrapPdfText(text, maxLength) {
+        const words = text.trim().split(/\s+/).filter(Boolean);
+        const lines = [];
+        let line = "";
+
+        words.forEach((word) => {
+          const nextLine = line ? `${line} ${word}` : word;
+          if (nextLine.length > maxLength) {
+            lines.push(line);
+            line = word;
+          } else {
+            line = nextLine;
+          }
+        });
+
+        if (line) {
+          lines.push(line);
+        }
+
+        return lines;
+      }
+
+      function buildResumePdf() {
+        const pageWidth = 612;
+        const pageHeight = 792;
+        const commands = [];
+
+        function setColor(color) {
+          commands.push(`${color} rg`);
+        }
+
+        function rect(x, y, width, height, color) {
+          setColor(color);
+          commands.push(`${x} ${y} ${width} ${height} re f`);
+        }
+
+        function textLine(value, x, y, size = 10, font = "F1", color = "0.06 0.08 0.12") {
+          setColor(color);
+          commands.push(`BT /${font} ${size} Tf ${x} ${y} Td (${escapePdfText(value)}) Tj ET`);
+        }
+
+        function wrappedText(value, x, y, maxLength, size = 9, lineHeight = 12, color = "0.15 0.17 0.22") {
+          wrapPdfText(value, maxLength).forEach((line, index) => {
+            textLine(line, x, y - index * lineHeight, size, "F1", color);
+          });
+
+          return y - wrapPdfText(value, maxLength).length * lineHeight;
+        }
+
+        function sectionTitle(value, x, y) {
+          textLine(value.toUpperCase(), x, y, 11, "F2", "0.10 0.23 0.46");
+          rect(x, y - 7, 248, 1.2, "0.10 0.23 0.46");
+          return y - 18;
+        }
+
+        function bullet(value, x, y, maxLength = 58) {
+          textLine("-", x, y, 9, "F2", "0.10 0.23 0.46");
+          return wrappedText(value, x + 10, y, maxLength, 8.5, 11, "0.18 0.20 0.25") - 2;
+        }
+
+        rect(0, 0, pageWidth, pageHeight, "0.98 0.98 0.96");
+        rect(0, 0, 194, pageHeight, "0.10 0.12 0.15");
+        rect(194, 706, 418, 86, "0.90 0.93 0.98");
+
+        textLine("UWASE", 226, 746, 34, "F2", "0.08 0.10 0.14");
+        textLine("JOLIE", 226, 712, 34, "F2", "0.08 0.10 0.14");
+        textLine("Creative Tech & Design", 412, 724, 14, "F1", "0.18 0.25 0.36");
+
+        let sidebarY = 720;
+        textLine("CONTACT", 32, sidebarY, 11, "F2", "1 1 1");
+        sidebarY -= 24;
+        ["Kampala, Uganda", "ujolie100@gmail.com", "Phone available on request"].forEach((item) => {
+          textLine(item, 32, sidebarY, 9, "F1", "0.92 0.94 0.98");
+          sidebarY -= 15;
+        });
+
+        sidebarY -= 18;
+        textLine("LANGUAGES", 32, sidebarY, 11, "F2", "1 1 1");
+        sidebarY -= 24;
+        ["English", "Italian", "French", "Kiswahili", "Kinyarwanda"].forEach((item) => {
+          textLine(item, 32, sidebarY, 9, "F1", "0.92 0.94 0.98");
+          sidebarY -= 15;
+        });
+
+        sidebarY -= 18;
+        textLine("TOOLS", 32, sidebarY, 11, "F2", "1 1 1");
+        sidebarY -= 24;
+        ["Adobe Creative Cloud", "Canva", "HTML, CSS, JavaScript", "Git and GitHub", "APIs and Backend Basics", "Tech Support Tools"].forEach((item) => {
+          textLine(item, 32, sidebarY, 9, "F1", "0.92 0.94 0.98");
+          sidebarY -= 15;
+        });
+
+        let y = 670;
+        y = sectionTitle("Professional Summary", 226, y);
+        y = wrappedText(
+          "Creative and detail-oriented professional with a background in social sciences, design, and technology. Experienced in tech support and social work, with a growing focus on full-stack software development. Passionate about combining creativity and technology to build meaningful digital experiences.",
+          226,
+          y,
+          70,
+          9,
+          12
+        ) - 8;
+
+        y = sectionTitle("Work Experience", 226, y);
+        textLine("Software Engineering and Technical Support", 226, y, 10, "F2", "0.06 0.08 0.12");
+        textLine("IPA Uganda (Innovations for Poverty Action) | 2022 - 2025", 226, y - 13, 8.5, "F1", "0.35 0.38 0.45");
+        y -= 30;
+        y = bullet("Supported software systems, user workflows, and day-to-day technical operations while collaborating with program and field teams.", 226, y);
+        y = bullet("Troubleshot application, network, and system issues to improve reliability and reduce delays.", 226, y);
+        y = bullet("Used documentation, clear communication, and problem-solving to support teams and improve technical processes.", 226, y);
+
+        y -= 5;
+        textLine("Social Worker", 226, y, 10, "F2", "0.06 0.08 0.12");
+        textLine("Refugee Support Programs - Uganda | 2019 - 2022", 226, y - 13, 8.5, "F1", "0.35 0.38 0.45");
+        y -= 30;
+        y = bullet("Supported refugee communities through outreach, social assistance, and stakeholder coordination.", 226, y);
+        y = bullet("Coordinated programs to improve well-being, communication, and integration.", 226, y);
+
+        y -= 5;
+        y = sectionTitle("Selected Skills", 226, y);
+        [
+          "Graphic design, videography, and video editing",
+          "Frontend development with HTML, CSS, and JavaScript",
+          "Backend development fundamentals, APIs, and database basics",
+          "Responsive web design, UX/UI fundamentals, Git and GitHub",
+          "Technical support, communication, and problem solving"
+        ].forEach((item) => {
+          y = bullet(item, 226, y);
+        });
+
+        y -= 5;
+        y = sectionTitle("Education", 226, y);
+        [
+          "Certificate in Software Engineering with JavaScript - Refactory Academy, 2026",
+          "Software Development - BYU-Idaho Online Program, 2024 - Present",
+          "Certificate in Graphic Design - Kampala Institute, 2021",
+          "Post-Secondary Certificate in Web Development - BYU-Idaho, 2020 - 2021",
+          "Certificate in Videography - Kampala Institute, 2019"
+        ].forEach((item) => {
+          y = bullet(item, 226, y, 62);
+        });
+
+        textLine("Portfolio resume generated from jolie's portfolio", 226, 30, 7.5, "F1", "0.45 0.48 0.54");
+
+        const contentStream = commands.join("\n");
+        const objects = [
+          "<< /Type /Catalog /Pages 2 0 R >>",
+          "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+          `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> >> >> /Contents 4 0 R >>`,
+          `<< /Length ${contentStream.length} >>\nstream\n${contentStream}\nendstream`
+        ];
+
+        let pdf = "%PDF-1.4\n";
+        const offsets = [0];
+
+        objects.forEach((object, index) => {
+          offsets.push(pdf.length);
+          pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+        });
+
+        const xrefOffset = pdf.length;
+        pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+        offsets.slice(1).forEach((offset) => {
+          pdf += `${String(offset).padStart(10, "0")} 00000 n \n`;
+        });
+        pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+        return pdf;
+      }
+
+      function downloadResume(resumePage) {
+        if (!resumePage) {
+          return;
+        }
+
+        const blob = new Blob([buildResumePdf()], { type: "application/pdf" });
+        const downloadUrl = URL.createObjectURL(blob);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = downloadUrl;
+        downloadLink.download = "Uwase-Jolie-Resume.pdf";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        URL.revokeObjectURL(downloadUrl);
+      }
+
       function renderTaskbar() {
         taskbarWindows.innerHTML = "";
 
@@ -2989,8 +3182,8 @@
                 resumePage.style.transform = resumePage.style.transform ? "" : "scale(1.08)";
                 resumePage.style.transformOrigin = "top center";
               }
-            } else if (action.includes("save")) {
-              window.location.href = "images/project1.jpg";
+            } else if (action.includes("download") || action.includes("save")) {
+              downloadResume(body.querySelector(".resume-page"));
             } else if (action.includes("print")) {
               window.print();
             } else if (
