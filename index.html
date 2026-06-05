@@ -1282,6 +1282,8 @@
       .resume-main li {
         font-size: 0.9rem;
         line-height: 1.45;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
       .resume-main ul {
@@ -2319,6 +2321,8 @@
                 <div class="resume-meta">Kampala, Uganda</div>
                 <div class="resume-meta">ujolie100@gmail.com</div>
                 <div class="resume-meta">Phone available on request</div>
+                <div class="resume-meta">https://jolie2000.github.io/portfolio-xp/</div>
+                <div class="resume-meta">https://www.linkedin.com/in/jolie-uwase-b781543b9</div>
                 <br />
                 <h3>Languages</h3>
                 <div class="resume-meta">English</div>
@@ -2764,13 +2768,27 @@
 
       function wrapPdfText(text, maxLength) {
         const words = text.trim().split(/\s+/).filter(Boolean);
+        const chunkedWords = [];
+
+        words.forEach((word) => {
+          if (word.length > maxLength) {
+            for (let index = 0; index < word.length; index += maxLength) {
+              chunkedWords.push(word.slice(index, index + maxLength));
+            }
+          } else {
+            chunkedWords.push(word);
+          }
+        });
+
         const lines = [];
         let line = "";
 
-        words.forEach((word) => {
+        chunkedWords.forEach((word) => {
           const nextLine = line ? `${line} ${word}` : word;
           if (nextLine.length > maxLength) {
-            lines.push(line);
+            if (line) {
+              lines.push(line);
+            }
             line = word;
           } else {
             line = nextLine;
@@ -2833,9 +2851,19 @@
         let sidebarY = pageHeight - 72;
         textLine("CONTACT", 32, sidebarY, 11, "F2", "1 1 1");
         sidebarY -= 24;
-        ["Kampala, Uganda", "ujolie100@gmail.com", "Phone available on request"].forEach((item) => {
-          textLine(item, 32, sidebarY, 9, "F1", "0.92 0.94 0.98");
-          sidebarY -= 15;
+        [
+          "Kampala, Uganda",
+          "ujolie100@gmail.com",
+          "Phone available on request",
+          "https://jolie2000.github.io/portfolio-xp/",
+          "https://www.linkedin.com/in/jolie-uwase-b781543b9"
+        ].forEach((item) => {
+          if (item.includes("https://")) {
+            sidebarY = wrappedText(item, 32, sidebarY, 34, 8.2, 10, "0.92 0.94 0.98") - 2;
+          } else {
+            textLine(item, 32, sidebarY, 9, "F1", "0.92 0.94 0.98");
+            sidebarY -= 15;
+          }
         });
 
         sidebarY -= 18;
@@ -2920,8 +2948,7 @@
           "Playing guitar and composing music",
           "Reading novels",
           "Exploring vintage and old-fashioned aesthetics",
-          "Creative digital design",
-          "Pet: Dog named Haven, number +256 786 708331"
+          "Creative digital design"
         ].forEach((item) => {
           y = bullet(item, 226, y, 62);
         });
