@@ -2336,6 +2336,7 @@
         muted
         loop
         playsinline
+        webkit-playsinline
         preload="auto"
         aria-hidden="true"
       >
@@ -3236,6 +3237,7 @@
       const welcomeScreen = document.getElementById("welcomeScreen");
       const preloaderUser = document.getElementById("preloaderUser");
       const desktop = document.getElementById("desktop");
+      const wallpaperVideo = document.querySelector(".desktop-wallpaper-video");
       const startMenu = document.getElementById("startMenu");
       const startButton = document.getElementById("startButton");
       const footerPills = Array.from(document.querySelectorAll(".footer-pill"));
@@ -3258,6 +3260,31 @@
       );
       let preloaderFinished = false;
       let welcomeVoicePlayed = false;
+
+      function playWallpaperVideo() {
+        if (!wallpaperVideo || document.visibilityState === "hidden") {
+          return;
+        }
+
+        wallpaperVideo.muted = true;
+        wallpaperVideo.defaultMuted = true;
+        const playback = wallpaperVideo.play();
+        if (playback) {
+          playback.catch(() => {});
+        }
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && desktop.classList.contains("is-ready")) {
+          playWallpaperVideo();
+        }
+      });
+
+      window.addEventListener("pageshow", () => {
+        if (desktop.classList.contains("is-ready")) {
+          playWallpaperVideo();
+        }
+      });
 
       const windowConfig = {
         about: {
@@ -3378,6 +3405,7 @@
         preloader.classList.add("is-hidden");
         desktop.classList.add("is-ready");
         document.body.classList.remove("preloader-active");
+        playWallpaperVideo();
       }
 
       function formatClock() {
@@ -4190,12 +4218,14 @@
       });
 
       preloaderUser.addEventListener("click", () => {
+        playWallpaperVideo();
         finishPreloader();
       });
 
       preloaderUser.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
+          playWallpaperVideo();
           finishPreloader();
         }
       });
