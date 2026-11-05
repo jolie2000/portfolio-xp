@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics records page visits. -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RRLKKDT9HY"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Uwase Jolie XP Portfolio</title>
     <style>
+      /* Shared colors and sizing for the XP-inspired desktop. */
       :root {
         --desktop-blue: #1d62c4;
         --desktop-blue-deep: #0b3f94;
@@ -28,7 +29,7 @@
         --title-inactive-end: #5674a2;
         --text-dark: #10233f;
         --taskbar-height: 38px;
-        --icon-size: 54px;
+        --icon-size: 48px;
       }
 
       * {
@@ -78,6 +79,7 @@
         filter: grayscale(1);
       }
 
+      /* Boot, login, and welcome screens shown before the desktop loads. */
       .preloader {
         position: fixed;
         inset: 0;
@@ -464,6 +466,7 @@
         outline: none;
       }
 
+      /* Desktop wallpaper, shortcuts, and the windows they open. */
       .desktop {
         position: relative;
         width: 100%;
@@ -567,15 +570,15 @@
         bottom: calc(var(--taskbar-height) + 12px);
         display: grid;
         grid-auto-flow: column;
-        grid-template-rows: repeat(auto-fit, minmax(102px, 102px));
-        gap: 12px 16px;
+        grid-template-rows: repeat(auto-fit, minmax(92px, 92px));
+        gap: 10px 12px;
         align-content: start;
         z-index: 2;
       }
 
       .desktop-icon {
         position: relative;
-        width: 96px;
+        width: 84px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -625,6 +628,7 @@
         line-height: 1.25;
       }
 
+      /* Shared window chrome: title bars, controls, and status line. */
       .window-layer {
         position: absolute;
         inset: 0 0 var(--taskbar-height) 0;
@@ -833,6 +837,7 @@
         color: #3b3b3b;
       }
 
+      /* About panel and resume viewer. */
       .about-layout {
         display: grid;
         grid-template-columns: 240px 1fr;
@@ -1250,6 +1255,7 @@
       .resume-contact-card p { margin: 0 0 3px; }
       .resume-contact-card a { color: #79549d; }
 
+      /* Stack the resume sidebar above its content on smaller windows. */
       @media (max-width: 760px) {
         .resume-app { flex-direction: column; }
         .resume-app-sidebar { flex: 0 0 auto; max-height: 230px; padding: 14px; }
@@ -1262,6 +1268,7 @@
         .resume-document { padding: 28px 32px; }
       }
 
+      /* Tighten resume spacing again on narrow phones. */
       @media (max-width: 520px) {
         .resume-skill-grid, .resume-education-grid { grid-template-columns: 1fr; }
         .resume-card { padding: 13px; }
@@ -1272,6 +1279,7 @@
         .resume-document h1 { font-size: 25px; }
       }
 
+      /* Project gallery cards and category filters. */
       .projects-shell {
         min-height: 620px;
         background: #0e0e0e;
@@ -1465,6 +1473,7 @@
         display: none;
       }
 
+      /* Layout of the email form shown in the contact window. */
       .contact-shell {
         min-height: 420px;
         background: #f8f8f2;
@@ -1498,6 +1507,7 @@
         resize: none;
       }
 
+      /* Start menu, taskbar, and clock tray. */
       .start-menu {
         position: absolute;
         left: 4px;
@@ -1798,13 +1808,6 @@
         display: block;
       }
 
-      .selection-clear {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-      }
-
       body.dragging,
       body.dragging * {
         user-select: none !important;
@@ -1814,6 +1817,7 @@
         cursor: move;
       }
 
+      /* Small entrance and loading animations used by the desktop. */
       @keyframes window-open {
         from {
           opacity: 0;
@@ -1845,9 +1849,10 @@
         }
       }
 
+      /* Use narrower windows and a single-column layout on tablets. */
       @media (max-width: 820px) {
         :root {
-          --icon-size: 54px;
+          --icon-size: 48px;
         }
 
         .desktop-wallpaper-video {
@@ -1866,14 +1871,14 @@
         .desktop-icons {
           top: 12px;
           left: 10px;
-          grid-template-rows: repeat(auto-fit, minmax(96px, 96px));
-          gap: 12px 14px;
+          grid-template-rows: repeat(auto-fit, minmax(88px, 88px));
+          gap: 10px 12px;
         }
 
         .desktop-icon {
-          width: 90px;
-          gap: 6px;
-          padding: 6px 4px;
+          width: 80px;
+          gap: 5px;
+          padding: 5px 3px;
         }
 
         .icon-label {
@@ -1881,7 +1886,7 @@
         }
 
         .window {
-          width: min(90vw, 380px) !important;
+          width: min(82vw, 340px) !important;
           max-width: calc(100vw - 20px);
           left: 6px !important;
         }
@@ -1900,6 +1905,7 @@
         }
       }
 
+      /* Keep the taskbar and windows usable on phone-sized screens. */
       @media (max-width: 640px) {
         .boot-note {
           left: 28px;
@@ -1916,26 +1922,26 @@
         .desktop-icons {
           top: 10px;
           left: 8px;
-          grid-template-rows: repeat(auto-fit, minmax(104px, 104px));
-          gap: 14px 16px;
+          grid-template-rows: repeat(auto-fit, minmax(92px, 92px));
+          gap: 10px 12px;
         }
 
         .desktop-icon {
-          width: 92px;
-          gap: 8px;
-          padding: 6px;
+          width: 80px;
+          gap: 6px;
+          padding: 5px 4px;
         }
 
         .icon-label {
-          font-size: 12px;
+          font-size: 11px;
         }
 
         .window {
           min-width: 0;
-          width: calc(100vw - 12px) !important;
-          max-width: calc(100vw - 12px);
-          height: min(calc(100dvh - 58px), 520px) !important;
-          left: 6px !important;
+          width: calc(100vw - 28px) !important;
+          max-width: calc(100vw - 28px);
+          height: min(calc(100dvh - 80px), 480px) !important;
+          left: 14px !important;
           border-radius: 7px 7px 0 0;
         }
 
@@ -2037,6 +2043,7 @@
     </style>
   </head>
   <body>
+    <!-- Visitors pass through the boot, login, and welcome screens before reaching the portfolio. -->
     <div class="preloader" id="preloader" aria-live="polite">
       <div class="preloader-stage boot-screen" id="bootScreen">
         <div class="boot-brand">
@@ -2109,8 +2116,8 @@
       </div>
     </div>
 
+    <!-- Main desktop: wallpaper, shortcuts, app windows, Start menu, and taskbar. -->
     <div class="desktop" id="desktop">
-      <div class="selection-clear" id="selectionClear" aria-hidden="true"></div>
       <video
         class="desktop-wallpaper-video"
         autoplay
@@ -2123,11 +2130,12 @@
         aria-hidden="true"
       >
         <source
-          src="fantasy-valley-under-swirling-skies-moewalls-com.mp4"
+          src="assets/room/desktop-wallpaper.mp4"
           type="video/mp4"
         />
       </video>
 
+      <!-- These shortcuts open the matching windows defined below. -->
       <div class="desktop-icons" id="desktopIcons">
         <button
           class="desktop-icon"
@@ -2191,8 +2199,10 @@
         </button>
       </div>
 
+      <!-- JavaScript inserts and manages the windows in this layer. -->
       <div class="window-layer" id="windowLayer"></div>
 
+      <!-- Start menu links open the same windows as the desktop shortcuts. -->
       <div class="start-menu" id="startMenu" aria-hidden="true">
         <div class="start-menu-header">
           <div class="start-avatar">
@@ -2290,6 +2300,7 @@
         </div>
       </div>
 
+      <!-- Taskbar shows open windows, quick actions, system tray, and clock. -->
       <div class="taskbar">
         <button
           class="start-button"
@@ -2318,6 +2329,7 @@
       </div>
     </div>
 
+    <!-- About window template: contact links, skills, and personal introduction. -->
     <template id="aboutTemplate">
       <div class="explorer-shell">
         <div class="menu-strip">
@@ -2459,7 +2471,7 @@
               </div>
             </div>
             <div class="sidebar-card">
-              <h3>Software</h3>
+              <h3>Tools</h3>
               <div class="sidebar-list">
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
@@ -2473,52 +2485,22 @@
                     ><img src="assets/icons/vscode.webp" alt="VS Code" /></span
                   ><span>VS Code</span>
                 </div>
-                <div class="sidebar-skill-item">
-                  <span class="sidebar-glyph"
-                    ><img src="assets/icons/cursor.webp" alt="Cursor" /></span
-                  ><span>Cursor</span>
-                </div>
-                <div class="sidebar-skill-item">
-                  <span class="sidebar-glyph"
-                    ><img src="assets/icons/claude.webp" alt="Claude" /></span
-                  ><span>Claude</span>
-                </div>
-                <div class="sidebar-skill-item">
-                  <span class="sidebar-glyph"
-                    ><img src="assets/icons/chatgpt.webp" alt="ChatGPT" /></span
-                  ><span>ChatGPT</span>
-                </div>
-                <div class="sidebar-skill-item">
-                  <span class="sidebar-glyph"
-                    ><img
-                      src="assets/icons/copilot.webp"
-                      alt="Git/GitHub Copilot" /></span
-                  ><span>Git/GitHub Copilot</span>
-                </div>
               </div>
             </div>
           </aside>
           <div class="about-content">
             <h2>About Me</h2>
             <div class="about-paragraph">
-              <div class="emoji-avatar">Hi</div>
-              <p>I'm Jolie, a freelance software developer who enjoys building useful applications, exploring new technologies, and solving problems through code.</p>
+              <div class="emoji-avatar">Profile</div>
+              <p>Full-stack developer with 3+ years of professional experience building and supporting internal web applications at Innovations for Poverty Action (IPA), following 3 years in field data collection that gave me first-hand understanding of the users I build for. I work mainly with TypeScript, React, NestJS, MySQL and Docker. I taught myself to code, built a data-collection form that moved me from the field into the software team, and I am now completing a BSc in Software Development while building real-time, full-stack projects.</p>
             </div>
             <div class="about-paragraph">
-              <div class="emoji-avatar">Freelance</div>
-              <p>I work on web projects, app features, and software solutions, turning ideas into functional products.</p>
-            </div>
-            <div class="about-paragraph">
-              <div class="emoji-avatar">Code</div>
-              <p>I'm currently developing SafeHome, a real-estate safety check-in prototype built with React, TypeScript, NestJS, MySQL, Socket.IO, MapLibre, and Docker. The web demo runs locally; the Flutter client still needs native Android/iOS setup.</p>
-            </div>
-            <div class="about-paragraph">
-              <div class="emoji-avatar">Study</div>
-              <p>I'm studying Software Development online through Brigham Young University, focusing on web technologies, databases, APIs, and backend development.</p>
+              <div class="emoji-avatar">Work</div>
+              <p>I work with Atlas on AI training and take on occasional projects, including building school systems, simple frontend websites, birthday cards, and other creative digital work.</p>
             </div>
             <div class="about-paragraph">
               <div class="emoji-avatar">Life</div>
-              <p>Away from coding, I enjoy playing guitar and piano, reading, and exploring vintage design. I'm always curious and love learning new things.</p>
+              <p>Outside of coding, I enjoy music, playing piano, and vintage, old-style design. I'm always learning, and I'm naturally curious about new ideas.</p>
             </div>
           </div>
         </div>
@@ -2526,12 +2508,13 @@
       </div>
     </template>
 
+    <!-- Resume window includes the full CV and tabs for its main sections. -->
     <template id="resumeTemplate">
       <div class="explorer-shell">
         <div class="menu-strip"><span>File</span><span>View</span><span>Help</span></div>
         <div class="toolbar-strip">
           <span class="toolbar-button"><img src="assets/icons/projects.webp" alt="" aria-hidden="true" />Zoom</span>
-          <span class="toolbar-button"><img src="assets/icons/resume.webp" alt="" aria-hidden="true" />Download PDF</span>
+          <span class="toolbar-button"><img src="assets/icons/resume.webp" alt="" aria-hidden="true" />Download CV</span>
           <span class="toolbar-button"><img src="assets/icons/go.webp" alt="" aria-hidden="true" />Print</span>
           <span class="toolbar-button"><img src="assets/icons/contact.webp" alt="" aria-hidden="true" />Contact Me</span>
         </div>
@@ -2541,7 +2524,7 @@
               <aside class="resume-app-sidebar">
                 <div class="resume-avatar" aria-hidden="true"><svg viewBox="0 0 100 100" role="presentation"><circle cx="50" cy="50" r="48" fill="#FFF0F5"/><path d="M20 40Q15 75 35 90A45 45 0 0 0 65 90Q85 75 80 40Z" fill="#6B46C1" opacity=".85"/><ellipse cx="50" cy="48" rx="24" ry="22" fill="#FFE4E1"/><ellipse cx="40" cy="46" rx="4" ry="6" fill="#4C1D95"/><ellipse cx="60" cy="46" rx="4" ry="6" fill="#4C1D95"/><circle cx="41" cy="44" r="1.5" fill="#fff"/><circle cx="61" cy="44" r="1.5" fill="#fff"/><ellipse cx="35" cy="52" rx="4" ry="2" fill="#FF85A2" opacity=".6"/><ellipse cx="65" cy="52" rx="4" ry="2" fill="#FF85A2" opacity=".6"/><path d="M46 54Q50 58 54 54" stroke="#6B46C1" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M26 40Q38 25 50 38Q62 25 74 40Q50 30 26 40Z" fill="#7C3AED"/><path d="M24 32Q18 28 22 22Q28 26 24 32ZM76 32Q82 28 78 22Q72 26 76 32Z" fill="#FF85A2"/></svg><span>&#127872;</span></div>
                 <h1>Uwase Jolie <span>&#127800;</span></h1>
-                <p class="resume-role">Freelance Software Developer</p>
+                <p class="resume-role">Full-Stack Software Developer</p>
                 <nav class="resume-nav" aria-label="Resume sections">
                   <button class="resume-tab is-active" type="button" data-resume-tab="all"><span>&#10024; Full Resume</span><span>&#128196;</span></button>
                   <button class="resume-tab" type="button" data-resume-tab="about"><span>&#127872; Professional Summary</span><span>&#128156;</span></button>
@@ -2555,132 +2538,119 @@
                   <h2>Languages</h2>
                   <div class="resume-language-list">
                     <div><span>English</span><strong>Fluent</strong></div>
-                    <div><span>Italian</span><strong>Basic</strong></div>
                     <div><span>French</span><strong>Intermediate</strong></div>
                     <div><span>Kiswahili</span><strong>Fluent</strong></div>
+                    <div><span>Italian</span><strong>Basic</strong></div>
                   </div>
                 </section>
               </aside>
               <main class="resume-app-content">
                 <article class="resume-document" data-resume-document>
                   <header class="resume-document-header">
-                    <p class="resume-document-role">Freelance Software Developer</p>
+                    <h1>UWASE JOLIE</h1>
+                    <p class="resume-document-role">Full-Stack Software Developer</p>
                     <div class="resume-document-contact">
                       <span><span aria-hidden="true">📍</span>Kampala, Uganda</span>
                       <span><span aria-hidden="true">📞</span>+256 786 708 331</span>
-                      <a href="mailto:ujolie100@gmail.com"><span aria-hidden="true">✉</span>ujolie100@gmail.com</a>
+                      <a href="mailto:ujolie735@gmail.com"><span aria-hidden="true">✉</span>ujolie735@gmail.com</a>
+                      <a href="https://github.com/jolie2000" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🔗</span>GitHub</a>
                       <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🌐</span>Portfolio</a>
                       <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🔗</span>LinkedIn</a>
                     </div>
                   </header>
                   <section>
                     <h2>Professional Summary</h2>
-                    <p>Software Developer with experience collaborating with cross-functional teams. Skilled in HTML, CSS, JavaScript, Git, APIs, and responsive web development, with an interest in software quality assurance and testing.</p>
+                    <p>Full-stack developer with 3+ years of professional experience building and supporting internal web applications at Innovations for Poverty Action (IPA), following 3 years in field data collection that gave me first-hand understanding of the users I build for. I work mainly with TypeScript, React, NestJS, MySQL and Docker. I taught myself to code, built a data-collection form that moved me from the field into the software team, and I am now completing a BSc in Software Development while building real-time, full-stack projects.</p>
                   </section>
                   <section>
                     <h2>Work Experience</h2>
                     <h3>Junior Software Engineer</h3>
-                    <p class="resume-document-meta">IPA Uganda (Innovations for Poverty Action) | 2022 - 2025</p>
+                    <p class="resume-document-meta">Innovations for Poverty Action (IPA) - Kampala, Uganda | 2022 - 2025</p>
                     <ul>
-
-                      <li>Collaborated with technical and field teams to improve software reliability and operational efficiency.</li>
-                      <li>Documented technical issues and solutions to improve system reliability and team workflows.</li>
-
+                      <li>Developed and tested features for internal web applications that support field operations and research data workflows, working alongside the core engineering team.</li>
+                      <li>Delivered feature enhancements based on operational needs raised by field and technical staff.</li>
+                      <li>Investigated system issues, diagnosed root causes, and documented technical findings and resolution procedures for the team.</li>
+                      <li>Followed Git-based workflows, code review and structured testing practices.</li>
                     </ul>
-                    <h3>Social Worker</h3>
-                    <p class="resume-document-meta">Refugee Support Programs - Uganda | 2019 - 2022</p>
+                    <h3>Field Officer - Data Collection</h3>
+                    <p class="resume-document-meta">Innovations for Poverty Action (IPA) - Kampala, Uganda | 2019 - 2022</p>
                     <ul>
-                      <li>Supported refugee communities through outreach and social assistance.</li>
-                      <li>Coordinated programs to improve well-being and integration.</li>
-                      <li>Worked closely with diverse communities and stakeholders.</li>
+                      <li>Conducted structured interviews and collected research data in the field, following strict data-collection protocols.</li>
+                      <li>Coordinated with field teams to review submissions for completeness and data accuracy.</li>
+                      <li>Built an application form with HTML and JavaScript on my own initiative, which led to my move into the software team.</li>
                     </ul>
                   </section>
                   <section>
                     <h2>Technical Skills</h2>
                     <ul class="resume-document-columns">
-                      <li><strong>Frontend:</strong> React, TypeScript, forms, state management, responsive dashboards, MapLibre, browser geolocation, HTML5, CSS3, JavaScript</li>
-                      <li><strong>Backend:</strong> NestJS, REST API design, DTO validation, authentication, authorization, WebSockets, Socket.IO</li>
-                      <li><strong>Data:</strong> MySQL, TypeORM entities, migrations, relational data modeling, account and team scoping, JSON, SQL, Postman</li>
-                      <li><strong>Security:</strong> Password hashing, JWT authentication, refresh-token rotation, HttpOnly browser cookies, secure mobile token storage, input validation</li>
-                      <li><strong>Delivery:</strong> Docker Compose, environment-based configuration, service startup, health checks, Git and GitHub</li>
-                      <li><strong>Mobile:</strong> Flutter, secure token storage, GPS permissions, location flows</li>
-                      <li><strong>Testing:</strong> Software testing fundamentals, bug reporting</li>
+                      <li><strong>Frontend:</strong> React, TypeScript, JavaScript, HTML5, CSS3, MapLibre</li>
+                      <li><strong>Backend and Data:</strong> NestJS, REST APIs, MySQL, TypeORM (entities and migrations), SQL, JWT authentication, Socket.IO</li>
+                      <li><strong>Tools and Delivery:</strong> Docker Compose, Git and GitHub, Postman, software testing and bug reporting</li>
                     </ul>
                   </section>
                   <section>
                     <h2>Projects</h2>
-                    <h3>SafeHome - Full-Stack Safety Check-in Prototype</h3>
-                    <p>Built a prototype for real-estate agents to share property-showing check-ins with their team.</p>
+                    <p>Personal projects (built independently of my work at IPA)</p>
+                    <h3>SafeHome - Real-Time Safety Check-in Platform</h3>
+                    <p class="resume-document-meta">Stack: NestJS, React, TypeScript, MapLibre, Socket.IO, MySQL, TypeORM, Docker Compose, Flutter</p>
                     <ul>
-                      <li>Built a real-time React and TypeScript dashboard with MapLibre maps, Socket.IO updates, location-based check-ins, and active, overdue, and safe statuses.</li>
-                      <li>Developed a NestJS REST API backed by MySQL and TypeORM, with registration, team invite codes, check-in management, DTO validation, and migrations.</li>
-                      <li>Implemented JWT authentication, rotating refresh sessions, HttpOnly browser refresh cookies, secure mobile token storage, and team-scoped check-in access.</li>
-                      <li>Containerized the local demo stack with Docker Compose, including MySQL, API startup, demo-account setup, and the web dashboard.</li>
-                      <li>Prototyped Flutter sign-in, GPS check-ins, session restoration, and safe-status flows. The web demo runs locally; the Flutter app still needs native Android/iOS setup.</li>
+                      <li>Built a full-stack prototype that lets real-estate agents share live showing check-ins with their team, with active, overdue and safe status tracking.</li>
+                      <li>Developed a React dashboard with MapLibre maps and Socket.IO live updates; designed a NestJS REST API with MySQL/TypeORM, JWT authentication, rotating refresh sessions, DTO validation and migrations.</li>
+                      <li>Containerised the environment with Docker Compose and prototyped Flutter GPS check-in flows.</li>
                     </ul>
-                    <h3>Portfolio Website</h3>
-                    <p>Developed a responsive personal portfolio using HTML, CSS, and JavaScript and integrated GitHub Pages for deployment.</p>
-                    <h3>Web Applications</h3>
-                    <p>Built frontend interfaces following responsive design principles and consumed REST APIs to create interactive user experiences.</p>
-                  </section>
-                  <section>
-                    <h2>Soft Skills</h2>
-                    <p>Attention to Detail | Analytical Thinking | Critical Thinking | Time Management | Team Collaboration | Documentation | Communication</p>
+                    <h3>Personal Portfolio</h3>
+                    <p>Responsive portfolio site built with HTML, CSS and JavaScript, hosted on GitHub Pages, showcasing my projects, skills and contact details.</p>
                   </section>
                   <section>
                     <h2>Education</h2>
-                    <p><strong>Bachelor's Degree (Ongoing)</strong> - Brigham Young University, Expected Graduation 2027</p>
-                    <p><strong>Software Development</strong> - Brigham Young University Online Program, 2024-Present</p>
-                    <p><strong>Secondary Education</strong> - Completed 2019</p>
+                    <p><strong>Bachelor's Degree in Software Development</strong> - Online Program | 2024 - Expected 2027 (in progress) | Rexburg, Idaho, USA</p>
+                    <p><strong>Secondary Education</strong> - Bujubuli Secondary School, Uganda | Completed 2019</p>
                   </section>
                   <section>
                     <h2>Certificates</h2>
                     <ul>
                       <li>Certificate in Software Engineering with JavaScript - Refactory Academy 2026</li>
                       <li>Certificate in Graphic Design - Kampala Institute 2023</li>
+                      <li>Certificate in Web Development - BYU-Idaho 2020 - 2021</li>
                     </ul>
                   </section>
                 </article>
                 <section id="section-about" hidden class="resume-section stationery-card resume-card resume-card-pink">
                   <div class="resume-card-heading"><h2>&#127872; Professional Summary</h2><span>Summary &#10024;</span></div>
-                  <p>Software Developer with experience collaborating with cross-functional teams. Skilled in HTML, CSS, JavaScript, Git, APIs, and responsive web development, with an interest in software quality assurance and testing.</p>
+                  <p>Full-stack developer with 3+ years of professional experience building and supporting internal web applications at Innovations for Poverty Action (IPA), following 3 years in field data collection that gave me first-hand understanding of the users I build for. I work mainly with TypeScript, React, NestJS, MySQL and Docker. I taught myself to code, built a data-collection form that moved me from the field into the software team, and I am now completing a BSc in Software Development while building real-time, full-stack projects.</p>
                 </section>
                 <section id="section-skills" hidden class="resume-section stationery-card resume-card resume-card-purple">
                   <div class="resume-card-heading"><h2>&#11088; Technical Skills</h2><span>Skills &amp; Strengths &#10024;</span></div>
                   <div class="resume-skill-grid">
-                    <article class="resume-skill-card skill-pink"><h3>&#127912; Frontend</h3><div class="resume-chips"><span>React</span><span>TypeScript</span><span>Forms</span><span>State Management</span><span>Responsive Dashboards</span><span>MapLibre</span><span>Browser Geolocation</span><span>HTML5</span><span>CSS3</span><span>JavaScript</span></div></article>
-                    <article class="resume-skill-card skill-purple"><h3>&#128295; Backend &amp; Real-Time</h3><div class="resume-chips"><span>NestJS</span><span>REST API Design</span><span>DTO Validation</span><span>Authentication</span><span>Authorization</span><span>WebSockets</span><span>Socket.IO</span><span>Git and GitHub</span></div></article>
-                    <article class="resume-skill-card skill-blue"><h3>&#128269; Data &amp; Testing</h3><div class="resume-chips"><span>MySQL</span><span>TypeORM</span><span>Entities</span><span>Migrations</span><span>Relational Data Modeling</span><span>Account and Team Scoping</span><span>JSON</span><span>SQL (Basic)</span><span>Postman (Basic)</span><span>Software Testing Fundamentals</span><span>Bug Reporting</span></div></article>
-                    <article class="resume-skill-card skill-amber"><h3>&#128274; Security</h3><div class="resume-chips"><span>Password Hashing</span><span>JWT Authentication</span><span>Refresh-Token Rotation</span><span>HttpOnly Browser Cookies</span><span>Secure Mobile Token Storage</span><span>Input Validation</span></div></article>
-                    <article class="resume-skill-card skill-pink"><h3>&#128736; Delivery</h3><div class="resume-chips"><span>Docker Compose</span><span>Environment-Based Configuration</span><span>Service Startup</span><span>Health Checks</span></div></article>
-                    <article class="resume-skill-card skill-purple"><h3>&#128241; Mobile Foundations</h3><div class="resume-chips"><span>Flutter</span><span>Secure Token Storage</span><span>GPS Permissions</span><span>Location Flows</span></div></article>
-                    <article class="resume-skill-card skill-blue"><h3>&#128156; Soft Skills</h3><div class="resume-chips"><span>Attention to Detail</span><span>Analytical Thinking</span><span>Critical Thinking</span><span>Time Management</span><span>Team Collaboration</span><span>Documentation</span><span>Communication</span></div></article>
+                    <article class="resume-skill-card skill-pink"><h3>&#127912; Frontend</h3><div class="resume-chips"><span>React</span><span>TypeScript</span><span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>MapLibre</span></div></article>
+                    <article class="resume-skill-card skill-purple"><h3>&#128295; Backend and Data</h3><div class="resume-chips"><span>NestJS</span><span>REST APIs</span><span>MySQL</span><span>TypeORM</span><span>Entities and Migrations</span><span>SQL</span><span>JWT Authentication</span><span>Socket.IO</span></div></article>
+                    <article class="resume-skill-card skill-blue"><h3>&#128269; Tools and Delivery</h3><div class="resume-chips"><span>Docker Compose</span><span>Git and GitHub</span><span>Postman</span><span>Software Testing</span><span>Bug Reporting</span></div></article>
                   </div>
                 </section>
                 <section id="section-projects" hidden class="resume-section stationery-card resume-card resume-card-pink">
                   <div class="resume-card-heading"><h2>&#128722; Projects</h2><span>Portfolio Highlights &#10024;</span></div>
                   <div class="resume-project-list">
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>SafeHome - Full-Stack Safety Check-in Prototype</h3><p>React, TypeScript, NestJS, MySQL, Flutter</p></div></div><p>Prototype for real-estate agents to share property-showing check-ins with their team.</p><ul><li>Built a real-time React and TypeScript dashboard with MapLibre maps, Socket.IO updates, location-based check-ins, and active, overdue, and safe statuses.</li><li>Developed a NestJS REST API with MySQL and TypeORM for registration, team invite codes, check-in management, validation, and migrations.</li><li>Implemented JWT authentication, rotating refresh sessions, HttpOnly browser cookies, secure mobile token storage, and team-scoped check-in access.</li><li>Containerized the local stack with Docker Compose, including MySQL, API startup, demo-account setup, and the web dashboard.</li><li>Prototyped Flutter sign-in, GPS check-ins, session restoration, and safe-status flows. The web demo runs locally; the Flutter app still needs native Android/iOS setup.</li></ul></article>
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Portfolio Website</h3><p>Personal Portfolio</p></div></div><ul><li>Developed a responsive personal portfolio using HTML, CSS, and JavaScript.</li><li>Integrated GitHub Pages for deployment.</li></ul></article>
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Web Applications</h3><p>Frontend Development</p></div></div><ul><li>Built frontend interfaces following responsive design principles.</li><li>Consumed REST APIs to create interactive user experiences.</li></ul></article>
+                    <p>Personal projects (built independently of my work at IPA)</p>
+                    <article class="resume-project"><div class="resume-project-heading"><div><h3>SafeHome - Real-Time Safety Check-in Platform</h3><p>NestJS, React, TypeScript, MapLibre, Socket.IO, MySQL, TypeORM, Docker Compose, Flutter</p></div></div><ul><li>Built a full-stack prototype that lets real-estate agents share live showing check-ins with their team, with active, overdue and safe status tracking.</li><li>Developed a React dashboard with MapLibre maps and Socket.IO live updates; designed a NestJS REST API with MySQL/TypeORM, JWT authentication, rotating refresh sessions, DTO validation and migrations.</li><li>Containerised the environment with Docker Compose and prototyped Flutter GPS check-in flows.</li></ul></article>
+                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Personal Portfolio</h3><p>Live demo | GitHub</p></div></div><ul><li>Responsive portfolio site built with HTML, CSS and JavaScript, hosted on GitHub Pages, showcasing my projects, skills and contact details.</li></ul></article>
                   </div>
                 </section>
                 <section id="section-experience" hidden class="resume-section stationery-card resume-card resume-card-purple">
                   <div class="resume-card-heading"><h2>&#128188; Work Experience</h2><span>Experience &#127800;</span></div>
                   <div class="resume-project-list">
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Junior Software Engineer</h3><p>IPA Uganda (Innovations for Poverty Action)</p></div><span>2022 - 2025</span></div><ul><li>Collaborated with technical and field teams to improve software reliability and operational efficiency.</li><li>Documented technical issues and solutions to improve system reliability and team workflows.</li></ul></article>
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Social Worker</h3><p>Refugee Support Programs - Uganda</p></div><span>2019 - 2022</span></div><ul><li>Supported refugee communities through outreach and social assistance.</li><li>Coordinated programs to improve well-being and integration.</li><li>Worked closely with diverse communities and stakeholders.</li></ul></article>
+                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Junior Software Engineer</h3><p>Innovations for Poverty Action (IPA) - Kampala, Uganda</p></div><span>2022 - 2025</span></div><ul><li>Developed and tested features for internal web applications that support field operations and research data workflows, working alongside the core engineering team.</li><li>Delivered feature enhancements based on operational needs raised by field and technical staff.</li><li>Investigated system issues, diagnosed root causes, and documented technical findings and resolution procedures for the team.</li><li>Followed Git-based workflows, code review and structured testing practices.</li></ul></article>
+                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Field Officer - Data Collection</h3><p>Innovations for Poverty Action (IPA) - Kampala, Uganda</p></div><span>2019 - 2022</span></div><ul><li>Conducted structured interviews and collected research data in the field, following strict data-collection protocols.</li><li>Coordinated with field teams to review submissions for completeness and data accuracy.</li><li>Built an application form with HTML and JavaScript on my own initiative, which led to my move into the software team.</li></ul></article>
                   </div>
                 </section>
                 <section id="section-education" hidden class="resume-section stationery-card resume-card resume-card-amber">
                   <div class="resume-card-heading"><h2>&#127891; Education</h2><span>Academic Path &#128218;</span></div>
-                  <div class="resume-education-grid"><article><h3>Bachelor's Degree (Ongoing)</h3><p>Brigham Young University</p><span>Expected Graduation: 2027</span></article><article><h3>Software Development</h3><p>Brigham Young University Online Program</p><span>2024 - Present</span></article><article><h3>Secondary Education</h3><p>Completed</p><span>2019</span></article></div>
+                  <div class="resume-education-grid"><article><h3>Bachelor's Degree in Software Development</h3><p>Online Program | Rexburg, Idaho, USA</p><span>2024 - Expected 2027 (in progress)</span></article><article><h3>Secondary Education</h3><p>Bujubuli Secondary School - Uganda</p><span>Completed 2019</span></article></div>
                   <div class="resume-card-heading"><h2>Certificates</h2></div>
-                  <div class="resume-project-list"><article class="resume-project"><ul><li>Certificate in Software Engineering with JavaScript - Refactory Academy 2026</li><li>Certificate in Graphic Design - Kampala Institute 2023</li></ul></article></div>
+                  <div class="resume-project-list"><article class="resume-project"><ul><li>Certificate in Software Engineering with JavaScript - Refactory Academy - 2026</li><li>Certificate in Graphic Design - Kampala Institute - 2023</li><li>Certificate in Web Development - BYU-Idaho - 2020 - 2021</li></ul></article></div>
                 </section>
                 <section id="section-contact" hidden class="resume-section stationery-card resume-card resume-card-pink">
                   <div class="resume-card-heading"><h2>&#128156; Contact</h2><span>Get In Touch &#10024;</span></div>
-                  <div class="resume-contact-card"><div>&#128205; <strong>Location:</strong> Kampala, Uganda</div><div>&#9993; <strong>Email:</strong> <a href="mailto:ujolie100@gmail.com">ujolie100@gmail.com</a></div><div>&#128222; <strong>Phone:</strong> +256786708331</div><div>&#127760; <strong>Portfolio:</strong> <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer">Portfolio Website</a></div><div>&#128279; <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a></div></div>
+                  <div class="resume-contact-card"><div>&#128205; <strong>Location:</strong> Kampala, Uganda</div><div>&#9993; <strong>Email:</strong> <a href="mailto:ujolie735@gmail.com">ujolie735@gmail.com</a></div><div>&#128222; <strong>Phone:</strong> +256 786 708 331</div><div>&#127760; <strong>Portfolio:</strong> <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer">Portfolio Website</a></div><div>&#128279; <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a></div><div>&#128279; <strong>GitHub:</strong> <a href="https://github.com/jolie2000" target="_blank" rel="noopener noreferrer">GitHub Profile</a></div></div>
                 </section>
               </main>
             </div>
@@ -2690,6 +2660,7 @@
       </div>
     </template>
 
+    <!-- Project cards can be filtered by type in the projects window. -->
     <template id="projectsTemplate">
       <div class="explorer-shell">
         <div class="menu-strip">
@@ -2836,7 +2807,7 @@
                     background: #000;
                   "
                 >
-                  <source src="event planning.mp4" type="video/mp4" />
+                  <source src="assets/projects/event-planning.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 <div class="project-shot-meta">
@@ -2870,6 +2841,7 @@
       </div>
     </template>
 
+    <!-- Contact window prepares a message in the visitor's email app. -->
     <template id="contactTemplate">
       <div class="explorer-shell">
         <div class="menu-strip">
@@ -2900,7 +2872,7 @@
           <div class="contact-compose">
             <div class="compose-line">
               <label>To:</label>
-              <input value="Uwase Jolie <ujolie100@gmail.com>" />
+              <input value="Uwase Jolie <ujolie735@gmail.com>" />
             </div>
             <div class="compose-line">
               <label>From:</label>
@@ -2920,7 +2892,9 @@
       </div>
     </template>
 
+    <!-- Page behavior: sounds, screen flow, app windows, and user interactions. -->
     <script>
+      // Grab the page pieces that JavaScript updates after the initial render.
       const preloader = document.getElementById("preloader");
       const bootScreen = document.getElementById("bootScreen");
       const loginScreen = document.getElementById("loginScreen");
@@ -2936,7 +2910,6 @@
       );
       const windowLayer = document.getElementById("windowLayer");
       const taskbarWindows = document.getElementById("taskbarWindows");
-      const selectionClear = document.getElementById("selectionClear");
       const clock = document.getElementById("clock");
       const icons = Array.from(document.querySelectorAll(".desktop-icon"));
       const startMenuLinks = Array.from(
@@ -2945,15 +2918,14 @@
       const trayRestartButton = document.querySelector(
         '.tray-icons img[src*="restart.webp"]',
       );
-      const welcomeVoice = new Audio(
-        "ElevenLabs_2026-03-22T23_53_12_Sabrina - Charismatic, Dramatic and Open_pvc_sp100_s50_sb75_se20_b_m2.mp3",
-      );
+      // AudioContext is optional; the portfolio still works if the browser has no audio support.
       const AudioContextClass =
         window.AudioContext || window.webkitAudioContext;
       let audioCtx = null;
       let preloaderFinished = false;
-      let welcomeVoicePlayed = false;
 
+      // The XP-style login and logout sounds use Web Audio instead of extra sound files.
+      // Create the sound context only when a visitor triggers a system sound.
       function getAudioContext() {
         if (!AudioContextClass) {
           return null;
@@ -2966,6 +2938,7 @@
         return audioCtx;
       }
 
+      // Play a short sequence of notes for login and shutdown feedback.
       async function playSystemChime(
         notes,
         waveType,
@@ -3013,6 +2986,7 @@
         });
       }
 
+      // Login and logout use different notes from the same small sound helper.
       function playLoginSound() {
         return playSystemChime(
           [523.25, 659.25, 783.99, 1046.5],
@@ -3033,6 +3007,7 @@
         );
       }
 
+      // Try to resume the wallpaper after a browser pauses background video.
       function playWallpaperVideo() {
         if (!wallpaperVideo || document.visibilityState === "hidden") {
           return;
@@ -3059,6 +3034,7 @@
         }
       }
 
+      // Browsers may pause the wallpaper when the tab is hidden, so resume it on return.
       document.addEventListener("visibilitychange", () => {
         if (!document.hidden && desktop.classList.contains("is-ready")) {
           playWallpaperVideo();
@@ -3071,57 +3047,63 @@
         }
       });
 
+      // Default sizes and templates for each app window.
       const windowConfig = {
         about: {
           title: "About Me",
           templateId: "aboutTemplate",
           icon: "assets/icons/about.webp",
-          width: 980,
-          height: 720,
+          width: 800,
+          height: 590,
         },
         resume: {
           title: "My Resume",
           templateId: "resumeTemplate",
           icon: "assets/icons/resume.webp",
-          width: 860,
-          height: 760,
+          width: 700,
+          height: 620,
         },
         projects: {
           title: "My Projects",
           templateId: "projectsTemplate",
           icon: "assets/icons/projects.webp",
-          width: 1220,
-          height: 760,
+          width: 980,
+          height: 650,
         },
         contact: {
           title: "Contact Me",
           templateId: "contactTemplate",
           icon: "assets/icons/contact.webp",
-          width: 760,
-          height: 560,
+          width: 620,
+          height: 450,
         },
       };
 
+      // Keep each window's element and open/minimized state together.
       const windows = new Map();
       let topZ = 20;
       let activeWindowId = null;
       let dragState = null;
 
       if (footerPills[0]) {
+        // The first footer action is the Start menu's Log Off button.
         footerPills[0].textContent = "Log Off";
       }
 
+      // Bring the newest active window to the front.
       function nextZIndex() {
         topZ += 1;
         return topZ;
       }
 
+      // Small delay helper used by the boot and restart screens.
       function wait(duration) {
         return new Promise((resolve) => {
           window.setTimeout(resolve, duration);
         });
       }
 
+      // Show the boot screen, then hand control to the login screen.
       async function runPreloader(options = {}) {
         const { bootDuration = 2000, grayscale = false } = options;
         preloaderFinished = false;
@@ -3139,13 +3121,11 @@
         preloaderFinished = true;
       }
 
+      // Close open windows and replay the boot sequence when Restart is chosen.
       async function restartSystem() {
         playLogoutSound();
         closeStartMenu();
         clearIconSelection();
-        welcomeVoice.pause();
-        welcomeVoice.currentTime = 0;
-        welcomeVoicePlayed = false;
         windows.forEach((entry) => {
           entry.element.classList.remove("closing", "active", "minimized");
           entry.element.style.display = "none";
@@ -3158,22 +3138,7 @@
         await runPreloader({ bootDuration: 2000, grayscale: true });
       }
 
-      async function playWelcomeVoiceOnce() {
-        if (welcomeVoicePlayed) {
-          return;
-        }
-
-        welcomeVoicePlayed = true;
-        welcomeVoice.preload = "auto";
-
-        try {
-          welcomeVoice.currentTime = 0;
-          await welcomeVoice.play();
-        } catch (error) {
-          // Ignore missing-file or autoplay issues so entry still works.
-        }
-      }
-
+      // Finish the login sequence and reveal the desktop.
       async function finishPreloader(loginChime = Promise.resolve()) {
         if (!preloaderFinished) {
           return;
@@ -3181,7 +3146,6 @@
 
         closeStartMenu();
         await loginChime;
-        await playWelcomeVoiceOnce();
         loginScreen.classList.add("is-hidden");
         welcomeScreen.classList.remove("is-hidden");
         await wait(1000);
@@ -3191,6 +3155,7 @@
         playWallpaperVideo();
       }
 
+      // Keep the taskbar clock in the visitor's local time format.
       function formatClock() {
         const now = new Date();
         clock.textContent = now.toLocaleTimeString([], {
@@ -3199,30 +3164,36 @@
         });
       }
 
+      // Close the Start menu and keep its accessibility state in sync.
       function closeStartMenu() {
         startMenu.classList.remove("is-open");
         startMenu.setAttribute("aria-hidden", "true");
       }
 
+      // Toggle the Start menu from the taskbar button.
       function toggleStartMenu() {
         const isOpen = startMenu.classList.toggle("is-open");
         startMenu.setAttribute("aria-hidden", String(!isOpen));
       }
 
+      // Only one desktop shortcut can be selected at a time.
       function selectIcon(icon) {
         icons.forEach((item) =>
           item.classList.toggle("selected", item === icon),
         );
       }
 
+      // Clear shortcut selection after a restart or desktop click.
       function clearIconSelection() {
         icons.forEach((item) => item.classList.remove("selected"));
       }
 
+      // Keep window positions inside the visible desktop area.
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
       }
 
+      // Fit each window to the current screen without making it too small to use.
       function getResponsiveMetrics(config) {
         const isCompactScreen = window.innerWidth <= 640;
         const maxWidth = Math.min(
@@ -3239,6 +3210,7 @@
         };
       }
 
+      // Stagger windows so several open apps do not land on top of one another.
       function getWindowPosition(index, width, height) {
         const offset = 34 * index;
         const maxLeft = Math.max(8, window.innerWidth - width - 8);
@@ -3253,17 +3225,20 @@
         };
       }
 
+      // Clone a template so every app window gets its own interactive content.
       function createWindowContent(templateId) {
         const template = document.getElementById(templateId);
         return template.content.cloneNode(true);
       }
 
+      // Return only windows that are open and not minimized.
       function getVisibleWindows() {
         return Array.from(windows.values()).filter(
           (entry) => entry.isOpen && !entry.minimized,
         );
       }
 
+      // Mark one visible window as active and update the taskbar styling.
       function setActiveWindow(windowId) {
         activeWindowId = windowId;
 
@@ -3273,6 +3248,7 @@
         });
       }
 
+      // Restore focus to the topmost remaining window after one closes.
       function syncTopWindow() {
         const visibleEntries = getVisibleWindows();
         const topEntry = visibleEntries.sort(
@@ -3284,6 +3260,7 @@
         renderTaskbar();
       }
 
+      // Bring an existing window forward and restore it if it was minimized.
       function focusWindow(windowId) {
         const entry = windows.get(windowId);
         if (!entry || !entry.isOpen || entry.minimized) {
@@ -3296,19 +3273,21 @@
         renderTaskbar();
       }
 
+      // Download the supplied CV file from the resume toolbar.
       function downloadResume(resumePage) {
         if (!resumePage?.querySelector("[data-resume-document]")) {
           return;
         }
 
         const downloadLink = document.createElement("a");
-        downloadLink.href = "assets/Uwase-Jolie-Resume.pdf";
-        downloadLink.download = "Uwase-Jolie-Resume.pdf";
+        downloadLink.href = "assets/Uwase-Jolie-CV.docx";
+        downloadLink.download = "Uwase-Jolie-CV.docx";
         document.body.appendChild(downloadLink);
         downloadLink.click();
         downloadLink.remove();
       }
 
+      // Rebuild taskbar buttons from the windows that are currently open.
       function renderTaskbar() {
         taskbarWindows.innerHTML = "";
 
@@ -3343,6 +3322,7 @@
           });
       }
 
+      // Hide a window while leaving its taskbar button available.
       function minimizeWindow(windowId) {
         const entry = windows.get(windowId);
         if (!entry || !entry.isOpen || entry.minimized) {
@@ -3359,6 +3339,7 @@
         syncTopWindow();
       }
 
+      // Show a minimized window again and bring it to the front.
       function restoreWindow(windowId) {
         const entry = windows.get(windowId);
         if (!entry || !entry.isOpen) {
@@ -3376,6 +3357,7 @@
         focusWindow(windowId);
       }
 
+      // Play the closing animation, then remove the window from the taskbar.
       function closeWindow(windowId) {
         const entry = windows.get(windowId);
         if (!entry || !entry.isOpen) {
@@ -3399,6 +3381,7 @@
         );
       }
 
+      // Toggle between a window's saved size and the full desktop area.
       function toggleMaximizeWindow(windowId) {
         const entry = windows.get(windowId);
         if (!entry || !entry.isOpen) {
@@ -3429,6 +3412,7 @@
         focusWindow(windowId);
       }
 
+      // Let visitors move windows by dragging their title bars.
       function attachDragBehavior(win, titleBar, windowId) {
         titleBar.addEventListener("mousedown", (event) => {
           if (event.button !== 0 || event.target.closest(".xp-button")) {
@@ -3449,6 +3433,7 @@
         });
       }
 
+      // Build a window from its config and cloned content template.
       function createWindow(windowId, config, index) {
         const metrics = getResponsiveMetrics(config);
         const position = getWindowPosition(
@@ -3521,6 +3506,7 @@
           toggleMaximizeWindow(windowId),
         );
 
+        // Handle toolbar actions and the small filters inside this window.
         body.addEventListener("click", (event) => {
           const toolbarButton = event.target.closest(".toolbar-button");
           const filterButton = event.target.closest(".projects-nav a");
@@ -3553,7 +3539,7 @@
               const bodyText = encodeURIComponent(
                 `From: ${fromInput?.value || ""}\n\n${messageInput?.value || ""}`,
               );
-              window.location.href = `mailto:ujolie100@gmail.com?subject=${subject}&body=${bodyText}`;
+              window.location.href = `mailto:ujolie735@gmail.com?subject=${subject}&body=${bodyText}`;
             } else if (action.includes("new message")) {
               body
                 .querySelectorAll("input, textarea")
@@ -3585,6 +3571,7 @@
             }
           }
 
+          // The resume can show either the complete CV or one section at a time.
           const resumeTab = event.target.closest("[data-resume-tab]");
           if (resumeTab && windowId === "resume") {
             const selectedTab = resumeTab.dataset.resumeTab;
@@ -3601,6 +3588,7 @@
             body.querySelector(".resume-app-content")?.scrollTo({ top: 0, behavior: "smooth" });
           }
 
+          // Project categories only hide and show cards; they do not navigate away.
           if (filterButton) {
             event.preventDefault();
             const filter = filterButton.dataset.filter || "all";
@@ -3618,6 +3606,7 @@
         attachDragBehavior(win, titleBar, windowId);
       }
 
+      // Open a new window or focus it if it is already open.
       function openWindow(windowId) {
         const entry = windows.get(windowId);
         if (!entry) {
@@ -3637,6 +3626,7 @@
         focusWindow(windowId);
       }
 
+      // Desktop shortcuts open their matching app window on double click.
       icons.forEach((icon) => {
         icon.addEventListener("click", (event) => {
           event.stopPropagation();
@@ -3658,6 +3648,7 @@
         });
       });
 
+      // Wire the Start button, login screen, menu items, and restart controls.
       startButton.addEventListener("click", (event) => {
         event.stopPropagation();
         toggleStartMenu();
@@ -3693,7 +3684,6 @@
         pill.addEventListener("click", () => {
           playLogoutSound();
           closeStartMenu();
-          welcomeVoicePlayed = false;
           runPreloader();
         });
       });
@@ -3706,6 +3696,7 @@
         restartSystem();
       });
 
+      // Close menus and clear selected shortcuts when the empty desktop is clicked.
       desktop.addEventListener("click", (event) => {
         if (
           !event.target.closest(".desktop-icon") &&
@@ -3718,6 +3709,7 @@
         }
       });
 
+      // Continue dragging a window until the visitor releases the mouse button.
       window.addEventListener("mousemove", (event) => {
         if (!dragState) {
           return;
@@ -3734,17 +3726,20 @@
         win.style.top = `${nextTop}px`;
       });
 
+      // End a drag cleanly even if the mouse is released outside the window.
       window.addEventListener("mouseup", () => {
         dragState = null;
         document.body.classList.remove("dragging");
       });
 
+      // A click outside the Start menu closes it.
       window.addEventListener("click", (event) => {
         if (!startMenu.contains(event.target) && event.target !== startButton) {
           closeStartMenu();
         }
       });
 
+      // Refit open windows when the browser size changes.
       window.addEventListener("resize", () => {
         windows.forEach((entry) => {
           const config = windowConfig[entry.id];
@@ -3768,10 +3763,12 @@
         });
       });
 
+      // Create the hidden window elements once; shortcuts reveal them on demand.
       Object.entries(windowConfig).forEach(([windowId, config], index) => {
         createWindow(windowId, config, index);
       });
 
+      // Start the clock and boot sequence after the window controls are ready.
       formatClock();
       setInterval(formatClock, 1000);
       runPreloader();

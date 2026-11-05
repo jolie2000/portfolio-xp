@@ -1,32 +1,19 @@
-# Portfolio XP
+# Uwase Jolie Portfolio
 
-A personal portfolio website showcasing my software engineering projects, technical skills, and professional experience.
+My portfolio is styled like a Windows XP desktop. It brings my projects, resume, and contact details together in one place.
 
-## Features
+## Run locally
 
-- Responsive design
-- Project showcase
-- Skills section
-- Contact section
+Clone the repository and open `index.html` in a modern browser. The site is static, so it does not need a build step.
 
-## Technologies
-
-- HTML
-- CSS
-- JavaScript
-
-## Live Demo
-
-https://jolie2000.github.io/portfolio-xp/
-
-## Installation
-
-```bash
-git clone https://github.com/YOUR_USERNAME/portfolio-xp.git
+```powershell
+git clone https://github.com/jolie2000/portfolio-xp.git
 ```
 
-Open `index.html` in your browser.
+## Live site
 
-## Author
+[jolie2000.github.io/portfolio-xp](https://jolie2000.github.io/portfolio-xp/)
 
-Uwase Jolie
+## Built with
+
+HTML, CSS, and JavaScript.
