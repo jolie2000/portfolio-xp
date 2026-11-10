@@ -14,2033 +14,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Uwase Jolie XP Portfolio</title>
-    <style>
-      /* Shared colors and sizing for the XP-inspired desktop. */
-      :root {
-        --desktop-blue: #1d62c4;
-        --desktop-blue-deep: #0b3f94;
-        --desktop-green: #5ca631;
-        --window-border: #0d2f67;
-        --window-surface: #ece9d8;
-        --window-shadow: 4px 4px 0 rgba(8, 24, 58, 0.28);
-        --title-blue-start: #0a5ed7;
-        --title-blue-end: #0f3f95;
-        --title-inactive-start: #7d9cc4;
-        --title-inactive-end: #5674a2;
-        --text-dark: #10233f;
-        --taskbar-height: 38px;
-        --icon-size: 48px;
-      }
-
-      * {
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      html,
-      body {
-        margin: 0;
-        height: 100%;
-        min-height: 100dvh;
-        overflow: hidden;
-        font-family: Tahoma, "MS Sans Serif", sans-serif;
-        color: #111;
-      }
-
-      body {
-        min-height: 100dvh;
-        background: linear-gradient(
-          180deg,
-          #86d1ff 0%,
-          #79caef 34%,
-          #6fc1e7 40%,
-          #78b4dc 55%,
-          #5f95cc 100%
-        );
-        user-select: none;
-      }
-
-      body.preloader-active {
-        background: linear-gradient(
-          180deg,
-          #0c41a6 0%,
-          #2f78dc 38%,
-          #6796ec 100%
-        );
-      }
-
-      body.restarting .preloader {
-        filter: grayscale(1);
-      }
-
-      body.restarting .boot-screen,
-      body.restarting .login-screen,
-      body.restarting .welcome-screen {
-        filter: grayscale(1);
-      }
-
-      /* Boot, login, and welcome screens shown before the desktop loads. */
-      .preloader {
-        position: fixed;
-        inset: 0;
-        background: #000000;
-        z-index: 9999;
-        opacity: 1;
-        visibility: visible;
-        transition:
-          opacity 700ms ease-in-out,
-          visibility 700ms ease-in-out;
-      }
-
-      .preloader-stage {
-        position: absolute;
-        inset: 0;
-        transition:
-          opacity 500ms ease-in-out,
-          visibility 500ms ease-in-out;
-      }
-
-      .preloader-stage.is-hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-
-      .boot-screen {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        padding: 40px 32px 56px;
-      }
-
-      .boot-brand {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      .boot-heading {
-        margin-top: 16px;
-        font:
-          700 clamp(2.4rem, 7vw, 5.4rem)/0.92 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-        letter-spacing: -0.06em;
-      }
-
-      .boot-heading .xp {
-        color: #ff6a00;
-        font-size: 0.8em;
-        vertical-align: top;
-      }
-
-      .boot-subtitle {
-        margin-top: 6px;
-        font:
-          italic 700 clamp(0.9rem, 1.2vw, 1.15rem)/1 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-      }
-
-      .boot-loader {
-        position: relative;
-        width: min(320px, 62vw);
-        height: 22px;
-        margin-top: 54px;
-        border: 2px solid #848484;
-        border-radius: 12px;
-        background: #050505;
-        overflow: hidden;
-        box-shadow: inset 0 0 0 2px #d7d7d7;
-      }
-
-      .boot-loader::before {
-        content: "";
-        position: absolute;
-        top: 2px;
-        left: -22%;
-        width: 22%;
-        height: calc(100% - 4px);
-        border-radius: 8px;
-        background: linear-gradient(180deg, #628fff, #234ac9);
-        box-shadow:
-          18px 0 0 #3d63de,
-          36px 0 0 #628fff;
-        animation: boot-progress 1.25s linear infinite;
-      }
-
-      .boot-footer {
-        position: absolute;
-        right: 76px;
-        bottom: 58px;
-        font:
-          italic 700 clamp(2.2rem, 5vw, 4.2rem)/1 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-        color: #f2f2f2;
-      }
-
-      .boot-note {
-        position: absolute;
-        left: 74px;
-        bottom: 72px;
-        color: #ffffff;
-        font-size: clamp(1rem, 1.8vw, 1.2rem);
-        line-height: 1.35;
-        text-align: left;
-      }
-
-      .login-screen {
-        display: grid;
-        grid-template-rows: 150px 1fr 150px;
-        background: linear-gradient(
-          180deg,
-          #0639a6 0%,
-          #0b4fd0 18%,
-          #84a8ef 18.5%,
-          #7d9fe9 82%,
-          #0d4abf 82.5%,
-          #0539a3 100%
-        );
-      }
-
-      .welcome-screen {
-        display: grid;
-        grid-template-rows: 150px 1fr 150px;
-        background: linear-gradient(
-          180deg,
-          #0639a6 0%,
-          #0b4fd0 18%,
-          #84a8ef 18.5%,
-          #7d9fe9 82%,
-          #0d4abf 82.5%,
-          #0539a3 100%
-        );
-        place-items: center;
-      }
-
-      .welcome-message {
-        font:
-          italic 700 clamp(3rem, 8vw, 5.8rem)/1 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-        color: #ffffff;
-        text-shadow:
-          0 2px 0 rgba(0, 0, 0, 0.24),
-          0 4px 12px rgba(0, 0, 0, 0.16);
-      }
-
-      .login-main {
-        display: grid;
-        grid-template-columns: minmax(300px, 440px) 1px minmax(260px, 360px);
-        align-items: center;
-        justify-content: center;
-        gap: 74px;
-        padding: 10px 32px 24px;
-      }
-
-      .preloader.is-hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-
-      .preloader-brand {
-        text-align: center;
-        margin-bottom: 0;
-        transform: translateY(-16px);
-      }
-
-      .xp-mark {
-        display: inline-grid;
-        grid-template-columns: repeat(2, 42px);
-        grid-template-rows: repeat(2, 42px);
-        gap: 2px;
-        margin-bottom: 18px;
-        transform: rotate(-10deg);
-      }
-
-      .xp-mark span:nth-child(1) {
-        background: linear-gradient(135deg, #ffbe53, #ea4b11);
-        border-radius: 8px 0 0 0;
-      }
-
-      .xp-mark span:nth-child(2) {
-        background: linear-gradient(135deg, #b7ff48, #58b000);
-        border-radius: 0 8px 0 0;
-      }
-
-      .xp-mark span:nth-child(3) {
-        background: linear-gradient(135deg, #7ea3ff, #3347db);
-        border-radius: 0 0 0 8px;
-      }
-
-      .xp-mark span:nth-child(4) {
-        background: linear-gradient(135deg, #ffe67d, #dfad03);
-        border-radius: 0 0 8px 0;
-      }
-
-      .preloader-heading {
-        font:
-          700 clamp(3.1rem, 6vw, 5.2rem)/0.9 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-        letter-spacing: -0.05em;
-      }
-
-      .preloader-heading .xp {
-        color: #ff6a00;
-        font-size: 0.78em;
-        vertical-align: top;
-      }
-
-      .preloader-subtitle {
-        margin-top: 6px;
-        font:
-          italic 700 clamp(0.9rem, 1.2vw, 1.15rem)/1 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-      }
-
-      .preloader-instruction {
-        margin-top: 64px;
-        font-size: clamp(1.1rem, 2vw, 1.35rem);
-      }
-
-      .preloader-divider {
-        width: 1px;
-        height: 265px;
-        background: linear-gradient(
-          180deg,
-          transparent,
-          rgba(255, 255, 255, 0.62),
-          transparent
-        );
-      }
-
-      .preloader-user {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        padding: 14px 16px;
-        border-radius: 12px;
-        transition: background-color 180ms ease;
-        cursor: pointer;
-        transform: translateY(-10px);
-      }
-
-      .preloader-user.is-active {
-        background: rgba(255, 255, 255, 0.08);
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14) inset;
-      }
-
-      .preloader-avatar {
-        width: 102px;
-        height: 102px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid rgba(255, 255, 255, 0.92);
-        border-radius: 10px;
-        background: linear-gradient(180deg, #cfe7ff, #8ec0ee);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-        font-size: 4rem;
-      }
-
-      .profile-avatar-art {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        display: grid;
-        place-items: center;
-        overflow: hidden;
-        background:
-          radial-gradient(circle at 50% 24%, #ffe3da 0 16px, transparent 17px),
-          radial-gradient(circle at 50% 73%, #f5bca3 0 28px, transparent 29px),
-          linear-gradient(
-            180deg,
-            #9ad2ff 0%,
-            #7fb8ef 58%,
-            #f4c1ac 58%,
-            #e7a487 100%
-          );
-      }
-
-      .profile-avatar-art::before {
-        content: "";
-        position: absolute;
-        top: 16px;
-        left: 50%;
-        width: 42px;
-        height: 48px;
-        transform: translateX(-50%);
-        border-radius: 22px 22px 18px 18px;
-        background: #45241e;
-        box-shadow:
-          -12px 9px 0 -8px #45241e,
-          12px 9px 0 -8px #45241e;
-      }
-
-      .profile-avatar-art::after {
-        content: "UJ";
-        position: relative;
-        z-index: 1;
-        margin-top: 48px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.82);
-        color: #7f365d;
-        font:
-          700 0.95rem/1 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-        letter-spacing: 0.08em;
-      }
-
-      .preloader-user-name {
-        font:
-          400 clamp(1.45rem, 2.6vw, 2.25rem)/1.04 "Trebuchet MS",
-          Tahoma,
-          sans-serif;
-        text-align: left;
-        color: #ffffff;
-      }
-
-      .preloader-user-role {
-        margin-top: 8px;
-        font-size: clamp(0.85rem, 1.1vw, 1rem);
-        font-weight: 700;
-        text-align: left;
-        color: #162d89;
-      }
-
-      .preloader-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 76px;
-        color: #ffffff;
-        font-size: 0.95rem;
-        border-top: 2px solid #e3a43f;
-      }
-
-      .preloader-footer-left {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 700;
-        font-size: 1rem;
-      }
-
-      .preloader-footer-left::before {
-        content: "✳";
-        width: 44px;
-        height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        background: linear-gradient(180deg, #38b84d, #168934);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      }
-
-      .preloader-footer-right {
-        text-align: left;
-        line-height: 1.45;
-        font-size: 0.95rem;
-      }
-
-      .preloader-footer-left::before {
-        content: "";
-        border-radius: 0;
-        box-shadow: none;
-        background: center / contain no-repeat url("assets/icons/restart.webp");
-      }
-
-      .preloader-user:hover,
-      .preloader-user:focus-visible {
-        background: rgba(255, 255, 255, 0.14);
-        outline: none;
-      }
-
-      /* Desktop wallpaper, shortcuts, and the windows they open. */
-      .desktop {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        min-height: 100dvh;
-        overflow: hidden;
-        opacity: 0;
-        transform: scale(1.01);
-        transition:
-          opacity 700ms ease-in-out,
-          transform 700ms ease-in-out;
-      }
-
-      .desktop.is-ready {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      .desktop::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(
-            circle at 12% 22%,
-            rgba(255, 255, 255, 0.78),
-            transparent 9%
-          ),
-          radial-gradient(
-            circle at 21% 21%,
-            rgba(255, 255, 255, 0.45),
-            transparent 10%
-          ),
-          radial-gradient(
-            circle at 73% 20%,
-            rgba(255, 255, 255, 0.72),
-            transparent 8%
-          ),
-          radial-gradient(
-            circle at 80% 23%,
-            rgba(255, 255, 255, 0.38),
-            transparent 8%
-          ),
-          linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.18),
-            transparent 16%,
-            transparent 84%,
-            rgba(255, 255, 255, 0.14)
-          );
-        opacity: 0.95;
-        pointer-events: none;
-      }
-
-      .desktop::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          repeating-linear-gradient(
-            0deg,
-            rgba(255, 255, 255, 0.035) 0,
-            rgba(255, 255, 255, 0.035) 1px,
-            transparent 1px,
-            transparent 3px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            rgba(0, 34, 68, 0.02) 0,
-            rgba(0, 34, 68, 0.02) 1px,
-            transparent 1px,
-            transparent 3px
-          );
-        mix-blend-mode: multiply;
-        opacity: 0.7;
-        pointer-events: none;
-      }
-
-      .desktop-wallpaper-video {
-        position: absolute;
-        inset: 0 0 var(--taskbar-height) 0;
-        width: 100%;
-        height: calc(100% - var(--taskbar-height));
-        object-fit: cover;
-        object-position: center;
-        pointer-events: none;
-        z-index: 0;
-        filter: saturate(1.06) contrast(1.02);
-      }
-
-      .desktop-wallpaper-video::-webkit-media-controls,
-      .desktop-wallpaper-video::-webkit-media-controls-start-playback-button {
-        display: none !important;
-        -webkit-appearance: none;
-      }
-
-      .desktop-icons {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        bottom: calc(var(--taskbar-height) + 12px);
-        display: grid;
-        grid-auto-flow: column;
-        grid-template-rows: repeat(auto-fit, minmax(92px, 92px));
-        gap: 10px 12px;
-        align-content: start;
-        z-index: 2;
-      }
-
-      .desktop-icon {
-        position: relative;
-        width: 84px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 5px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        color: #fff;
-        text-align: center;
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-        cursor: default;
-        background: transparent;
-        appearance: none;
-        -webkit-appearance: none;
-        border: 1px solid transparent;
-        box-shadow: none;
-      }
-
-      .desktop-icon.selected {
-        background: rgba(21, 83, 183, 0.38);
-        border-color: rgba(255, 255, 255, 0.5);
-      }
-
-      .desktop-icon:focus-visible {
-        outline: 1px dotted #fff;
-        outline-offset: 2px;
-      }
-
-      .icon-graphic {
-        position: relative;
-        width: var(--icon-size);
-        height: var(--icon-size);
-      }
-
-      .desktop-app-icon-img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-        background: transparent;
-        image-rendering: -webkit-optimize-contrast;
-      }
-
-      .icon-label {
-        font-size: 11px;
-        font-weight: 700;
-        line-height: 1.25;
-      }
-
-      /* Shared window chrome: title bars, controls, and status line. */
-      .window-layer {
-        position: absolute;
-        inset: 0 0 var(--taskbar-height) 0;
-        z-index: 6;
-        pointer-events: none;
-      }
-
-      .window {
-        position: absolute;
-        min-width: 260px;
-        min-height: 168px;
-        border: 1px solid var(--window-border);
-        border-radius: 7px 7px 0 0;
-        background: var(--window-surface);
-        box-shadow: var(--window-shadow);
-        overflow: hidden;
-        transform-origin: top center;
-        animation: window-open 180ms ease-out;
-        transition:
-          box-shadow 140ms ease,
-          border-color 140ms ease;
-        pointer-events: auto;
-      }
-
-      .window.closing {
-        animation: window-close 140ms ease-in forwards;
-      }
-
-      .window.minimized {
-        display: none;
-      }
-
-      .window.active .title-bar {
-        background: linear-gradient(
-          180deg,
-          var(--title-blue-start),
-          var(--title-blue-end)
-        );
-      }
-
-      .window.active {
-        border-color: #144596;
-        box-shadow:
-          0 0 0 1px rgba(255, 255, 255, 0.22) inset,
-          5px 6px 0 rgba(8, 24, 58, 0.28);
-      }
-
-      .window:not(.active) .title-bar {
-        background: linear-gradient(
-          180deg,
-          var(--title-inactive-start),
-          var(--title-inactive-end)
-        );
-      }
-
-      .window:not(.active) {
-        box-shadow: 2px 3px 0 rgba(8, 24, 58, 0.18);
-      }
-
-      .title-bar {
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 6px 0 8px;
-        color: #fff;
-        cursor: move;
-        font-size: 11px;
-        font-weight: 700;
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
-      }
-
-      .title-bar-text {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        min-width: 0;
-      }
-
-      .title-bar-text span:last-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .title-bar-icon {
-        width: 16px;
-        height: 16px;
-        flex: 0 0 auto;
-      }
-
-      .title-bar-icon img {
-        width: 16px;
-        height: 16px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .title-controls {
-        display: flex;
-        align-items: center;
-        gap: 3px;
-      }
-
-      .xp-button {
-        width: 22px;
-        height: 20px;
-        border: 1px solid #fff;
-        border-right-color: #183d7f;
-        border-bottom-color: #183d7f;
-        border-radius: 3px;
-        background: linear-gradient(180deg, #fbfdff, #c7dbf7);
-        color: #0d2b61;
-        font:
-          700 12px/1 Tahoma,
-          sans-serif;
-        padding: 0;
-        cursor: pointer;
-        transition:
-          filter 120ms ease,
-          transform 120ms ease;
-      }
-
-      .xp-button:hover {
-        filter: brightness(1.04);
-      }
-
-      .xp-button:active {
-        transform: translateY(1px);
-        border-top-color: #183d7f;
-        border-left-color: #183d7f;
-        border-right-color: #fff;
-        border-bottom-color: #fff;
-      }
-
-      .xp-button.close {
-        background: linear-gradient(180deg, #f99379, #d85a32);
-        color: #fff;
-      }
-
-      .window-body {
-        height: calc(100% - 30px);
-        padding: 0;
-        overflow: auto;
-        background:
-          linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.68),
-            rgba(255, 255, 255, 0)
-          ),
-          var(--window-surface);
-      }
-
-      .window-body h2,
-      .window-body h3,
-      .window-body p {
-        margin-top: 0;
-      }
-
-      .explorer-shell {
-        display: grid;
-        grid-template-rows: auto auto 1fr auto;
-        min-height: 100%;
-        background: #ece9d8;
-      }
-
-      .menu-strip {
-        display: flex;
-        gap: 32px;
-        padding: 8px 18px 6px;
-        background: rgba(255, 255, 255, 0.68);
-        border-bottom: 1px solid #d8d3bf;
-        font-size: 12px;
-      }
-
-      .toolbar-strip {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        padding: 10px 16px;
-        background: linear-gradient(180deg, #fefefe, #ede9da);
-        border-bottom: 1px solid #d2ccb8;
-        font-size: 13px;
-      }
-
-      .toolbar-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #2c2c2c;
-        cursor: pointer;
-      }
-
-      .toolbar-button img {
-        width: 25px;
-        height: 25px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .window-status {
-        padding: 4px 10px;
-        border-top: 1px solid #bcb6a3;
-        background: linear-gradient(180deg, #f5f3eb, #ded7c4);
-        font-size: 11px;
-        color: #3b3b3b;
-      }
-
-      /* About panel and resume viewer. */
-      .about-layout {
-        display: grid;
-        grid-template-columns: 240px 1fr;
-        min-height: 520px;
-        background: #ffffff;
-      }
-
-      .sidebar-pane {
-        padding: 14px;
-        background: linear-gradient(180deg, #98a9f4, #8fa1ec 44%, #99a8f5);
-        color: #113b8d;
-        border-right: 1px solid #b3bef5;
-      }
-
-      .sidebar-card {
-        padding: 0;
-        margin-bottom: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.92);
-        background: rgba(245, 249, 255, 0.95);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
-      }
-
-      .sidebar-card h3 {
-        margin: 0;
-        padding: 8px 12px;
-        font-size: 12px;
-        color: #ffffff;
-        background: linear-gradient(180deg, #1d98ff, #1262d8);
-      }
-
-      .sidebar-list {
-        display: grid;
-        gap: 7px;
-        padding: 12px 14px;
-        font-size: 12px;
-      }
-
-      .sidebar-link-item,
-      .sidebar-skill-item {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        color: #123b8d;
-        min-height: 18px;
-        font-size: 12px;
-      }
-
-      .sidebar-link-item {
-        text-decoration: none;
-      }
-
-      .sidebar-link-item:hover {
-        opacity: 0.9;
-      }
-
-      .sidebar-glyph {
-        width: 16px;
-        height: 16px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 3px;
-        background: transparent;
-        font-size: 0.78rem;
-        flex: 0 0 auto;
-        box-shadow: none;
-        position: relative;
-      }
-
-      .sidebar-glyph img {
-        width: 16px;
-        height: 16px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .sidebar-card h3 {
-        margin: 0 0 10px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .sidebar-card h3::after {
-        content: "";
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.9);
-        box-shadow: inset 0 0 0 2px rgba(58, 117, 255, 0.55);
-      }
-
-      .about-content {
-        padding: 26px 28px 30px;
-        background:
-          linear-gradient(
-            135deg,
-            rgba(84, 99, 224, 0.92),
-            rgba(107, 121, 244, 0.78)
-          ),
-          radial-gradient(
-            circle at top right,
-            rgba(255, 255, 255, 0.12),
-            transparent 40%
-          );
-        color: #ffffff;
-      }
-
-      .about-content h2 {
-        font-size: 2.3rem;
-        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.24);
-      }
-
-      .about-paragraph {
-        display: grid;
-        grid-template-columns: 110px 1fr;
-        gap: 16px;
-        margin-top: 24px;
-        font-size: 1rem;
-        line-height: 1.65;
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
-        align-items: start;
-      }
-
-      .emoji-avatar {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 82px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.14);
-        border: 1px solid rgba(255, 255, 255, 0.24);
-        font-size: 0.92rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        line-height: 1.1;
-        text-transform: uppercase;
-        text-shadow: none;
-      }
-
-      .about-paragraph p {
-        margin: 0;
-      }
-
-      .resume-viewer {
-        min-height: 620px;
-        height: 100%;
-        padding: 0;
-        display: block;
-        overflow: hidden;
-        background: #fff0f5;
-      }
-
-      .resume-page {
-        width: 100%;
-        min-height: 100%;
-        padding: 0;
-        background: #fff;
-        box-shadow: none;
-      }
-
-      .resume-app {
-        display: flex;
-        min-height: 620px;
-        height: 100%;
-        color: #4b4652;
-        font-family: "Quicksand", "Trebuchet MS", sans-serif;
-      }
-
-      .resume-app h1, .resume-app h2, .resume-app h3, .resume-app p { margin-top: 0; }
-      .resume-app h1 { margin-bottom: 0; font-size: 20px; line-height: 1.25; letter-spacing: 0; }
-      .resume-app h2 { margin: 0; font-size: 19px; line-height: 1.3; letter-spacing: 0; }
-      .resume-app h3 { margin: 0; font-size: 14px; line-height: 1.35; }
-      .resume-app p, .resume-app li { font-size: 13px; line-height: 1.55; }
-
-      .resume-app-sidebar {
-        display: flex;
-        flex: 0 0 270px;
-        flex-direction: column;
-        padding: 22px 18px;
-        overflow-y: auto;
-        background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,232,241,.92));
-        border-right: 2px solid #fce1ec;
-      }
-
-      .resume-avatar {
-        position: relative;
-        display: grid;
-        width: 112px;
-        height: 112px;
-        margin: 0 auto 12px;
-        place-items: center;
-        border: 5px solid #fff;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #ff9fc0, #c9a8f4);
-        box-shadow: 0 5px 16px rgba(139, 72, 141, .2);
-      }
-      .resume-avatar svg { width: 100%; height: 100%; border: 2px solid white; border-radius: 50%; background: #fff0f5; }
-      .resume-avatar span { position: absolute; right: 1px; bottom: -2px; font-size: 23px; }
-      .resume-app-sidebar h1 { text-align: center; color: #514257; }
-      .resume-role {
-        margin: 8px 0 18px;
-        padding: 7px 10px;
-        border: 1px solid #e5d5f2;
-        border-radius: 999px;
-        background: #f1e9fb;
-        color: #79549d;
-        text-align: center;
-        font-size: 11px !important;
-        font-weight: 700;
-      }
-
-      .resume-nav { display: grid; gap: 6px; margin-bottom: 18px; }
-      .resume-tab {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        padding: 10px 11px;
-        border: 0;
-        border-radius: 12px;
-        background: transparent;
-        color: #665e6c;
-        text-align: left;
-        font: 600 12px "Quicksand", "Trebuchet MS", sans-serif;
-        cursor: pointer;
-        transition: background .18s ease, color .18s ease, transform .18s ease;
-      }
-      .resume-tab:hover { background: #fde8f1; transform: translateX(2px); }
-      .resume-tab.is-active { background: #f4a9c5; color: #fff; box-shadow: 0 3px 10px rgba(214, 111, 158, .18); }
-      .resume-language-card {
-        display: grid;
-        gap: 9px;
-        padding: 12px;
-        border: 1px solid #f1cddd;
-        border-radius: 15px;
-        background: rgba(255,255,255,.9);
-        box-shadow: 0 3px 10px rgba(139, 72, 141, .07);
-      }
-      .resume-language-card h2 {
-        margin: 0;
-        color: #79549d;
-        font-size: 11px;
-        letter-spacing: .07em;
-        text-transform: uppercase;
-      }
-      .resume-language-list { display: grid; gap: 7px; }
-      .resume-language-list > div {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        color: #514957;
-        font-size: 11px;
-      }
-      .resume-language-list strong {
-        padding: 2px 7px;
-        border-radius: 999px;
-        background: #f5eaf4;
-        color: #79549d;
-        font-size: 9px;
-      }
-
-      .resume-document {
-        width: min(100%, 760px);
-        margin: 0 auto;
-        padding: 42px 50px;
-        background: #fff;
-        color: #3f3a46;
-        font: 13px/1.5 Arial, sans-serif;
-      }
-      .resume-document,
-      .resume-document * {
-        font-family: Arial, sans-serif !important;
-      }
-      .resume-document-header {
-        padding-bottom: 11px;
-        border-bottom: 2px solid #6da6f4;
-      }
-      .resume-document h1 {
-        margin: 0 0 5px;
-        color: #243f69;
-        font: 700 27px/1.15 Arial, sans-serif;
-        letter-spacing: 0;
-      }
-      .resume-document-role {
-        margin: 0 0 8px;
-        color: #4d86ce;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-      }
-      .resume-document-contact {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 4px 0;
-        color: #626d7b;
-        font-size: 9.5px;
-        overflow-wrap: anywhere;
-      }
-      .resume-document-contact > * {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 0 10px;
-        border-right: 1px solid #b8c1cd;
-        white-space: nowrap;
-      }
-      .resume-document-contact > *:first-child { padding-left: 0; }
-      .resume-document-contact > *:last-child { padding-right: 0; border-right: 0; }
-      .resume-document-contact a { color: #626d7b; text-decoration: none; }
-      .resume-document section { margin-top: 17px; }
-      .resume-document h2 {
-        margin: 0 0 7px;
-        padding-bottom: 3px;
-        border-bottom: 1px solid #d9cce7;
-        color: #4d86ce;
-        font: 700 14px/1.3 Arial, sans-serif;
-        letter-spacing: .03em;
-        text-transform: uppercase;
-      }
-      .resume-document h3 {
-        margin: 9px 0 1px;
-        color: #4d86ce;
-        font: 700 13px/1.35 Arial, sans-serif;
-      }
-      .resume-document p { margin: 0 0 6px; font-size: 12.5px; line-height: 1.48; }
-      .resume-document-meta { color: #786982; font-style: italic; }
-      .resume-document strong { color: #68448a; }
-      .resume-document li::marker { content: ""; }
-      .resume-document ul { margin: 4px 0 8px; padding-left: 0; list-style: none; }
-      .resume-document li { margin: 0 0 2px; font-size: 12.5px; line-height: 1.45; }
-      .resume-document-columns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 28px; }
-
-      .resume-app-content {
-        display: grid;
-        flex: 1 1 auto;
-        align-content: start;
-        gap: 18px;
-        min-width: 0;
-        max-height: 100%;
-        padding: 22px;
-        overflow-y: auto;
-        background: linear-gradient(135deg, #fff 0%, #fff7fb 55%, #f8f3ff 100%);
-      }
-      .resume-card {
-        padding: 18px;
-        border-width: 2px;
-        border-style: dashed;
-        border-radius: 18px;
-        background: rgba(255,255,255,.94);
-      }
-      .resume-card-pink { border-color: #f3a9c7; }
-      .resume-card-purple { border-color: #c9a8ea; }
-      .resume-card-amber { border-color: #f1ce8b; }
-      .resume-card-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 12px;
-      }
-      .resume-card-heading h2 { color: #754a91; }
-      .resume-card-heading > span {
-        flex: 0 0 auto;
-        padding: 5px 9px;
-        border: 1px solid #f0d9e7;
-        border-radius: 999px;
-        background: #fff0f6;
-        color: #a0517b;
-        font-size: 10px;
-        font-weight: 700;
-      }
-      .resume-card > p { margin: 0; color: #68616e; }
-      .resume-card > p strong { color: #d4588d; }
-      .resume-skill-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
-      .resume-skill-card {
-        min-width: 0;
-        padding: 12px;
-        border: 1px solid;
-        border-radius: 15px;
-        background: linear-gradient(140deg, #fff, #fff8fb);
-      }
-      .resume-skill-card h3 { margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid #f0e4ed; color: #815281; font-size: 12px; }
-      .skill-pink { border-color: #f4cad9; }
-      .skill-purple { border-color: #dfcff0; }
-      .skill-blue { border-color: #c9e0f5; }
-      .skill-amber { border-color: #f2e0b8; }
-      .resume-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-      .resume-chips span { padding: 5px 7px; border: 1px solid #eee7ef; border-radius: 9px; background: #fff; color: #625b69; font-size: 10px; font-weight: 700; }
-      .resume-project-list { display: grid; gap: 12px; }
-      .resume-project {
-        padding: 14px;
-        border: 1px solid #efdae7;
-        border-radius: 15px;
-        background: rgba(255,255,255,.88);
-      }
-      .resume-project-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-      .resume-project-heading h3 { color: #4c4653; }
-      .resume-project-heading p { margin: 4px 0 0; color: #865b9b; font-size: 11px; font-weight: 700; }
-      .resume-project-heading > span { flex: 0 0 auto; padding: 4px 8px; border-radius: 999px; background: #fff2f7; color: #9e6c87; font-size: 10px; font-weight: 700; }
-      .resume-project ul { margin: 9px 0 0; padding-left: 18px; color: #69616e; }
-      .resume-project li { margin: 3px 0; font-size: 12px; }
-      .resume-education-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-      .resume-education-grid article { padding: 14px; border: 1px solid #efdcae; border-radius: 14px; background: #fffdf8; }
-      .resume-education-grid h3 { color: #5b535f; }
-      .resume-education-grid p { margin: 6px 0; color: #9b7743; font-size: 12px; font-weight: 700; }
-      .resume-education-grid span { display: inline-block; padding: 4px 7px; border-radius: 999px; background: #fff3d9; color: #987034; font-size: 10px; font-weight: 700; }
-      .resume-contact-card { display: grid; gap: 9px; padding: 15px; border: 1px solid #f1cddd; border-radius: 15px; background: linear-gradient(100deg,#fff4f8,#f7f1ff); color: #625969; font-size: 12px; }
-      .resume-contact-card p { margin: 0 0 3px; }
-      .resume-contact-card a { color: #79549d; }
-
-      /* Stack the resume sidebar above its content on smaller windows. */
-      @media (max-width: 760px) {
-        .resume-app { flex-direction: column; }
-        .resume-app-sidebar { flex: 0 0 auto; max-height: 230px; padding: 14px; }
-        .resume-avatar { width: 66px; height: 66px; margin-bottom: 6px; border-width: 3px; }
-        .resume-avatar span { font-size: 17px; }
-        .resume-role { margin: 5px 0 10px; }
-        .resume-nav { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; margin-bottom: 10px; }
-        .resume-tab { padding: 7px; font-size: 10px; }
-          .resume-app-content { max-height: none; padding: 14px; overflow: visible; }
-        .resume-document { padding: 28px 32px; }
-      }
-
-      /* Tighten resume spacing again on narrow phones. */
-      @media (max-width: 520px) {
-        .resume-skill-grid, .resume-education-grid { grid-template-columns: 1fr; }
-        .resume-card { padding: 13px; }
-        .resume-card-heading { align-items: flex-start; flex-direction: column; }
-        .resume-project-heading { flex-direction: column; }
-        .resume-document { padding: 22px 18px; }
-        .resume-document-columns { grid-template-columns: 1fr; }
-        .resume-document h1 { font-size: 25px; }
-      }
-
-      /* Project gallery cards and category filters. */
-      .projects-shell {
-        min-height: 620px;
-        background: #0e0e0e;
-        color: #ffffff;
-      }
-
-      .projects-topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 24px 32px 18px;
-        border-bottom: 1px solid #222222;
-      }
-
-      .projects-brand {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 2rem;
-        font-weight: 700;
-      }
-
-      .brand-mark {
-        width: 54px;
-        height: 54px;
-        object-fit: contain;
-      }
-
-      .projects-socials {
-        display: flex;
-        gap: 14px;
-        font-size: 1.5rem;
-      }
-
-      .projects-socials a {
-        width: 42px;
-        height: 42px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        background: #171717;
-        color: #ffffff;
-        text-decoration: none;
-        border: 1px solid #2c2c2c;
-      }
-
-      .projects-socials a:hover {
-        background: #232323;
-      }
-
-      .projects-socials img {
-        width: 24px;
-        height: 24px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .projects-main {
-        display: grid;
-        grid-template-columns: 210px 1fr;
-        min-height: 520px;
-      }
-
-      .projects-nav {
-        padding: 18px 18px 24px;
-        border-right: 1px solid #262626;
-      }
-
-      .projects-nav a {
-        display: block;
-        padding: 14px 18px;
-        margin-bottom: 10px;
-        border-radius: 18px;
-        background: #202020;
-        color: #ffffff;
-        cursor: pointer;
-      }
-
-      .projects-nav a.is-active {
-        background: #343434;
-        box-shadow: inset 4px 0 0 #ff2f1f;
-      }
-
-      .projects-gallery {
-        padding: 26px 28px 32px;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 28px 34px;
-      }
-
-      .project-shot img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-        border-radius: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.65);
-      }
-
-      .project-shot-screens {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .project-shot-screens .project-shot-home {
-        grid-column: 1 / -1;
-      }
-
-      .project-shot-screens img {
-        display: block;
-        height: 170px;
-        object-fit: cover;
-      }
-
-      .project-shot-screens .project-shot-home img {
-        height: 220px;
-      }
-
-      .project-shot-screens a:focus-visible {
-        outline: 2px solid #ff8b72;
-        outline-offset: 3px;
-        border-radius: 18px;
-      }
-
-      .project-shot {
-        display: grid;
-        gap: 10px;
-      }
-
-      .project-shot-meta {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        color: #d9d9d9;
-        font-size: 0.82rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      .project-shot h3 {
-        margin: 0;
-        font-size: 1.1rem;
-      }
-
-      .project-shot p {
-        margin: 0;
-        color: #b8b8b8;
-        line-height: 1.45;
-      }
-
-      .project-shot-details {
-        display: grid;
-        gap: 8px;
-        padding: 12px 14px;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.04);
-      }
-
-      .project-shot-label {
-        color: #8d8d8d;
-        font-size: 0.76rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      .project-shot-value {
-        color: #f1f1f1;
-        font-size: 0.92rem;
-      }
-
-      .project-shot-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .project-shot-tags span {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
-        color: #ffffff;
-        font-size: 0.8rem;
-      }
-
-      .project-shot.is-hidden {
-        display: none;
-      }
-
-      /* Layout of the email form shown in the contact window. */
-      .contact-shell {
-        min-height: 420px;
-        background: #f8f8f2;
-      }
-
-      .contact-compose {
-        padding: 18px;
-      }
-
-      .compose-line {
-        display: grid;
-        grid-template-columns: 60px 1fr;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 12px;
-      }
-
-      .compose-line input,
-      .compose-body {
-        width: 100%;
-        border: 1px solid #a7a090;
-        background: #ffffff;
-        padding: 8px 10px;
-        font:
-          14px Tahoma,
-          sans-serif;
-      }
-
-      .compose-body {
-        min-height: 180px;
-        resize: none;
-      }
-
-      /* Start menu, taskbar, and clock tray. */
-      .start-menu {
-        position: absolute;
-        left: 4px;
-        bottom: calc(var(--taskbar-height) - 2px);
-        width: 504px;
-        height: 682px;
-        display: none;
-        grid-template-rows: 72px 1fr 70px;
-        z-index: 20;
-        border: 1px solid #18459f;
-        border-radius: 7px 7px 0 0;
-        overflow: hidden;
-        box-shadow: 10px 12px 32px rgba(4, 23, 68, 0.35);
-      }
-
-      .start-menu.is-open {
-        display: grid;
-      }
-
-      .start-menu-header {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 12px 16px;
-        background: linear-gradient(
-          180deg,
-          #2d8fff 0%,
-          #0059dc 60%,
-          #0050c6 100%
-        );
-        color: #ffffff;
-        font-size: 1.1rem;
-        font-weight: 700;
-        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.24);
-      }
-
-      .start-avatar {
-        width: 56px;
-        height: 56px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid rgba(255, 255, 255, 0.8);
-        border-radius: 8px;
-        background: linear-gradient(180deg, #ffd9c5, #efb790);
-        overflow: hidden;
-      }
-
-      .start-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .start-avatar .profile-avatar-art::before {
-        top: 8px;
-        width: 24px;
-        height: 28px;
-        border-radius: 14px 14px 12px 12px;
-        box-shadow:
-          -8px 6px 0 -6px #45241e,
-          8px 6px 0 -6px #45241e;
-      }
-
-      .start-avatar .profile-avatar-art::after {
-        margin-top: 24px;
-        padding: 2px 6px;
-        font-size: 0.58rem;
-      }
-
-      .start-menu-main {
-        display: grid;
-        grid-template-columns: 1fr 0.95fr;
-        background: #f7f7f7;
-      }
-
-      .start-primary,
-      .start-secondary {
-        padding: 18px 14px;
-      }
-
-      .start-secondary {
-        background: linear-gradient(180deg, #dcebff, #d6e9ff);
-        border-left: 1px solid #abc7e5;
-      }
-
-      .start-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 11px 10px;
-        border-radius: 6px;
-        color: #1f1f1f;
-        text-decoration: none;
-      }
-
-      .start-item:hover {
-        background: #dbe9ff;
-      }
-
-      .start-item-badge {
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        background: linear-gradient(180deg, #ffffff, #dbe9ff);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        font-size: 1.2rem;
-      }
-
-      .start-item-badge img {
-        width: 22px;
-        height: 22px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .start-menu-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        align-items: center;
-        padding: 0 16px;
-        background: linear-gradient(180deg, #0f65dd, #0a4fc6);
-      }
-
-      .footer-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border-radius: 6px;
-        color: #ffffff;
-        font-weight: 700;
-        cursor: pointer;
-        text-decoration: none;
-        background: rgba(255, 255, 255, 0.08);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      }
-
-      .footer-pill::before {
-        content: "";
-        width: 22px;
-        height: 22px;
-        display: block;
-        background: center / contain no-repeat;
-      }
-
-      .footer-pill:first-child::before {
-        background-image: url("assets/icons/logoff.webp");
-      }
-
-      .taskbar {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: var(--taskbar-height);
-        display: flex;
-        align-items: center;
-        gap: 0;
-        padding: 0;
-        background: linear-gradient(
-          180deg,
-          #2f6dd4 0%,
-          #1f56ba 48%,
-          #17439d 100%
-        );
-        border-top: 1px solid #7fb2ff;
-        z-index: 8;
-      }
-
-      .start-button {
-        height: 100%;
-        width: 102px;
-        border: none;
-        padding: 0;
-        background: transparent;
-        cursor: pointer;
-        flex: 0 0 auto;
-      }
-
-      .start-button img {
-        width: 102px;
-        height: 100%;
-        object-fit: fill;
-        display: block;
-      }
-
-      .taskbar-windows {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        min-width: 0;
-        flex: 1;
-        overflow-x: auto;
-        padding: 4px 8px 1px 8px;
-      }
-
-      .taskbar-item {
-        min-width: 128px;
-        max-width: 190px;
-        height: 28px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0 9px;
-        border: 1px solid rgba(6, 28, 72, 0.7);
-        background: linear-gradient(180deg, #4f8eef, #2c63c9);
-        color: #fff;
-        font:
-          700 11px/1 Tahoma,
-          sans-serif;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        cursor: pointer;
-        flex: 0 0 auto;
-        transition:
-          filter 120ms ease,
-          transform 120ms ease;
-      }
-
-      .taskbar-item:hover {
-        filter: brightness(1.05);
-      }
-
-      .taskbar-item.active {
-        background: linear-gradient(180deg, #76aef8, #3e79d7);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      }
-
-      .taskbar-item-icon {
-        width: 14px;
-        height: 14px;
-        flex: 0 0 auto;
-      }
-
-      .taskbar-item-icon img {
-        width: 14px;
-        height: 14px;
-        object-fit: contain;
-        display: block;
-      }
-
-      .clock {
-        min-width: 60px;
-        height: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 8px;
-        color: #fff;
-        font:
-          700 11px/1 Tahoma,
-          sans-serif;
-      }
-
-      .system-tray {
-        position: relative;
-        width: 146px;
-        height: 100%;
-        flex: 0 0 auto;
-      }
-
-      .system-tray-bg {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: fill;
-        display: block;
-        pointer-events: none;
-      }
-
-      .tray-content {
-        position: relative;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 8px 0 16px;
-      }
-
-      .tray-icons {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .tray-icons img {
-        width: 18px;
-        height: 18px;
-        object-fit: contain;
-        display: block;
-      }
-
-      body.dragging,
-      body.dragging * {
-        user-select: none !important;
-      }
-
-      body.dragging .title-bar {
-        cursor: move;
-      }
-
-      /* Small entrance and loading animations used by the desktop. */
-      @keyframes window-open {
-        from {
-          opacity: 0;
-          transform: scale(0.95) translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1) translateY(0);
-        }
-      }
-
-      @keyframes window-close {
-        from {
-          opacity: 1;
-          transform: scale(1);
-        }
-        to {
-          opacity: 0;
-          transform: scale(0.95) translateY(10px);
-        }
-      }
-
-      @keyframes boot-progress {
-        from {
-          left: -22%;
-        }
-        to {
-          left: 100%;
-        }
-      }
-
-      /* Use narrower windows and a single-column layout on tablets. */
-      @media (max-width: 820px) {
-        :root {
-          --icon-size: 48px;
-        }
-
-        .desktop-wallpaper-video {
-          display: block;
-          visibility: visible;
-          opacity: 1;
-          transform: translateZ(0);
-          -webkit-transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-        }
-
-        body {
-          font-size: 15px;
-        }
-
-        .desktop-icons {
-          top: 12px;
-          left: 10px;
-          grid-template-rows: repeat(auto-fit, minmax(88px, 88px));
-          gap: 10px 12px;
-        }
-
-        .desktop-icon {
-          width: 80px;
-          gap: 5px;
-          padding: 5px 3px;
-        }
-
-        .icon-label {
-          font-size: 11px;
-        }
-
-        .window {
-          width: min(82vw, 340px) !important;
-          max-width: calc(100vw - 20px);
-          left: 6px !important;
-        }
-
-        .about-layout,
-        .projects-main,
-
-        .projects-gallery {
-          grid-template-columns: 1fr;
-          gap: 18px;
-        }
-
-        .start-menu {
-          width: min(90vw, 360px);
-          height: min(70dvh, 480px);
-        }
-      }
-
-      /* Keep the taskbar and windows usable on phone-sized screens. */
-      @media (max-width: 640px) {
-        .boot-note {
-          left: 28px;
-          bottom: 38px;
-          font-size: 0.95rem;
-        }
-
-        .boot-footer {
-          right: 28px;
-          bottom: 28px;
-          font-size: 2.3rem;
-        }
-
-        .desktop-icons {
-          top: 10px;
-          left: 8px;
-          grid-template-rows: repeat(auto-fit, minmax(92px, 92px));
-          gap: 10px 12px;
-        }
-
-        .desktop-icon {
-          width: 80px;
-          gap: 6px;
-          padding: 5px 4px;
-        }
-
-        .icon-label {
-          font-size: 11px;
-        }
-
-        .window {
-          min-width: 0;
-          width: calc(100vw - 28px) !important;
-          max-width: calc(100vw - 28px);
-          height: min(calc(100dvh - 80px), 480px) !important;
-          left: 14px !important;
-          border-radius: 7px 7px 0 0;
-        }
-
-        .window-body {
-          padding: 0;
-        }
-
-        .taskbar {
-          gap: 0;
-          padding-right: 0;
-        }
-
-        .start-button {
-          width: 86px;
-        }
-
-        .taskbar-item {
-          min-width: 88px;
-          max-width: 118px;
-          padding: 0 8px;
-        }
-
-        .start-button img {
-          width: 86px;
-        }
-
-        .system-tray {
-          width: 112px;
-        }
-
-        .clock {
-          min-width: 62px;
-          font-size: 11px;
-        }
-
-        .projects-topbar {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 12px;
-        }
-
-        .resume-page {
-          padding: 18px;
-        }
-
-        .resume-page h2 {
-          font-size: 2.6rem;
-        }
-
-        .about-content {
-          padding: 18px;
-        }
-
-        .about-paragraph {
-          grid-template-columns: 1fr;
-          gap: 10px;
-        }
-
-        .start-menu {
-          left: 0;
-          width: min(100vw, 320px);
-          height: min(74dvh, 480px);
-        }
-
-        .login-main {
-          grid-template-columns: 1fr;
-          gap: 24px;
-          padding: 16px 20px;
-        }
-
-        .preloader-divider {
-          display: none;
-        }
-
-        .preloader-avatar {
-          width: 92px;
-          height: 92px;
-          font-size: 3.2rem;
-        }
-
-        .preloader-user {
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .preloader-user-name,
-        .preloader-user-role {
-          text-align: center;
-        }
-
-        .preloader-footer {
-          flex-direction: column;
-          justify-content: center;
-          gap: 14px;
-          padding: 14px 20px 18px;
-          text-align: center;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <!-- Visitors pass through the boot, login, and welcome screens before reaching the portfolio. -->
@@ -2130,7 +104,7 @@
         aria-hidden="true"
       >
         <source
-          src="assets/room/desktop-wallpaper.mp4"
+          src="assets/media/desktop-wallpaper.mp4"
           type="video/mp4"
         />
       </video>
@@ -2211,7 +185,7 @@
           <div>
             <div>Uwase Jolie</div>
             <div style="font-size: 0.9rem; font-weight: 600">
-              Video Editor &amp; Creative Designer
+              Junior Software Engineer / Full-Stack Developer
             </div>
           </div>
         </div>
@@ -2424,49 +398,49 @@
                     ><img
                       src="assets/icons/skill2.webp"
                       alt="Maps and Geolocation" /></span
-                  ><span>Maps and Geolocation</span>
+                  ><span>Vue.js and Responsive Design</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/skill3.webp"
                       alt="NestJS and REST APIs" /></span
-                  ><span>NestJS and REST APIs</span>
+                  ><span>Node.js and REST APIs</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/skill4.webp"
                       alt="Socket.IO and WebSockets" /></span
-                  ><span>Socket.IO and WebSockets</span>
+                  ><span>Java and JUnit</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/skill5.webp"
                       alt="MySQL and TypeORM" /></span
-                  ><span>MySQL and TypeORM</span>
+                  ><span>MySQL and MongoDB</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/skill6.webp"
                       alt="Authentication and JWT" /></span
-                  ><span>Authentication and JWT</span>
+                  ><span>TypeORM and Migrations</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/skill7.webp"
                       alt="Docker Compose" /></span
-                  ><span>Docker Compose</span>
+                  ><span>Docker and Docker Compose</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/skill8.webp"
-                      alt="Flutter Foundations" /></span
-                  ><span>Flutter Foundations</span>
+                      alt="Git, GitHub and Jira" /></span
+                  ><span>Git, GitHub and Jira</span>
                 </div>
               </div>
             </div>
@@ -2477,13 +451,13 @@
                   <span class="sidebar-glyph"
                     ><img
                       src="assets/icons/creative-cloud.webp"
-                      alt="Adobe CC" /></span
-                  ><span>Adobe CC</span>
+                      alt="Postman and MySQL Workbench" /></span
+                  ><span>Postman and MySQL Workbench</span>
                 </div>
                 <div class="sidebar-skill-item">
                   <span class="sidebar-glyph"
                     ><img src="assets/icons/vscode.webp" alt="VS Code" /></span
-                  ><span>VS Code</span>
+                  ><span>Testing, debugging and bug reports</span>
                 </div>
               </div>
             </div>
@@ -2492,15 +466,35 @@
             <h2>About Me</h2>
             <div class="about-paragraph">
               <div class="emoji-avatar">Profile</div>
-              <p>Full-stack developer with 3+ years of professional experience building and supporting internal web applications at Innovations for Poverty Action (IPA), following 3 years in field data collection that gave me first-hand understanding of the users I build for. I work mainly with TypeScript, React, NestJS, MySQL and Docker. I taught myself to code, built a data-collection form that moved me from the field into the software team, and I am now completing a BSc in Software Development while building real-time, full-stack projects.</p>
+              <p>
+                Junior software engineer with three years at Innovations for
+                Poverty Action (IPA), where I worked on a software team doing
+                bug fixes, unit tests and basic Java and MySQL tasks. I taught
+                myself through YouTube lessons and small projects, then moved
+                from field officer to the software team after building a data
+                collection form on my own. I build front-end and back-end
+                projects with React, TypeScript, NestJS and Docker, and I am
+                completing a BSc in Software Development.
+              </p>
             </div>
             <div class="about-paragraph">
               <div class="emoji-avatar">Work</div>
-              <p>I work with Atlas on AI training and take on occasional projects, including building school systems, simple frontend websites, birthday cards, and other creative digital work.</p>
+              <p>
+                As a freelance developer, I build simple systems for local
+                clients, including online wholesale systems for local farmers,
+                scannable restaurant menus and frontend websites. I also
+                completed the Refactory Academy Certificate in Software
+                Engineering with JavaScript.
+              </p>
             </div>
             <div class="about-paragraph">
               <div class="emoji-avatar">Life</div>
-              <p>Outside of coding, I enjoy music, playing piano, and vintage, old-style design. I'm always learning, and I'm naturally curious about new ideas.</p>
+              <p>
+                I speak English and Kiswahili fluently, have intermediate
+                French, and basic Italian. I value patience, creativity,
+                careful data work, clear bug reports and learning new tools
+                independently.
+              </p>
             </div>
           </div>
         </div>
@@ -2508,32 +502,88 @@
       </div>
     </template>
 
-    <!-- Resume window includes the full CV and tabs for its main sections. -->
+    <!-- Resume window keeps one source for the full CV and its section tabs. -->
     <template id="resumeTemplate">
       <div class="explorer-shell">
-        <div class="menu-strip"><span>File</span><span>View</span><span>Help</span></div>
-        <div class="toolbar-strip">
-          <span class="toolbar-button"><img src="assets/icons/projects.webp" alt="" aria-hidden="true" />Zoom</span>
-          <span class="toolbar-button"><img src="assets/icons/resume.webp" alt="" aria-hidden="true" />Download CV</span>
-          <span class="toolbar-button"><img src="assets/icons/go.webp" alt="" aria-hidden="true" />Print</span>
-          <span class="toolbar-button"><img src="assets/icons/contact.webp" alt="" aria-hidden="true" />Contact Me</span>
+        <div class="menu-strip">
+          <span>File</span>
+          <span>View</span>
+          <span>Help</span>
         </div>
+        <div class="toolbar-strip">
+          <span class="toolbar-button">
+            <img src="assets/icons/projects.webp" alt="" aria-hidden="true" />
+            Zoom
+          </span>
+          <span class="toolbar-button">
+            <img src="assets/icons/resume.webp" alt="" aria-hidden="true" />
+            Download CV
+          </span>
+          <span class="toolbar-button">
+            <img src="assets/icons/go.webp" alt="" aria-hidden="true" />
+            Print
+          </span>
+          <span class="toolbar-button">
+            <img src="assets/icons/contact.webp" alt="" aria-hidden="true" />
+            Contact Me
+          </span>
+        </div>
+
         <div class="resume-viewer">
           <div class="resume-page">
             <div class="resume-app">
               <aside class="resume-app-sidebar">
-                <div class="resume-avatar" aria-hidden="true"><svg viewBox="0 0 100 100" role="presentation"><circle cx="50" cy="50" r="48" fill="#FFF0F5"/><path d="M20 40Q15 75 35 90A45 45 0 0 0 65 90Q85 75 80 40Z" fill="#6B46C1" opacity=".85"/><ellipse cx="50" cy="48" rx="24" ry="22" fill="#FFE4E1"/><ellipse cx="40" cy="46" rx="4" ry="6" fill="#4C1D95"/><ellipse cx="60" cy="46" rx="4" ry="6" fill="#4C1D95"/><circle cx="41" cy="44" r="1.5" fill="#fff"/><circle cx="61" cy="44" r="1.5" fill="#fff"/><ellipse cx="35" cy="52" rx="4" ry="2" fill="#FF85A2" opacity=".6"/><ellipse cx="65" cy="52" rx="4" ry="2" fill="#FF85A2" opacity=".6"/><path d="M46 54Q50 58 54 54" stroke="#6B46C1" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M26 40Q38 25 50 38Q62 25 74 40Q50 30 26 40Z" fill="#7C3AED"/><path d="M24 32Q18 28 22 22Q28 26 24 32ZM76 32Q82 28 78 22Q72 26 76 32Z" fill="#FF85A2"/></svg><span>&#127872;</span></div>
+                <div class="resume-avatar" aria-hidden="true">
+                  <svg viewBox="0 0 100 100" role="presentation">
+                    <circle cx="50" cy="50" r="48" fill="#FFF0F5" />
+                    <path d="M20 40Q15 75 35 90A45 45 0 0 0 65 90Q85 75 80 40Z" fill="#6B46C1" opacity=".85" />
+                    <ellipse cx="50" cy="48" rx="24" ry="22" fill="#FFE4E1" />
+                    <ellipse cx="40" cy="46" rx="4" ry="6" fill="#4C1D95" />
+                    <ellipse cx="60" cy="46" rx="4" ry="6" fill="#4C1D95" />
+                    <circle cx="41" cy="44" r="1.5" fill="#fff" />
+                    <circle cx="61" cy="44" r="1.5" fill="#fff" />
+                    <ellipse cx="35" cy="52" rx="4" ry="2" fill="#FF85A2" opacity=".6" />
+                    <ellipse cx="65" cy="52" rx="4" ry="2" fill="#FF85A2" opacity=".6" />
+                    <path d="M46 54Q50 58 54 54" stroke="#6B46C1" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                    <path d="M26 40Q38 25 50 38Q62 25 74 40Q50 30 26 40Z" fill="#7C3AED" />
+                    <path d="M24 32Q18 28 22 22Q28 26 24 32ZM76 32Q82 28 78 22Q72 26 76 32Z" fill="#FF85A2" />
+                  </svg>
+                  <span>&#127872;</span>
+                </div>
                 <h1>Uwase Jolie <span>&#127800;</span></h1>
-                <p class="resume-role">Full-Stack Software Developer</p>
+                <p class="resume-role">Junior Software Engineer / Full-Stack Developer</p>
+
                 <nav class="resume-nav" aria-label="Resume sections">
-                  <button class="resume-tab is-active" type="button" data-resume-tab="all"><span>&#10024; Full Resume</span><span>&#128196;</span></button>
-                  <button class="resume-tab" type="button" data-resume-tab="about"><span>&#127872; Professional Summary</span><span>&#128156;</span></button>
-                  <button class="resume-tab" type="button" data-resume-tab="skills"><span>&#11088; Tech Skills</span><span>&#128187;</span></button>
-                  <button class="resume-tab" type="button" data-resume-tab="projects"><span>&#128722; Projects</span><span>&#127912;</span></button>
-                  <button class="resume-tab" type="button" data-resume-tab="experience"><span>&#127800; Work History</span><span>&#128188;</span></button>
-                  <button class="resume-tab" type="button" data-resume-tab="education"><span>&#127891; Education</span><span>&#128218;</span></button>
-                  <button class="resume-tab" type="button" data-resume-tab="contact"><span>&#128156; Contact Me</span><span>&#128236;</span></button>
+                  <button class="resume-tab is-active" type="button" data-resume-tab="all">
+                    <span>&#10024; Full Resume</span>
+                    <span>&#128196;</span>
+                  </button>
+                  <button class="resume-tab" type="button" data-resume-tab="about">
+                    <span>&#127872; Professional Summary</span>
+                    <span>&#128156;</span>
+                  </button>
+                  <button class="resume-tab" type="button" data-resume-tab="skills">
+                    <span>&#11088; Tech Skills</span>
+                    <span>&#128187;</span>
+                  </button>
+                  <button class="resume-tab" type="button" data-resume-tab="projects">
+                    <span>&#128722; Projects</span>
+                    <span>&#127912;</span>
+                  </button>
+                  <button class="resume-tab" type="button" data-resume-tab="experience">
+                    <span>&#127800; Work History</span>
+                    <span>&#128188;</span>
+                  </button>
+                  <button class="resume-tab" type="button" data-resume-tab="education">
+                    <span>&#127891; Education</span>
+                    <span>&#128218;</span>
+                  </button>
+                  <button class="resume-tab" type="button" data-resume-tab="contact">
+                    <span>&#128156; Contact Me</span>
+                    <span>&#128236;</span>
+                  </button>
                 </nav>
+
                 <section class="resume-language-card" aria-label="Languages">
                   <h2>Languages</h2>
                   <div class="resume-language-list">
@@ -2544,69 +594,129 @@
                   </div>
                 </section>
               </aside>
+
               <main class="resume-app-content">
                 <article class="resume-document" data-resume-document>
                   <header class="resume-document-header">
                     <h1>UWASE JOLIE</h1>
-                    <p class="resume-document-role">Full-Stack Software Developer</p>
-                    <div class="resume-document-contact">
-                      <span><span aria-hidden="true">📍</span>Kampala, Uganda</span>
-                      <span><span aria-hidden="true">📞</span>+256 786 708 331</span>
-                      <a href="mailto:ujolie735@gmail.com"><span aria-hidden="true">✉</span>ujolie735@gmail.com</a>
-                      <a href="https://github.com/jolie2000" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🔗</span>GitHub</a>
-                      <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🌐</span>Portfolio</a>
-                      <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🔗</span>LinkedIn</a>
+                    <p class="resume-document-role">Junior Software Engineer / Full-Stack Developer</p>
+                    <div class="resume-document-contact" data-resume-section="contact">
+                      <span><span aria-hidden="true">&#128205;</span> Kampala, Uganda</span>
+                      <span><span aria-hidden="true">&#128222;</span> +256 786 708 331</span>
+                      <a href="mailto:ujolie735@gmail.com"><span aria-hidden="true">&#9993;</span> ujolie735@gmail.com</a>
+                      <a href="https://github.com/jolie2000" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128279;</span> GitHub</a>
+                      <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#127760;</span> Portfolio</a>
+                      <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">&#128279;</span> LinkedIn</a>
                     </div>
                   </header>
-                  <section>
+
+                  <section data-resume-section="about">
                     <h2>Professional Summary</h2>
-                    <p>Full-stack developer with 3+ years of professional experience building and supporting internal web applications at Innovations for Poverty Action (IPA), following 3 years in field data collection that gave me first-hand understanding of the users I build for. I work mainly with TypeScript, React, NestJS, MySQL and Docker. I taught myself to code, built a data-collection form that moved me from the field into the software team, and I am now completing a BSc in Software Development while building real-time, full-stack projects.</p>
+                    <p>
+                      Junior software engineer with three years at Innovations
+                      for Poverty Action (IPA), where I worked on a software
+                      team doing bug fixes, unit tests and basic Java and MySQL
+                      tasks. I have always been curious about coding and
+                      started teaching myself through YouTube lessons and
+                      small projects. I joined IPA as a field officer, built a
+                      data collection form on my own, and was moved into the
+                      Junior software team because of it. Outside work I build
+                      front and backend projects with React, TypeScript,
+                      NestJS and Docker, and I am completing a BSc in Software
+                      Development.
+                    </p>
                   </section>
-                  <section>
+
+                  <section data-resume-section="experience">
                     <h2>Work Experience</h2>
+                    <h3>Freelance Developer</h3>
+                    <p class="resume-document-meta">Self-employed - Kampala, Uganda | 2026 - Present</p>
+                    <ul>
+                      <li>Build simple systems for local clients, including online wholesale systems for local farmers, scannable restaurant menus and frontend websites.</li>
+                      <li>Study software development alongside client work and completed the Refactory Academy certificate.</li>
+                    </ul>
                     <h3>Junior Software Engineer</h3>
                     <p class="resume-document-meta">Innovations for Poverty Action (IPA) - Kampala, Uganda | 2022 - 2025</p>
                     <ul>
-                      <li>Developed and tested features for internal web applications that support field operations and research data workflows, working alongside the core engineering team.</li>
-                      <li>Delivered feature enhancements based on operational needs raised by field and technical staff.</li>
-                      <li>Investigated system issues, diagnosed root causes, and documented technical findings and resolution procedures for the team.</li>
-                      <li>Followed Git-based workflows, code review and structured testing practices.</li>
+                      <li>Worked on small tasks within larger projects as part of the software team.</li>
+                      <li>Added input validation and exception handling to Java backend code so the application could handle unexpected form data without crashing.</li>
+                      <li>Wrote basic SQL queries and joins in MySQL Workbench to retrieve related data without changing existing tables or stored data.</li>
+                      <li>Wrote JUnit unit tests and used Mockito to mock external services, helping improve coverage and find problems earlier.</li>
+                      <li>Investigated bugs, documented them in Jira tickets and tested fixes before the end of each sprint.</li>
                     </ul>
                     <h3>Field Officer - Data Collection</h3>
                     <p class="resume-document-meta">Innovations for Poverty Action (IPA) - Kampala, Uganda | 2019 - 2022</p>
                     <ul>
                       <li>Conducted structured interviews and collected research data in the field, following strict data-collection protocols.</li>
                       <li>Coordinated with field teams to review submissions for completeness and data accuracy.</li>
-                      <li>Built an application form with HTML and JavaScript on my own initiative, which led to my move into the software team.</li>
+                      <li>Taught myself HTML and JavaScript and built an application form on my own initiative, which led to my move into the software team.</li>
                     </ul>
                   </section>
-                  <section>
+
+                  <section data-resume-section="skills">
                     <h2>Technical Skills</h2>
                     <ul class="resume-document-columns">
-                      <li><strong>Frontend:</strong> React, TypeScript, JavaScript, HTML5, CSS3, MapLibre</li>
-                      <li><strong>Backend and Data:</strong> NestJS, REST APIs, MySQL, TypeORM (entities and migrations), SQL, JWT authentication, Socket.IO</li>
-                      <li><strong>Tools and Delivery:</strong> Docker Compose, Git and GitHub, Postman, software testing and bug reporting</li>
+                      <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript, TypeScript, React.js, Vue.js, responsive web design</li>
+                      <li><strong>Backend:</strong> Java (basic), Node.js, Express.js, NestJS, REST APIs, JWT authentication, Socket.IO</li>
+                      <li><strong>Databases:</strong> MySQL and SQL (basic queries and joins), MongoDB, TypeORM (entities and migrations)</li>
+                      <li><strong>Testing:</strong> JUnit, Mockito, unit testing, API testing and debugging</li>
+                      <li><strong>Tools:</strong> Git, GitHub, Docker, Docker Compose, Jira, Postman and MySQL Workbench</li>
                     </ul>
                   </section>
-                  <section>
+
+                  <section data-resume-section="projects">
                     <h2>Projects</h2>
-                    <p>Personal projects (built independently of my work at IPA)</p>
-                    <h3>SafeHome - Real-Time Safety Check-in Platform</h3>
-                    <p class="resume-document-meta">Stack: NestJS, React, TypeScript, MapLibre, Socket.IO, MySQL, TypeORM, Docker Compose, Flutter</p>
+                    <h3>SafeHome - Property Showing Management System</h3>
+                    <p class="resume-document-links">
+                      <a href="https://github.com/jolie2000/safehome" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    </p>
+                    <p class="resume-document-meta">React, TypeScript, NestJS, MySQL, TypeORM, Docker Compose, JWT, Socket.IO, MapLibre</p>
                     <ul>
-                      <li>Built a full-stack prototype that lets real-estate agents share live showing check-ins with their team, with active, overdue and safe status tracking.</li>
-                      <li>Developed a React dashboard with MapLibre maps and Socket.IO live updates; designed a NestJS REST API with MySQL/TypeORM, JWT authentication, rotating refresh sessions, DTO validation and migrations.</li>
-                      <li>Containerised the environment with Docker Compose and prototyped Flutter GPS check-in flows.</li>
+                      <li>Tracks property showings and agent check-ins as active, overdue or safe.</li>
+                      <li>Built the React dashboard with a live map and the NestJS REST API with JWT authentication, validation and migrations.</li>
                     </ul>
-                    <h3>Personal Portfolio</h3>
-                    <p>Responsive portfolio site built with HTML, CSS and JavaScript, hosted on GitHub Pages, showcasing my projects, skills and contact details.</p>
+                    <h3>KGL Application - Vue.js frontend and Node.js backend</h3>
+                    <p class="resume-document-links">
+                      <a href="https://github.com/jolie2000/kgl-front" target="_blank" rel="noopener noreferrer">Frontend</a>
+                      <a href="https://github.com/jolie2000/kgl-back" target="_blank" rel="noopener noreferrer">Backend</a>
+                      <a href="https://github.com/jolie2000/KGL-API" target="_blank" rel="noopener noreferrer">API</a>
+                    </p>
+                    <p class="resume-document-meta">Vue.js, JavaScript, Node.js, REST APIs</p>
+                    <p>Vue.js interface connected to the backend through a REST API, with authentication, business logic and data handling. Frontend, backend and API are in separate repositories.</p>
+                    <h3>FCA Registration Form - Beneficiary Registration System</h3>
+                    <p class="resume-document-links">
+                      <a href="https://github.com/jolie2000/FCA-Registration-Form" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    </p>
+                    <p class="resume-document-meta">HTML, CSS, JavaScript, Node.js, MongoDB</p>
+                    <p>
+                      Registration form for a refugee support programme, built
+                      from an assessment brief. Validates input in the browser
+                      and on the server, and saves registrations to MongoDB
+                      through a REST API.
+                    </p>
+                    <h3>Velvet Thread - Fashion Store Website</h3>
+                    <p class="resume-document-links">
+                      <a href="https://github.com/jolie2000/Velvet-Thread" target="_blank" rel="noopener noreferrer">GitHub</a>
+                      <a href="https://jolie2000.github.io/Velvet-Thread/" target="_blank" rel="noopener noreferrer">Live Site</a>
+                    </p>
+                    <p class="resume-document-meta">HTML, CSS, JavaScript</p>
+                    <p>Responsive online store layout with product sections and JavaScript for interactive features.</p>
+                    <h3>Portfolio XP - Developer Portfolio</h3>
+                    <p class="resume-document-links">
+                      <a href="https://github.com/jolie2000/portfolio-xp" target="_blank" rel="noopener noreferrer">GitHub</a>
+                      <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer">Live Site</a>
+                    </p>
+                    <p class="resume-document-meta">HTML, CSS, JavaScript, GitHub Pages</p>
+                    <p>Personal portfolio styled like a Windows XP desktop, with sections for projects and skills.</p>
                   </section>
-                  <section>
+
+                  <section data-resume-section="education">
                     <h2>Education</h2>
-                    <p><strong>Bachelor's Degree in Software Development</strong> - Online Program | 2024 - Expected 2027 (in progress) | Rexburg, Idaho, USA</p>
+                    <p><strong>Bachelor's Degree in Software Development</strong> - BYU-Idaho Online Program | 2024 - Expected 2027 (in progress) | Rexburg, Idaho, USA</p>
                     <p><strong>Secondary Education</strong> - Bujubuli Secondary School, Uganda | Completed 2019</p>
                   </section>
-                  <section>
+
+                  <section data-resume-section="education">
                     <h2>Certificates</h2>
                     <ul>
                       <li>Certificate in Software Engineering with JavaScript - Refactory Academy 2026</li>
@@ -2615,42 +725,13 @@
                     </ul>
                   </section>
                 </article>
-                <section id="section-about" hidden class="resume-section stationery-card resume-card resume-card-pink">
-                  <div class="resume-card-heading"><h2>&#127872; Professional Summary</h2><span>Summary &#10024;</span></div>
-                  <p>Full-stack developer with 3+ years of professional experience building and supporting internal web applications at Innovations for Poverty Action (IPA), following 3 years in field data collection that gave me first-hand understanding of the users I build for. I work mainly with TypeScript, React, NestJS, MySQL and Docker. I taught myself to code, built a data-collection form that moved me from the field into the software team, and I am now completing a BSc in Software Development while building real-time, full-stack projects.</p>
-                </section>
-                <section id="section-skills" hidden class="resume-section stationery-card resume-card resume-card-purple">
-                  <div class="resume-card-heading"><h2>&#11088; Technical Skills</h2><span>Skills &amp; Strengths &#10024;</span></div>
-                  <div class="resume-skill-grid">
-                    <article class="resume-skill-card skill-pink"><h3>&#127912; Frontend</h3><div class="resume-chips"><span>React</span><span>TypeScript</span><span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>MapLibre</span></div></article>
-                    <article class="resume-skill-card skill-purple"><h3>&#128295; Backend and Data</h3><div class="resume-chips"><span>NestJS</span><span>REST APIs</span><span>MySQL</span><span>TypeORM</span><span>Entities and Migrations</span><span>SQL</span><span>JWT Authentication</span><span>Socket.IO</span></div></article>
-                    <article class="resume-skill-card skill-blue"><h3>&#128269; Tools and Delivery</h3><div class="resume-chips"><span>Docker Compose</span><span>Git and GitHub</span><span>Postman</span><span>Software Testing</span><span>Bug Reporting</span></div></article>
+
+                <section id="resumeSectionView" hidden class="resume-section stationery-card resume-card resume-card-pink">
+                  <div class="resume-card-heading">
+                    <h2 data-resume-section-title></h2>
+                    <span>Resume section</span>
                   </div>
-                </section>
-                <section id="section-projects" hidden class="resume-section stationery-card resume-card resume-card-pink">
-                  <div class="resume-card-heading"><h2>&#128722; Projects</h2><span>Portfolio Highlights &#10024;</span></div>
-                  <div class="resume-project-list">
-                    <p>Personal projects (built independently of my work at IPA)</p>
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>SafeHome - Real-Time Safety Check-in Platform</h3><p>NestJS, React, TypeScript, MapLibre, Socket.IO, MySQL, TypeORM, Docker Compose, Flutter</p></div></div><ul><li>Built a full-stack prototype that lets real-estate agents share live showing check-ins with their team, with active, overdue and safe status tracking.</li><li>Developed a React dashboard with MapLibre maps and Socket.IO live updates; designed a NestJS REST API with MySQL/TypeORM, JWT authentication, rotating refresh sessions, DTO validation and migrations.</li><li>Containerised the environment with Docker Compose and prototyped Flutter GPS check-in flows.</li></ul></article>
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Personal Portfolio</h3><p>Live demo | GitHub</p></div></div><ul><li>Responsive portfolio site built with HTML, CSS and JavaScript, hosted on GitHub Pages, showcasing my projects, skills and contact details.</li></ul></article>
-                  </div>
-                </section>
-                <section id="section-experience" hidden class="resume-section stationery-card resume-card resume-card-purple">
-                  <div class="resume-card-heading"><h2>&#128188; Work Experience</h2><span>Experience &#127800;</span></div>
-                  <div class="resume-project-list">
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Junior Software Engineer</h3><p>Innovations for Poverty Action (IPA) - Kampala, Uganda</p></div><span>2022 - 2025</span></div><ul><li>Developed and tested features for internal web applications that support field operations and research data workflows, working alongside the core engineering team.</li><li>Delivered feature enhancements based on operational needs raised by field and technical staff.</li><li>Investigated system issues, diagnosed root causes, and documented technical findings and resolution procedures for the team.</li><li>Followed Git-based workflows, code review and structured testing practices.</li></ul></article>
-                    <article class="resume-project"><div class="resume-project-heading"><div><h3>Field Officer - Data Collection</h3><p>Innovations for Poverty Action (IPA) - Kampala, Uganda</p></div><span>2019 - 2022</span></div><ul><li>Conducted structured interviews and collected research data in the field, following strict data-collection protocols.</li><li>Coordinated with field teams to review submissions for completeness and data accuracy.</li><li>Built an application form with HTML and JavaScript on my own initiative, which led to my move into the software team.</li></ul></article>
-                  </div>
-                </section>
-                <section id="section-education" hidden class="resume-section stationery-card resume-card resume-card-amber">
-                  <div class="resume-card-heading"><h2>&#127891; Education</h2><span>Academic Path &#128218;</span></div>
-                  <div class="resume-education-grid"><article><h3>Bachelor's Degree in Software Development</h3><p>Online Program | Rexburg, Idaho, USA</p><span>2024 - Expected 2027 (in progress)</span></article><article><h3>Secondary Education</h3><p>Bujubuli Secondary School - Uganda</p><span>Completed 2019</span></article></div>
-                  <div class="resume-card-heading"><h2>Certificates</h2></div>
-                  <div class="resume-project-list"><article class="resume-project"><ul><li>Certificate in Software Engineering with JavaScript - Refactory Academy - 2026</li><li>Certificate in Graphic Design - Kampala Institute - 2023</li><li>Certificate in Web Development - BYU-Idaho - 2020 - 2021</li></ul></article></div>
-                </section>
-                <section id="section-contact" hidden class="resume-section stationery-card resume-card resume-card-pink">
-                  <div class="resume-card-heading"><h2>&#128156; Contact</h2><span>Get In Touch &#10024;</span></div>
-                  <div class="resume-contact-card"><div>&#128205; <strong>Location:</strong> Kampala, Uganda</div><div>&#9993; <strong>Email:</strong> <a href="mailto:ujolie735@gmail.com">ujolie735@gmail.com</a></div><div>&#128222; <strong>Phone:</strong> +256 786 708 331</div><div>&#127760; <strong>Portfolio:</strong> <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noopener noreferrer">Portfolio Website</a></div><div>&#128279; <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/jolie-uwase-b781543b9" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a></div><div>&#128279; <strong>GitHub:</strong> <a href="https://github.com/jolie2000" target="_blank" rel="noopener noreferrer">GitHub Profile</a></div></div>
+                  <div class="resume-section-content" data-resume-section-content></div>
                 </section>
               </main>
             </div>
@@ -2739,9 +820,7 @@
           <div class="projects-main">
             <aside class="projects-nav">
               <a href="#" class="is-active" data-filter="all">All</a>
-              <a href="#" data-filter="design">Image</a>
               <a href="#" data-filter="web">Web</a>
-              <a href="#" data-filter="video">Video</a>
               <a href="#" data-filter="concept">Personal</a>
             </aside>
             <div class="projects-gallery">
@@ -2754,38 +833,35 @@
                     rel="noreferrer"
                     aria-label="Open the Velvet & Thread website"
                   ><img
-                    src="images/velvet-thread-homepage.png"
+                    src="assets/images/velvet-thread-homepage.png"
                     alt="Velvet & Thread storefront homepage"
                   /></a>
                   <img
-                    src="images/velvet-thread-products.png"
+                    src="assets/images/velvet-thread-products.png"
                     alt="Velvet & Thread curated winter products"
                   />
                   <img
-                    src="images/velvet-thread-story.png"
+                    src="assets/images/velvet-thread-story.png"
                     alt="Velvet & Thread artisan story section"
                   />
                 </div>
                 <div class="project-shot-meta">
                   <span>Web Design</span>
-                  <a
-                    href="https://jolie2000.github.io/Velvet-Thread/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >Live Website</a>
+                  <div class="project-shot-links">
+                    <a href="https://github.com/jolie2000/Velvet-Thread" target="_blank" rel="noreferrer">GitHub</a>
+                    <a href="https://jolie2000.github.io/Velvet-Thread/" target="_blank" rel="noreferrer">Live Site</a>
+                  </div>
                 </div>
-                <h3>Velvet &amp; Thread</h3>
+                <h3>Velvet Thread - Fashion Store Website</h3>
                 <p>
-                  A refined storefront for ethically sourced cold-weather
-                  accessories, featuring a curated product collection and an
-                  artisan brand story.
+                  Responsive online fashion store layout with product sections
+                  and JavaScript for interactive features.
                 </p>
                 <div class="project-shot-details">
                   <div>
                     <div class="project-shot-label">Project Work</div>
                     <div class="project-shot-value">
-                      E-commerce storefront design, product presentation, and
-                      responsive brand storytelling.
+                      Responsive web layout and interactive product sections.
                     </div>
                   </div>
                   <div class="project-shot-tags">
@@ -2795,42 +871,141 @@
                   </div>
                 </div>
               </article>
-              <article class="project-shot" data-category="video">
-                <video
-                  controls
-                  playsinline
-                  preload="metadata"
-                  style="
-                    width: 100%;
-                    border-radius: 18px;
-                    border: 1px solid rgba(255, 255, 255, 0.65);
-                    background: #000;
-                  "
-                >
-                  <source src="assets/projects/event-planning.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-                <div class="project-shot-meta">
-                  <span>Video</span>
-                  <span>Event Planning</span>
+              <article class="project-shot" data-category="web">
+                <div class="project-shot-screens" aria-label="SafeHome screenshots">
+                  <a href="assets/images/projects/safehome/safehome-login.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/safehome/safehome-login.png" alt="SafeHome sign in screen" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/safehome/safehome-dispatch.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/safehome/safehome-dispatch.png" alt="SafeHome live dispatch dashboard with team map and check-in" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/safehome/safehome-map-detail.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/safehome/safehome-map-detail.png" alt="SafeHome dispatch map and active check-in details" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/safehome/safehome-multiple-checkins.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/safehome/safehome-multiple-checkins.png" alt="SafeHome dashboard with active and safe team check-ins" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/safehome/safehome-checkins-safe.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/safehome/safehome-checkins-safe.png" alt="SafeHome dashboard showing updated safe statuses" loading="lazy" decoding="async" /></a>
                 </div>
-                <h3>Event Planning Promo Reel</h3>
+                <div class="project-shot-meta">
+                  <span>Full-Stack Web App</span>
+                  <div class="project-shot-links">
+                    <a href="https://github.com/jolie2000/safehome" target="_blank" rel="noreferrer">GitHub</a>
+                  </div>
+                </div>
+                <h3>SafeHome - Property Showing Management System</h3>
                 <p>
-                  Short promo video showcasing event planning highlights,
-                  editing, and motion graphics.
+                  Tracks property showings and agent check-ins as active,
+                  overdue or safe. The React dashboard includes a live map,
+                  backed by a NestJS REST API.
                 </p>
                 <div class="project-shot-details">
                   <div>
-                    <div class="project-shot-label">Project Work</div>
+                    <div class="project-shot-label">Built with</div>
                     <div class="project-shot-value">
-                      Storyboarding, video editing, motion graphics, soundtrack
-                      timing, and export for social.
+                      React, TypeScript, NestJS, MySQL, TypeORM, Docker Compose,
+                      JWT, Socket.IO and MapLibre.
                     </div>
                   </div>
                   <div class="project-shot-tags">
-                    <span>Premiere Pro</span>
-                    <span>After Effects</span>
-                    <span>Video</span>
+                    <span>React</span>
+                    <span>NestJS</span>
+                    <span>MySQL</span>
+                  </div>
+                </div>
+              </article>
+              <article class="project-shot" data-category="web">
+                <div class="project-shot-screens" aria-label="Karibu Groceries screenshots">
+                  <a href="assets/images/projects/kgl/kgl-login.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/kgl/kgl-login.png" alt="Karibu Groceries sign in screen" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/kgl/kgl-credit-sales.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/kgl/kgl-credit-sales.png" alt="KGL sales agent credit sale form and sales table, with buyer contact details masked" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/kgl/kgl-director-sales.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/kgl/kgl-director-sales.png" alt="KGL director dashboard showing branch sales and credit totals" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/kgl/kgl-reports.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/kgl/kgl-reports.png" alt="KGL director reports with revenue, procurement cost, and net position" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/kgl/kgl-stock-procurement.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/kgl/kgl-stock-procurement.png" alt="KGL manager stock and procurement table, with dealer contact details masked" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/kgl/kgl-stock-notifications.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/kgl/kgl-stock-notifications.png" alt="KGL manager stock notification list" loading="lazy" decoding="async" /></a>
+                </div>
+                <div class="project-shot-meta">
+                  <span>Full-Stack Web App</span>
+                  <div class="project-shot-links">
+                    <a href="https://github.com/jolie2000/kgl-front" target="_blank" rel="noreferrer">Frontend GitHub</a>
+                    <a href="https://github.com/jolie2000/kgl-back" target="_blank" rel="noreferrer">Backend GitHub</a>
+                    <a href="https://github.com/jolie2000/KGL-API" target="_blank" rel="noreferrer">API GitHub</a>
+                  </div>
+                </div>
+                <h3>KGL Application</h3>
+                <p>
+                  Vue.js interface connected to a Node.js backend through a
+                  REST API, with authentication, business logic and data
+                  handling. Frontend, backend and API are in separate
+                  repositories.
+                </p>
+                <div class="project-shot-details">
+                  <div>
+                    <div class="project-shot-label">Built with</div>
+                    <div class="project-shot-value">
+                      Vue.js, JavaScript, Node.js and REST APIs.
+                    </div>
+                  </div>
+                  <div class="project-shot-tags">
+                    <span>Vue.js</span>
+                    <span>Node.js</span>
+                    <span>REST API</span>
+                  </div>
+                </div>
+              </article>
+              <article class="project-shot" data-category="web">
+                <div class="project-shot-screens" aria-label="FCA registration system screenshots">
+                  <a href="assets/images/projects/fca/fca-welcome.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/fca/fca-welcome.png" alt="FCA Refugee Support Program welcome screen" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/fca/fca-registration-form.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/fca/fca-registration-form.png" alt="FCA beneficiary registration form" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/fca/fca-nationality-dropdown.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/fca/fca-nationality-dropdown.png" alt="FCA form nationality selector expanded" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/fca/fca-registration-success.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/fca/fca-registration-success.png" alt="FCA successful registration confirmation" loading="lazy" decoding="async" /></a>
+                </div>
+                <div class="project-shot-meta">
+                  <span>Web Application</span>
+                  <div class="project-shot-links">
+                    <a href="https://github.com/jolie2000/FCA-Registration-Form" target="_blank" rel="noreferrer">GitHub</a>
+                  </div>
+                </div>
+                <h3>FCA Registration Form</h3>
+                <p>
+                  Beneficiary registration system for a refugee support
+                  programme, built from an assessment brief. It validates
+                  input in the browser and on the server, then saves
+                  registrations to MongoDB through a REST API.
+                </p>
+                <div class="project-shot-details">
+                  <div>
+                    <div class="project-shot-label">Built with</div>
+                    <div class="project-shot-value">
+                      HTML, CSS, JavaScript, Node.js and MongoDB.
+                    </div>
+                  </div>
+                  <div class="project-shot-tags">
+                    <span>Forms</span>
+                    <span>Node.js</span>
+                    <span>MongoDB</span>
+                  </div>
+                </div>
+              </article>
+              <article class="project-shot" data-category="concept">
+                <div class="project-shot-screens" aria-label="Portfolio XP screenshots">
+                  <a href="assets/images/projects/portfolio-xp/portfolio-about.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/portfolio-xp/portfolio-about.png" alt="Portfolio XP desktop with the About Me window open" loading="lazy" decoding="async" /></a>
+                  <a href="assets/images/projects/portfolio-xp/portfolio-resume.png" target="_blank" rel="noreferrer"><img src="assets/images/projects/portfolio-xp/portfolio-resume.png" alt="Portfolio XP desktop with the resume window open" loading="lazy" decoding="async" /></a>
+                </div>
+                <div class="project-shot-meta">
+                  <span>Personal Portfolio</span>
+                  <div class="project-shot-links">
+                    <a href="https://jolie2000.github.io/portfolio-xp/" target="_blank" rel="noreferrer">Live Site</a>
+                    <a href="https://github.com/jolie2000/portfolio-xp" target="_blank" rel="noreferrer">GitHub</a>
+                  </div>
+                </div>
+                <h3>Portfolio XP - Developer Portfolio</h3>
+                <p>
+                  Personal portfolio styled like a Windows XP desktop, with
+                  sections for projects and skills.
+                </p>
+                <div class="project-shot-details">
+                  <div>
+                    <div class="project-shot-label">Built with</div>
+                    <div class="project-shot-value">
+                      HTML, CSS, JavaScript and GitHub Pages.
+                    </div>
+                  </div>
+                  <div class="project-shot-tags">
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>JavaScript</span>
                   </div>
                 </div>
               </article>
@@ -2893,885 +1068,6 @@
     </template>
 
     <!-- Page behavior: sounds, screen flow, app windows, and user interactions. -->
-    <script>
-      // Grab the page pieces that JavaScript updates after the initial render.
-      const preloader = document.getElementById("preloader");
-      const bootScreen = document.getElementById("bootScreen");
-      const loginScreen = document.getElementById("loginScreen");
-      const welcomeScreen = document.getElementById("welcomeScreen");
-      const preloaderUser = document.getElementById("preloaderUser");
-      const desktop = document.getElementById("desktop");
-      const wallpaperVideo = document.querySelector(".desktop-wallpaper-video");
-      const startMenu = document.getElementById("startMenu");
-      const startButton = document.getElementById("startButton");
-      const footerPills = Array.from(document.querySelectorAll(".footer-pill"));
-      const loginRestartButton = document.querySelector(
-        ".preloader-footer-left",
-      );
-      const windowLayer = document.getElementById("windowLayer");
-      const taskbarWindows = document.getElementById("taskbarWindows");
-      const clock = document.getElementById("clock");
-      const icons = Array.from(document.querySelectorAll(".desktop-icon"));
-      const startMenuLinks = Array.from(
-        document.querySelectorAll("[data-window-open]"),
-      );
-      const trayRestartButton = document.querySelector(
-        '.tray-icons img[src*="restart.webp"]',
-      );
-      // AudioContext is optional; the portfolio still works if the browser has no audio support.
-      const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
-      let audioCtx = null;
-      let preloaderFinished = false;
-
-      // The XP-style login and logout sounds use Web Audio instead of extra sound files.
-      // Create the sound context only when a visitor triggers a system sound.
-      function getAudioContext() {
-        if (!AudioContextClass) {
-          return null;
-        }
-
-        if (!audioCtx) {
-          audioCtx = new AudioContextClass();
-        }
-
-        return audioCtx;
-      }
-
-      // Play a short sequence of notes for login and shutdown feedback.
-      async function playSystemChime(
-        notes,
-        waveType,
-        noteSpacing,
-        peakVolume,
-        noteLength,
-      ) {
-        const context = getAudioContext();
-        if (!context) {
-          return;
-        }
-
-        if (context.state === "suspended") {
-          try {
-            await context.resume();
-          } catch (error) {
-            return;
-          }
-        }
-
-        notes.forEach((frequency, index) => {
-          const startTime = context.currentTime + index * noteSpacing;
-          const oscillator = context.createOscillator();
-          const gain = context.createGain();
-
-          oscillator.type = waveType;
-          oscillator.frequency.setValueAtTime(frequency, startTime);
-          gain.gain.setValueAtTime(0, startTime);
-          gain.gain.linearRampToValueAtTime(peakVolume, startTime + 0.05);
-          gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            startTime + noteLength,
-          );
-          oscillator.connect(gain);
-          gain.connect(context.destination);
-          oscillator.start(startTime);
-          oscillator.stop(startTime + noteLength);
-        });
-
-        await new Promise((resolve) => {
-          window.setTimeout(
-            resolve,
-            ((notes.length - 1) * noteSpacing + noteLength) * 1000,
-          );
-        });
-      }
-
-      // Login and logout use different notes from the same small sound helper.
-      function playLoginSound() {
-        return playSystemChime(
-          [523.25, 659.25, 783.99, 1046.5],
-          "sine",
-          0.12,
-          0.18,
-          0.6,
-        );
-      }
-
-      function playLogoutSound() {
-        playSystemChime(
-          [783.99, 659.25, 523.25],
-          "triangle",
-          0.18,
-          0.15,
-          0.7,
-        );
-      }
-
-      // Try to resume the wallpaper after a browser pauses background video.
-      function playWallpaperVideo() {
-        if (!wallpaperVideo || document.visibilityState === "hidden") {
-          return;
-        }
-
-        wallpaperVideo.muted = true;
-        wallpaperVideo.defaultMuted = true;
-        wallpaperVideo.playsInline = true;
-        wallpaperVideo.controls = false;
-        wallpaperVideo.removeAttribute("controls");
-
-        if (!wallpaperVideo.dataset.mobilePlaybackRetry) {
-          wallpaperVideo.dataset.mobilePlaybackRetry = "true";
-          wallpaperVideo.addEventListener("canplay", () => {
-            if (!document.hidden && desktop.classList.contains("is-ready")) {
-              wallpaperVideo.play().catch(() => {});
-            }
-          });
-        }
-
-        const playback = wallpaperVideo.play();
-        if (playback) {
-          playback.catch(() => {});
-        }
-      }
-
-      // Browsers may pause the wallpaper when the tab is hidden, so resume it on return.
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden && desktop.classList.contains("is-ready")) {
-          playWallpaperVideo();
-        }
-      });
-
-      window.addEventListener("pageshow", () => {
-        if (desktop.classList.contains("is-ready")) {
-          playWallpaperVideo();
-        }
-      });
-
-      // Default sizes and templates for each app window.
-      const windowConfig = {
-        about: {
-          title: "About Me",
-          templateId: "aboutTemplate",
-          icon: "assets/icons/about.webp",
-          width: 800,
-          height: 590,
-        },
-        resume: {
-          title: "My Resume",
-          templateId: "resumeTemplate",
-          icon: "assets/icons/resume.webp",
-          width: 700,
-          height: 620,
-        },
-        projects: {
-          title: "My Projects",
-          templateId: "projectsTemplate",
-          icon: "assets/icons/projects.webp",
-          width: 980,
-          height: 650,
-        },
-        contact: {
-          title: "Contact Me",
-          templateId: "contactTemplate",
-          icon: "assets/icons/contact.webp",
-          width: 620,
-          height: 450,
-        },
-      };
-
-      // Keep each window's element and open/minimized state together.
-      const windows = new Map();
-      let topZ = 20;
-      let activeWindowId = null;
-      let dragState = null;
-
-      if (footerPills[0]) {
-        // The first footer action is the Start menu's Log Off button.
-        footerPills[0].textContent = "Log Off";
-      }
-
-      // Bring the newest active window to the front.
-      function nextZIndex() {
-        topZ += 1;
-        return topZ;
-      }
-
-      // Small delay helper used by the boot and restart screens.
-      function wait(duration) {
-        return new Promise((resolve) => {
-          window.setTimeout(resolve, duration);
-        });
-      }
-
-      // Show the boot screen, then hand control to the login screen.
-      async function runPreloader(options = {}) {
-        const { bootDuration = 2000, grayscale = false } = options;
-        preloaderFinished = false;
-        document.body.classList.toggle("restarting", grayscale);
-        document.body.classList.add("preloader-active");
-        preloader.classList.remove("is-hidden");
-        desktop.classList.remove("is-ready");
-        bootScreen.classList.remove("is-hidden");
-        loginScreen.classList.add("is-hidden");
-        welcomeScreen.classList.add("is-hidden");
-        await wait(bootDuration);
-        bootScreen.classList.add("is-hidden");
-        loginScreen.classList.remove("is-hidden");
-        document.body.classList.remove("restarting");
-        preloaderFinished = true;
-      }
-
-      // Close open windows and replay the boot sequence when Restart is chosen.
-      async function restartSystem() {
-        playLogoutSound();
-        closeStartMenu();
-        clearIconSelection();
-        windows.forEach((entry) => {
-          entry.element.classList.remove("closing", "active", "minimized");
-          entry.element.style.display = "none";
-          entry.isOpen = false;
-          entry.minimized = false;
-          entry.maximized = false;
-        });
-        activeWindowId = null;
-        renderTaskbar();
-        await runPreloader({ bootDuration: 2000, grayscale: true });
-      }
-
-      // Finish the login sequence and reveal the desktop.
-      async function finishPreloader(loginChime = Promise.resolve()) {
-        if (!preloaderFinished) {
-          return;
-        }
-
-        closeStartMenu();
-        await loginChime;
-        loginScreen.classList.add("is-hidden");
-        welcomeScreen.classList.remove("is-hidden");
-        await wait(1000);
-        preloader.classList.add("is-hidden");
-        desktop.classList.add("is-ready");
-        document.body.classList.remove("preloader-active");
-        playWallpaperVideo();
-      }
-
-      // Keep the taskbar clock in the visitor's local time format.
-      function formatClock() {
-        const now = new Date();
-        clock.textContent = now.toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit",
-        });
-      }
-
-      // Close the Start menu and keep its accessibility state in sync.
-      function closeStartMenu() {
-        startMenu.classList.remove("is-open");
-        startMenu.setAttribute("aria-hidden", "true");
-      }
-
-      // Toggle the Start menu from the taskbar button.
-      function toggleStartMenu() {
-        const isOpen = startMenu.classList.toggle("is-open");
-        startMenu.setAttribute("aria-hidden", String(!isOpen));
-      }
-
-      // Only one desktop shortcut can be selected at a time.
-      function selectIcon(icon) {
-        icons.forEach((item) =>
-          item.classList.toggle("selected", item === icon),
-        );
-      }
-
-      // Clear shortcut selection after a restart or desktop click.
-      function clearIconSelection() {
-        icons.forEach((item) => item.classList.remove("selected"));
-      }
-
-      // Keep window positions inside the visible desktop area.
-      function clamp(value, min, max) {
-        return Math.min(Math.max(value, min), max);
-      }
-
-      // Fit each window to the current screen without making it too small to use.
-      function getResponsiveMetrics(config) {
-        const isCompactScreen = window.innerWidth <= 640;
-        const maxWidth = Math.min(
-          config.width,
-          window.innerWidth - (isCompactScreen ? 12 : 16),
-        );
-        const maxHeight = Math.min(
-          config.height,
-          window.innerHeight - (isCompactScreen ? 58 : 64),
-        );
-        return {
-          width: Math.max(maxWidth, isCompactScreen ? 220 : 280),
-          height: Math.max(maxHeight, isCompactScreen ? 160 : 180),
-        };
-      }
-
-      // Stagger windows so several open apps do not land on top of one another.
-      function getWindowPosition(index, width, height) {
-        const offset = 34 * index;
-        const maxLeft = Math.max(8, window.innerWidth - width - 8);
-        const maxTop = Math.max(8, window.innerHeight - height - 52);
-        const baseLeft = window.innerWidth <= 640 ? 6 : 110 + offset;
-        const baseTop =
-          window.innerWidth <= 640 ? 38 + Math.min(offset, 36) : 70 + offset;
-
-        return {
-          left: clamp(baseLeft, 8, maxLeft),
-          top: clamp(baseTop, 8, maxTop),
-        };
-      }
-
-      // Clone a template so every app window gets its own interactive content.
-      function createWindowContent(templateId) {
-        const template = document.getElementById(templateId);
-        return template.content.cloneNode(true);
-      }
-
-      // Return only windows that are open and not minimized.
-      function getVisibleWindows() {
-        return Array.from(windows.values()).filter(
-          (entry) => entry.isOpen && !entry.minimized,
-        );
-      }
-
-      // Mark one visible window as active and update the taskbar styling.
-      function setActiveWindow(windowId) {
-        activeWindowId = windowId;
-
-        windows.forEach((entry, key) => {
-          const isActive = key === windowId && entry.isOpen && !entry.minimized;
-          entry.element.classList.toggle("active", isActive);
-        });
-      }
-
-      // Restore focus to the topmost remaining window after one closes.
-      function syncTopWindow() {
-        const visibleEntries = getVisibleWindows();
-        const topEntry = visibleEntries.sort(
-          (a, b) =>
-            Number(b.element.style.zIndex) - Number(a.element.style.zIndex),
-        )[0];
-
-        setActiveWindow(topEntry ? topEntry.id : null);
-        renderTaskbar();
-      }
-
-      // Bring an existing window forward and restore it if it was minimized.
-      function focusWindow(windowId) {
-        const entry = windows.get(windowId);
-        if (!entry || !entry.isOpen || entry.minimized) {
-          return;
-        }
-
-        closeStartMenu();
-        entry.element.style.zIndex = String(nextZIndex());
-        setActiveWindow(windowId);
-        renderTaskbar();
-      }
-
-      // Download the supplied CV file from the resume toolbar.
-      function downloadResume(resumePage) {
-        if (!resumePage?.querySelector("[data-resume-document]")) {
-          return;
-        }
-
-        const downloadLink = document.createElement("a");
-        downloadLink.href = "assets/Uwase-Jolie-CV.docx";
-        downloadLink.download = "Uwase-Jolie-CV.docx";
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        downloadLink.remove();
-      }
-
-      // Rebuild taskbar buttons from the windows that are currently open.
-      function renderTaskbar() {
-        taskbarWindows.innerHTML = "";
-
-        Array.from(windows.values())
-          .filter((entry) => entry.isOpen)
-          .sort(
-            (a, b) =>
-              Number(a.element.style.zIndex) - Number(b.element.style.zIndex),
-          )
-          .forEach((entry) => {
-            const item = document.createElement("button");
-            item.type = "button";
-            item.className = "taskbar-item";
-            if (entry.id === activeWindowId && !entry.minimized) {
-              item.classList.add("active");
-            }
-
-            item.innerHTML = `
-              <span class="taskbar-item-icon" aria-hidden="true"><img src="${entry.icon}" alt="" aria-hidden="true" /></span>
-              <span>${entry.title}</span>
-            `;
-
-            item.addEventListener("click", () => {
-              if (entry.minimized) {
-                restoreWindow(entry.id);
-                return;
-              }
-
-              focusWindow(entry.id);
-            });
-            taskbarWindows.appendChild(item);
-          });
-      }
-
-      // Hide a window while leaving its taskbar button available.
-      function minimizeWindow(windowId) {
-        const entry = windows.get(windowId);
-        if (!entry || !entry.isOpen || entry.minimized) {
-          return;
-        }
-
-        entry.minimized = true;
-        entry.element.classList.add("minimized");
-        entry.element.style.display = "none";
-        if (activeWindowId === windowId) {
-          activeWindowId = null;
-        }
-
-        syncTopWindow();
-      }
-
-      // Show a minimized window again and bring it to the front.
-      function restoreWindow(windowId) {
-        const entry = windows.get(windowId);
-        if (!entry || !entry.isOpen) {
-          return;
-        }
-
-        if (!entry.minimized) {
-          focusWindow(windowId);
-          return;
-        }
-
-        entry.minimized = false;
-        entry.element.classList.remove("minimized");
-        entry.element.style.display = "block";
-        focusWindow(windowId);
-      }
-
-      // Play the closing animation, then remove the window from the taskbar.
-      function closeWindow(windowId) {
-        const entry = windows.get(windowId);
-        if (!entry || !entry.isOpen) {
-          return;
-        }
-
-        entry.element.classList.add("closing");
-        entry.element.addEventListener(
-          "animationend",
-          () => {
-            entry.element.classList.remove("closing", "active", "minimized");
-            entry.element.style.display = "none";
-            entry.isOpen = false;
-            entry.minimized = false;
-            if (activeWindowId === windowId) {
-              activeWindowId = null;
-            }
-            syncTopWindow();
-          },
-          { once: true },
-        );
-      }
-
-      // Toggle between a window's saved size and the full desktop area.
-      function toggleMaximizeWindow(windowId) {
-        const entry = windows.get(windowId);
-        if (!entry || !entry.isOpen) {
-          return;
-        }
-
-        const win = entry.element;
-        if (!entry.maximized) {
-          entry.previousRect = {
-            left: win.style.left,
-            top: win.style.top,
-            width: win.style.width,
-            height: win.style.height,
-          };
-          win.style.left = "0px";
-          win.style.top = "0px";
-          win.style.width = `${windowLayer.clientWidth}px`;
-          win.style.height = `${windowLayer.clientHeight}px`;
-          entry.maximized = true;
-        } else {
-          win.style.left = entry.previousRect.left;
-          win.style.top = entry.previousRect.top;
-          win.style.width = entry.previousRect.width;
-          win.style.height = entry.previousRect.height;
-          entry.maximized = false;
-        }
-
-        focusWindow(windowId);
-      }
-
-      // Let visitors move windows by dragging their title bars.
-      function attachDragBehavior(win, titleBar, windowId) {
-        titleBar.addEventListener("mousedown", (event) => {
-          if (event.button !== 0 || event.target.closest(".xp-button")) {
-            return;
-          }
-
-          focusWindow(windowId);
-          event.preventDefault();
-
-          const rect = win.getBoundingClientRect();
-          dragState = {
-            win,
-            offsetX: event.clientX - rect.left,
-            offsetY: event.clientY - rect.top,
-          };
-
-          document.body.classList.add("dragging");
-        });
-      }
-
-      // Build a window from its config and cloned content template.
-      function createWindow(windowId, config, index) {
-        const metrics = getResponsiveMetrics(config);
-        const position = getWindowPosition(
-          index,
-          metrics.width,
-          metrics.height,
-        );
-        const win = document.createElement("section");
-        win.className = "window";
-        win.dataset.windowId = windowId;
-        win.style.width = `${metrics.width}px`;
-        win.style.height = `${metrics.height}px`;
-        win.style.left = `${position.left}px`;
-        win.style.top = `${position.top}px`;
-        win.style.display = "none";
-        win.style.zIndex = String(nextZIndex());
-
-        win.innerHTML = `
-          <div class="title-bar">
-            <div class="title-bar-text">
-              <span class="title-bar-icon" aria-hidden="true"><img src="${config.icon}" alt="" aria-hidden="true" /></span>
-              <span>${config.title}</span>
-            </div>
-            <div class="title-controls">
-              <button class="xp-button" type="button" aria-label="Minimize">_</button>
-              <button class="xp-button" type="button" aria-label="Maximize">&#9633;</button>
-              <button class="xp-button close" type="button" aria-label="Close">X</button>
-            </div>
-          </div>
-          <div class="window-body"></div>
-        `;
-
-        const body = win.querySelector(".window-body");
-        const titleBar = win.querySelector(".title-bar");
-        const closeButton = win.querySelector(".xp-button.close");
-        const minimizeButton = win.querySelector(
-          '.xp-button[aria-label="Minimize"]',
-        );
-        const maximizeButton = win.querySelector(
-          '.xp-button[aria-label="Maximize"]',
-        );
-
-        body.appendChild(createWindowContent(config.templateId));
-        windowLayer.appendChild(win);
-
-        const entry = {
-          id: windowId,
-          title: config.title,
-          icon: config.icon,
-          element: win,
-          minimized: false,
-          isOpen: false,
-          maximized: false,
-          previousRect: null,
-        };
-
-        windows.set(windowId, entry);
-
-        win.addEventListener("mousedown", () => {
-          clearIconSelection();
-          if (entry.isOpen && !entry.minimized) {
-            focusWindow(windowId);
-          }
-        });
-        closeButton.addEventListener("click", () => closeWindow(windowId));
-        minimizeButton.addEventListener("click", () =>
-          minimizeWindow(windowId),
-        );
-        maximizeButton.addEventListener("click", () =>
-          toggleMaximizeWindow(windowId),
-        );
-
-        // Handle toolbar actions and the small filters inside this window.
-        body.addEventListener("click", (event) => {
-          const toolbarButton = event.target.closest(".toolbar-button");
-          const filterButton = event.target.closest(".projects-nav a");
-          if (toolbarButton) {
-            const action = toolbarButton.textContent.trim().toLowerCase();
-
-            if (action.includes("my projects")) {
-              openWindow("projects");
-            } else if (action.includes("my resume")) {
-              openWindow("resume");
-            } else if (action.includes("contact")) {
-              openWindow("contact");
-            } else if (action.includes("linkedin")) {
-              window.open(
-                "https://www.linkedin.com/in/jolie-uwase-b781543b9",
-                "_blank",
-                "noopener,noreferrer",
-              );
-            } else if (action.includes("send message")) {
-              const fromInput = body.querySelector(
-                'input[placeholder="Your email address"]',
-              );
-              const subjectInput = body.querySelector(
-                'input[placeholder="Subject of your message"]',
-              );
-              const messageInput = body.querySelector(".compose-body");
-              const subject = encodeURIComponent(
-                subjectInput?.value || "Portfolio Inquiry",
-              );
-              const bodyText = encodeURIComponent(
-                `From: ${fromInput?.value || ""}\n\n${messageInput?.value || ""}`,
-              );
-              window.location.href = `mailto:ujolie735@gmail.com?subject=${subject}&body=${bodyText}`;
-            } else if (action.includes("new message")) {
-              body
-                .querySelectorAll("input, textarea")
-                .forEach((field, index) => {
-                  if (index > 0) {
-                    field.value = "";
-                  }
-                });
-            } else if (action.includes("zoom")) {
-              const resumePage = body.querySelector(".resume-page");
-              if (resumePage) {
-                resumePage.style.transform = resumePage.style.transform
-                  ? ""
-                  : "scale(1.08)";
-                resumePage.style.transformOrigin = "top center";
-              }
-            } else if (action.includes("download") || action.includes("save")) {
-              downloadResume(body.querySelector(".resume-page"));
-            } else if (action.includes("print")) {
-              window.print();
-            } else if (
-              action.includes("home") ||
-              action.includes("back") ||
-              action.includes("forward") ||
-              action.includes("up") ||
-              action.includes("favorites")
-            ) {
-              focusWindow(windowId);
-            }
-          }
-
-          // The resume can show either the complete CV or one section at a time.
-          const resumeTab = event.target.closest("[data-resume-tab]");
-          if (resumeTab && windowId === "resume") {
-            const selectedTab = resumeTab.dataset.resumeTab;
-            body.querySelectorAll("[data-resume-tab]").forEach((button) => {
-              button.classList.toggle("is-active", button === resumeTab);
-            });
-            const fullDocument = body.querySelector("[data-resume-document]");
-            if (fullDocument) {
-              fullDocument.hidden = selectedTab !== "all";
-            }
-            body.querySelectorAll(".resume-section").forEach((section) => {
-              section.hidden = selectedTab === "all" || section.id !== `section-${selectedTab}`;
-            });
-            body.querySelector(".resume-app-content")?.scrollTo({ top: 0, behavior: "smooth" });
-          }
-
-          // Project categories only hide and show cards; they do not navigate away.
-          if (filterButton) {
-            event.preventDefault();
-            const filter = filterButton.dataset.filter || "all";
-            body.querySelectorAll(".projects-nav a").forEach((link) => {
-              link.classList.toggle("is-active", link === filterButton);
-            });
-            body.querySelectorAll(".project-shot").forEach((card) => {
-              const matches =
-                filter === "all" || card.dataset.category === filter;
-              card.classList.toggle("is-hidden", !matches);
-            });
-          }
-        });
-
-        attachDragBehavior(win, titleBar, windowId);
-      }
-
-      // Open a new window or focus it if it is already open.
-      function openWindow(windowId) {
-        const entry = windows.get(windowId);
-        if (!entry) {
-          return;
-        }
-
-        closeStartMenu();
-        if (entry.isOpen && !entry.minimized) {
-          focusWindow(windowId);
-          return;
-        }
-
-        entry.isOpen = true;
-        entry.minimized = false;
-        entry.element.classList.remove("closing", "minimized");
-        entry.element.style.display = "block";
-        focusWindow(windowId);
-      }
-
-      // Desktop shortcuts open their matching app window on double click.
-      icons.forEach((icon) => {
-        icon.addEventListener("click", (event) => {
-          event.stopPropagation();
-          event.preventDefault();
-          const wasSelected = icon.classList.contains("selected");
-          selectIcon(icon);
-
-          if (wasSelected || event.detail >= 2) {
-            openWindow(icon.dataset.window);
-          }
-        });
-
-        icon.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            selectIcon(icon);
-            openWindow(icon.dataset.window);
-          }
-        });
-      });
-
-      // Wire the Start button, login screen, menu items, and restart controls.
-      startButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        toggleStartMenu();
-      });
-
-      preloaderUser.addEventListener("click", () => {
-        const loginChime = playLoginSound();
-        playWallpaperVideo();
-        finishPreloader(loginChime);
-      });
-
-      preloaderUser.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          const loginChime = playLoginSound();
-          playWallpaperVideo();
-          finishPreloader(loginChime);
-        }
-      });
-
-      startMenu.addEventListener("click", (event) => {
-        event.stopPropagation();
-      });
-
-      startMenuLinks.forEach((link) => {
-        link.addEventListener("click", (event) => {
-          event.preventDefault();
-          openWindow(link.dataset.windowOpen);
-        });
-      });
-
-      footerPills.forEach((pill) => {
-        pill.addEventListener("click", () => {
-          playLogoutSound();
-          closeStartMenu();
-          runPreloader();
-        });
-      });
-
-      loginRestartButton?.addEventListener("click", () => {
-        restartSystem();
-      });
-
-      trayRestartButton?.addEventListener("click", () => {
-        restartSystem();
-      });
-
-      // Close menus and clear selected shortcuts when the empty desktop is clicked.
-      desktop.addEventListener("click", (event) => {
-        if (
-          !event.target.closest(".desktop-icon") &&
-          !event.target.closest(".window") &&
-          !event.target.closest(".start-menu") &&
-          event.target !== startButton
-        ) {
-          clearIconSelection();
-          closeStartMenu();
-        }
-      });
-
-      // Continue dragging a window until the visitor releases the mouse button.
-      window.addEventListener("mousemove", (event) => {
-        if (!dragState) {
-          return;
-        }
-
-        event.preventDefault();
-        const win = dragState.win;
-        const maxLeft = window.innerWidth - win.offsetWidth - 8;
-        const maxTop = window.innerHeight - win.offsetHeight - 52;
-        const nextLeft = clamp(event.clientX - dragState.offsetX, 0, maxLeft);
-        const nextTop = clamp(event.clientY - dragState.offsetY, 0, maxTop);
-
-        win.style.left = `${nextLeft}px`;
-        win.style.top = `${nextTop}px`;
-      });
-
-      // End a drag cleanly even if the mouse is released outside the window.
-      window.addEventListener("mouseup", () => {
-        dragState = null;
-        document.body.classList.remove("dragging");
-      });
-
-      // A click outside the Start menu closes it.
-      window.addEventListener("click", (event) => {
-        if (!startMenu.contains(event.target) && event.target !== startButton) {
-          closeStartMenu();
-        }
-      });
-
-      // Refit open windows when the browser size changes.
-      window.addEventListener("resize", () => {
-        windows.forEach((entry) => {
-          const config = windowConfig[entry.id];
-          const metrics = getResponsiveMetrics(config);
-          const currentLeft = parseFloat(entry.element.style.left) || 0;
-          const currentTop = parseFloat(entry.element.style.top) || 0;
-          const maxLeft = Math.max(8, window.innerWidth - metrics.width - 8);
-          const maxTop = Math.max(8, window.innerHeight - metrics.height - 52);
-
-          entry.element.style.width = `${metrics.width}px`;
-          entry.element.style.height = `${metrics.height}px`;
-          entry.element.style.left = `${clamp(currentLeft, 8, maxLeft)}px`;
-          entry.element.style.top = `${clamp(currentTop, 8, maxTop)}px`;
-
-          if (entry.maximized) {
-            entry.element.style.left = "0px";
-            entry.element.style.top = "0px";
-            entry.element.style.width = `${windowLayer.clientWidth}px`;
-            entry.element.style.height = `${windowLayer.clientHeight}px`;
-          }
-        });
-      });
-
-      // Create the hidden window elements once; shortcuts reveal them on demand.
-      Object.entries(windowConfig).forEach(([windowId, config], index) => {
-        createWindow(windowId, config, index);
-      });
-
-      // Start the clock and boot sequence after the window controls are ready.
-      formatClock();
-      setInterval(formatClock, 1000);
-      runPreloader();
-    </script>
+    <script src="js/script.js"></script>
   </body>
 </html>

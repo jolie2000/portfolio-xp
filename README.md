@@ -17,3 +17,13 @@ git clone https://github.com/jolie2000/portfolio-xp.git
 ## Built with
 
 HTML, CSS, and JavaScript.
+
+## Project files
+
+- `index.html` contains the page structure and portfolio content.
+- `css/styles.css` contains the layout, desktop styling, and responsive rules.
+- `js/script.js` contains the desktop interactions, window controls, and boot sequence.
+- `assets/icons/` contains the interface icons.
+- `assets/images/` contains project screenshots.
+- `assets/media/` contains the desktop wallpaper video.
+- `assets/documents/` contains the downloadable CV.
