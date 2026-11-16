@@ -1,0 +1,9 @@
+# Application source stays local. Build and commit only the obfuscated dist/ output.
+/src/
+
+# Local dependencies and generated metadata
+/node_modules/
+/.vite/
+npm-debug.log*
+
+# Keep dist/ trackable: GitHub Pages deploys the prebuilt artifact from there.

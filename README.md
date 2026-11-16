@@ -1,29 +1,33 @@
 # Uwase Jolie Portfolio
 
-My portfolio is styled like a Windows XP desktop. It brings my projects, resume, and contact details together in one place.
+My portfolio is styled like a Windows XP desktop.
 
-## Run locally
+## Build and deploy
 
-Clone the repository and open `index.html` in a modern browser. The site is static, so it does not need a build step.
+The site source lives in the locally ignored `src/` folder. Install the build dependencies and create the production output with:
 
-```powershell
-git clone https://github.com/jolie2000/portfolio-xp.git
+```sh
+npm install
+npm run build
 ```
+
+Vite processes the HTML, bundles the JavaScript, and minifies the CSS and JavaScript. The build then applies JavaScript obfuscation and writes the complete site to `dist/`. Static files are copied from `public/`.
+
+Commit the generated `dist/` folder along with deployment configuration, then push to `master` or `main`. The GitHub Actions workflow uploads only `dist/` to GitHub Pages. The deployment artifact does not include `src/`.
+
+For local preview, run `npm run preview` after building.
+
+## Source visibility
+
+The `src/` directory is excluded by `.gitignore`, so Git will not add it normally. Anyone who already has repository access to older commits can still retrieve files present in the repository history. Obfuscation also cannot make browser-delivered code secret; visitors can inspect the files sent to their browsers.
 
 ## Live site
 
 [jolie2000.github.io/portfolio-xp](https://jolie2000.github.io/portfolio-xp/)
 
-## Built with
-
-HTML, CSS, and JavaScript.
-
 ## Project files
 
-- `index.html` contains the page structure and portfolio content.
-- `css/styles.css` contains the layout, desktop styling, and responsive rules.
-- `js/script.js` contains the desktop interactions, window controls, and boot sequence.
-- `assets/icons/` contains the interface icons.
-- `assets/images/` contains project screenshots.
-- `assets/media/` contains the desktop wallpaper video.
-- `assets/documents/` contains the downloadable CV.
+- `src/` contains the local HTML, CSS, and JavaScript application source (ignored by Git).
+- `public/assets/` contains public images, icons, documents, and media copied into the deployment.
+- `dist/` contains the built Pages site and is the only directory uploaded by the workflow.
+- `scripts/build.mjs` runs Vite and obfuscates the generated JavaScript.

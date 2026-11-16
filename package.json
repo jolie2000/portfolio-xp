@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-xp",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "javascript-obfuscator": "^4.1.1",
+    "vite": "^6.4.1"
+  }
+}
