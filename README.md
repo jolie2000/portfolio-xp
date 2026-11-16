@@ -11,7 +11,7 @@ npm install
 npm run build
 ```
 
-Vite processes the HTML, bundles the JavaScript, and minifies the CSS and JavaScript. The build then applies JavaScript obfuscation and writes the complete site to `dist/`. Static files are copied from `public/`.
+Vite extracts the page body into the JavaScript entry, leaving `dist/index.html` with an empty body shell. It bundles JavaScript and minifies CSS; the build then applies JavaScript obfuscation and writes the site to `dist/`. Static files are copied from `public/`.
 
 Commit the generated `dist/` folder along with deployment configuration, then push to `master` or `main`. The GitHub Actions workflow uploads only `dist/` to GitHub Pages. The deployment artifact does not include `src/`.
 
